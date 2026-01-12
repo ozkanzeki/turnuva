@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merkez Cumhuriyet İlkokulu Turnuva</title>
+    <!-- Modern Font Ailesi -->
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00f2ea;
+            --secondary: #ff0050;
+            --bg-dark: #0b0c15;
+            --card-bg: #151922;
+            --border: #2a2a35;
+            --success: #00ff88;
+            --warning: #ffd700;
+            --text-main: #e0e6ed;
+            --danger: #ff4757;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 242, 234, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 80, 0.05) 0%, transparent 40%);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        h1, h2, h3, .font-modern { font-family: 'Exo 2', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        /* HEADER */
+        header { text-align: center; padding: 40px 0 20px 0; margin-bottom: 10px; }
+        header h1 { 
+            font-size: 2.2rem; 
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        header p { font-size: 0.95rem; color: #888; max-width: 700px; margin: 0 auto; line-height: 1.5; }
+
+        /* DUYURU KARTI */
+        .announcement-box {
+            background: rgba(0, 242, 234, 0.05);
+            border: 1px solid var(--primary);
+            border-left: 5px solid var(--primary);
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 20px auto 40px auto;
+            max-width: 800px;
+            display: flex; align-items: center; gap: 15px;
+            box-shadow: 0 0 20px rgba(0, 242, 234, 0.1);
+            animation: pulseGlow 3s infinite;
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 10px rgba(0, 242, 234, 0.1); }
+            50% { box-shadow: 0 0 25px rgba(0, 242, 234, 0.3); }
+            100% { box-shadow: 0 0 10px rgba(0, 242, 234, 0.1); }
+        }
+        .ann-icon { font-size: 1.5rem; color: var(--primary); }
+        .ann-text { font-size: 1rem; color: #fff; font-weight: 500; }
+
+        /* KARTLAR */
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .game-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 12px; overflow: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; display: flex; flex-direction: column;
+        }
+        .game-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+
+        .card-icon-header {
+            height: 100px; background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .game-icon { font-size: 2.5rem; color: var(--primary); filter: drop-shadow(0 0 10px rgba(0, 242, 234, 0.5)); transition: 0.3s; }
+        .game-card:hover .game-icon { transform: scale(1.1) rotate(5deg); color: #fff; }
+        
+        .card-body { padding: 15px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .game-card h3 { font-size: 1.2rem; color: #fff; margin-bottom: 5px; }
+        .game-meta { font-size: 0.8rem; color: #666; margin-bottom: 15px; display: flex; justify-content: center; gap: 10px; }
+
+        .btn-group { display: flex; gap: 10px; }
+        .start-btn {
+            flex: 1; padding: 10px; background: rgba(0, 242, 234, 0.1); 
+            border: 1px solid var(--primary); color: var(--primary);
+            font-family: 'Exo 2', sans-serif; font-weight: 600; cursor: pointer; 
+            transition: 0.2s; border-radius: 6px; font-size: 0.9rem;
+        }
+        .start-btn:hover { background: var(--primary); color: #000; }
+        .resume-btn { background: rgba(0, 255, 136, 0.1); border-color: var(--success); color: var(--success); }
+        .resume-btn:hover { background: var(--success); color: #000; }
+
+        /* YENİDEN EŞLEŞTİR BUTONU */
+        .reset-btn {
+            width: 40px; padding: 10px; background: rgba(255, 0, 80, 0.1);
+            border: 1px solid var(--secondary); color: var(--secondary);
+            border-radius: 6px; cursor: pointer; display: none;
+            align-items: center; justify-content: center;
+        }
+        .reset-btn:hover { background: var(--secondary); color: #fff; }
+        body.admin-mode .reset-btn { display: flex; }
+
+        /* YÖNETİCİ BUTONU */
+        .admin-toggle { position: fixed; bottom: 10px; right: 10px; background: rgba(255,255,255,0.05); border: none; color: rgba(255,255,255,0.2); padding: 5px; border-radius: 5px; cursor: pointer; font-size: 1.2rem; z-index: 9999; }
+        .admin-toggle:hover { color: #fff; }
+        .admin-badge { display: none; position: fixed; bottom: 10px; left: 10px; background: var(--secondary); color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; z-index: 1000; }
+        body.admin-mode .admin-badge { display: block; }
+
+        /* TURNUVA EKRANI (DİKEY) */
+        #tournament-view { display: none; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .bracket-header {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--card-bg); padding: 15px 25px; border-radius: 12px; margin-bottom: 30px;
+            border: 1px solid var(--border); position: sticky; top: 10px; z-index: 100;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        .rounds-container { display: flex; flex-direction: column; gap: 40px; padding-bottom: 20px; }
+        
+        .round-block {
+            background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+            border-radius: 12px; padding: 20px; position: relative;
+        }
+
+        .round-title {
+            text-align: left; color: var(--warning); font-size: 1.1rem; font-weight: 700; margin-bottom: 20px;
+            padding-bottom: 10px; border-bottom: 1px solid var(--border); font-family: 'Exo 2', sans-serif;
+        }
+
+        .matches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+
+        .match-card {
+            background: #121218; border: 1px solid var(--border);
+            border-radius: 8px; padding: 12px; position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        .match-card.completed { border-color: var(--success); }
+        .status-badge {
+            position: absolute; top: -8px; right: 10px; font-size: 0.65rem;
+            background: var(--success); color: #000; padding: 2px 6px; border-radius: 4px; font-weight: bold;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5); display: none;
+        }
+        .match-card.completed .status-badge { display: block; }
+
+        .player-row {
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255,255,255,0.02); padding: 8px 10px; margin-bottom: 6px; border-radius: 4px;
+            border-left: 2px solid transparent; min-height: 40px; transition: 0.3s;
+        }
+        .player-row.winner { background: rgba(0, 255, 136, 0.15); border: 1px solid var(--success); box-shadow: inset 0 0 15px rgba(0, 255, 136, 0.1); }
+        .match-card.completed .player-row:not(.winner) { opacity: 0.4; }
+
+        .player-row.waiting { font-style: italic; opacity: 0.4; font-size: 0.85rem; }
+
+        .p-name { font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+        .p-class { font-size: 0.75rem; color: #888; margin-left: auto; padding-left: 10px;}
+        .fa-trophy-gold { color: var(--gold); font-size: 0.9rem; filter: drop-shadow(0 0 5px rgba(255,215,0,0.5)); }
+
+        .score-controls { display: flex; align-items: center; gap: 5px; }
+        .score-val { font-family: 'Exo 2'; font-weight: 700; font-size: 1.2rem; width: 25px; text-align: center; color: #fff; }
+        .player-row.winner .score-val { color: var(--success); }
+
+        .btn-s {
+            width: 22px; height: 22px; cursor: pointer; border: none; border-radius: 4px; font-weight: bold;
+            display: flex; align-items: center; justify-content: center; font-size: 0.8rem;
+        }
+        body:not(.admin-mode) .btn-s { display: none; }
+        .btn-plus { background: var(--primary); color: #000; }
+        .btn-minus { background: var(--border); color: #fff; }
+        .btn-plus[disabled] { background: #333; color: #555; cursor: not-allowed; }
+
+        /* NAV */
+        .filter-nav { display: flex; justify-content: center; gap: 8px; margin-bottom: 30px; flex-wrap: wrap; }
+        .f-btn {
+            padding: 6px 16px; background: transparent; border: 1px solid var(--border); color: #888;
+            border-radius: 50px; cursor: pointer; transition: 0.3s; font-size: 0.9rem;
+        }
+        .f-btn.active { border-color: var(--primary); color: #fff; background: rgba(0,242,255,0.05); }
+        .back-btn { background: #222; color: #fff; border: 1px solid #444; padding:8px 16px; border-radius:6px; cursor:pointer; font-size: 0.9rem;}
+
+        /* CHAMPION CARD */
+        .champion-section { margin-top: 10px; text-align: center; animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .champ-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), transparent);
+            border: 1px solid var(--warning); padding: 30px; border-radius: 20px;
+            display: inline-block; min-width: 280px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.15);
+        }
+        .close-champ-btn { margin-top: 20px; padding: 10px 25px; background: var(--gold); color: #000; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header id="main-header">
+        <h1>MERKEZ CUMHURİYET İLKOKULU<br>TAZOF TURNUVA EŞLEŞMELERİ</h1>
+        <div class="announcement-box">
+            <i class="fas fa-bullhorn ann-icon"></i>
+            <div class="ann-text">Karşılaşmalar 5. derste başlayıp okul bitimine kadar tamamlanacaktır.</div>
+        </div>
+    </header>
+
+    <div id="games-view">
+        <div class="filter-nav">
+            <button class="f-btn active" onclick="filterGames('all', this)">Tümü</button>
+            <button class="f-btn" onclick="filterGames('13.01.2026', this)">13 Ocak</button>
+            <button class="f-btn" onclick="filterGames('14.01.2026', this)">14 Ocak</button>
+            <button class="f-btn" onclick="filterGames('15.01.2026', this)">15 Ocak</button>
+        </div>
+        <div class="games-grid" id="games-grid"></div>
+    </div>
+
+    <div id="tournament-view"></div>
+</div>
+
+<div id="champion-modal" style="display: none;"></div>
+
+<button class="admin-toggle" onclick="toggleAdmin()"><i class="fas fa-lock"></i></button>
+<div class="admin-badge">YÖNETİCİ MODU</div>
+
+<script>
+    // --- VERİLER ---
+    const games = [
+        { id: 1, name: "Pentago", date: "13.01.2026 Salı", icon: "fa-solid fa-braille" }, 
+        { id: 2, name: "Abluka", date: "14.01.2026 Çarşamba", icon: "fa-solid fa-shield-halved" },
+        { id: 3, name: "Motif", date: "15.01.2026 Perşembe", icon: "fa-solid fa-shapes" },
+        { id: 4, name: "Equlibrio", date: "14.01.2026 Çarşamba", icon: "fa-solid fa-scale-balanced" },
+        { id: 5, name: "Küre", date: "15.01.2026 Perşembe", icon: "fa-solid fa-earth-americas" }
+    ];
+
+    const players = [
+        { id: 1, name: "YAĞMUR KIZIL", class: "4/F", game_id: 1 }, { id: 2, name: "AHSEN DEMİRBAŞ", class: "2/F", game_id: 1 }, { id: 3, name: "ZEYNEP MİNA KURBAN", class: "2/D", game_id: 1 }, { id: 4, name: "ELİF SU YILDIZAY", class: "3/E", game_id: 1 }, { id: 5, name: "ÖMER ASAF ERHAN", class: "2/E", game_id: 1 }, { id: 6, name: "DERİN AKBULUT", class: "2/E", game_id: 1 }, { id: 7, name: "ELİF NAZ BİLEN", class: "2/E", game_id: 1 }, { id: 8, name: "SALİH ERDEM YAZAR", class: "2/E", game_id: 1 }, { id: 9, name: "YASEMİN KILBAŞ", class: "2/E", game_id: 1 }, { id: 10, name: "MUHAMMED EMİR KOÇAK", class: "2/E", game_id: 1 }, { id: 11, name: "SİMANUR UÇAR", class: "4/A", game_id: 1 }, { id: 12, name: "NEHİR EROĞLU", class: "4/F", game_id: 1 }, { id: 13, name: "ALİ AYAZ KAZAN", class: "3/B", game_id: 1 }, { id: 14, name: "SONGÜL ESMA AĞBULUT", class: "3/D", game_id: 1 }, { id: 15, name: "EYÜP ASAF BEKTAŞ", class: "2/B", game_id: 1 }, { id: 16, name: "AHMET BUĞRA DEMİR", class: "2/B", game_id: 1 }, { id: 17, name: "ÖMER KAŞIKÇI", class: "2/D", game_id: 1 }, { id: 18, name: "ÖZNUR DUMAN", class: "3/D", game_id: 1 }, { id: 19, name: "MEMDUHA NEHİR KÖKSALAN", class: "3/D", game_id: 1 }, { id: 20, name: "HAMZA MUSUL", class: "4/F", game_id: 1 }, { id: 21, name: "POYRAZ LAÇİNKAYA", class: "4/F", game_id: 1 }, { id: 22, name: "HAYRUNNİSA ÇEÇEN", class: "2/E", game_id: 1 }, { id: 23, name: "MELİN PEKİN", class: "2/E", game_id: 1 }, { id: 24, name: "ALİ TUĞRA DEMİR", class: "2/D", game_id: 1 },
+        { id: 25, name: "SALİH ERDEM YAZAR", class: "2/E", game_id: 2 }, { id: 26, name: "YİĞİT HAMZA CENGİZ", class: "2/E", game_id: 2 }, { id: 27, name: "ÖYKÜ TİRYAKİ", class: "4/A", game_id: 2 }, { id: 28, name: "AZRA TOROS", class: "4/A", game_id: 2 }, { id: 29, name: "ALİ AYAZ KAZAN", class: "3/B", game_id: 2 }, { id: 30, name: "SONGÜL ESMA AĞBULUT", class: "3/D", game_id: 2 }, { id: 31, name: "ÖMER KAŞIKÇI", class: "2/D", game_id: 2 }, { id: 32, name: "ÖZNUR DUMAN", class: "3/D", game_id: 2 }, { id: 33, name: "MEMDUHA NEHİR KÖKSALAN", class: "3/D", game_id: 2 }, { id: 34, name: "HAMZA MUSUL", class: "4/F", game_id: 2 }, { id: 35, name: "POYRAZ LAÇİNKAYA", class: "4/F", game_id: 2 }, { id: 36, name: "AZİZ MUHARREM ATİLA", class: "3/D", game_id: 2 }, { id: 37, name: "HAYRUNNİSA ÇEÇEN", class: "2/E", game_id: 2 }, { id: 38, name: "ÜMRA SUNA KALELİ", class: "4/A", game_id: 2 }, { id: 39, name: "ALİ TUĞRA DEMİR", class: "2/D", game_id: 2 },
+        { id: 40, name: "ECRİN ÇAKIR", class: "4/E", game_id: 3 }, { id: 41, name: "TUĞÇENUR GÖZE", class: "2/D", game_id: 3 }, { id: 42, name: "YAĞIZ DUMAN", class: "4/F", game_id: 3 }, { id: 43, name: "ENES GÜZEL", class: "4/D", game_id: 3 }, { id: 44, name: "AHMET EYMEN KOÇ", class: "2/A", game_id: 3 }, { id: 45, name: "ALPER ÇAKAR", class: "4/F", game_id: 3 }, { id: 46, name: "ALİ ASLAN", class: "4/C", game_id: 3 }, { id: 47, name: "AHMET EMRE ÖZDEMİR", class: "2/C", game_id: 3 }, { id: 48, name: "ALİ AYAZ KAZAN", class: "3/B", game_id: 3 }, { id: 49, name: "SONGÜL ESMA AĞBULUT", class: "3/D", game_id: 3 }, { id: 50, name: "YÜSRA NUR GÜLER", class: "3/D", game_id: 3 }, { id: 51, name: "ÖMER KAŞIKÇI", class: "2/D", game_id: 3 }, { id: 52, name: "ÖZNUR DUMAN", class: "3/D", game_id: 3 }, { id: 53, name: "EGEMEN ALTUNDAĞ", class: "3/D", game_id: 3 }, { id: 54, name: "HAMZA MUSUL", class: "4/F", game_id: 3 }, { id: 55, name: "POYRAZ LAÇİNKAYA", class: "4/F", game_id: 3 }, { id: 56, name: "AZİZ MUHARREM ATİLA", class: "3/D", game_id: 3 },
+        { id: 57, name: "ECRİN ÇAKIR", class: "4/E", game_id: 4 }, { id: 58, name: "YAĞMUR KIZIL", class: "4/F", game_id: 4 }, { id: 59, name: "MUHAMMED EMİR KOÇAK", class: "2/E", game_id: 4 }, { id: 60, name: "ENES GÜZEL", class: "4/D", game_id: 4 }, { id: 61, name: "AYŞENUR YILMAZ", class: "2/A", game_id: 4 }, { id: 62, name: "AMİNE BAHADIR", class: "4/F", game_id: 4 }, { id: 63, name: "ALİ AYAZ KAZAN", class: "3/B", game_id: 4 }, { id: 64, name: "SONGÜL ESMA AĞBULUT", class: "3/D", game_id: 4 }, { id: 65, name: "YAVUZ SELİM GÜNEŞ", class: "3/D", game_id: 4 }, { id: 66, name: "MELİSA ÇANKAYA", class: "3/D", game_id: 4 }, { id: 67, name: "ÖMER KAŞIKÇI", class: "2/D", game_id: 4 }, { id: 68, name: "ÖZNUR DUMAN", class: "3/D", game_id: 4 }, { id: 69, name: "HAMZA MUSUL", class: "4/F", game_id: 4 }, { id: 70, name: "POYRAZ LAÇİNKAYA", class: "4/F", game_id: 4 }, { id: 71, name: "HAYRUNNİSA ÇEÇEN", class: "2/E", game_id: 4 },
+        { id: 72, name: "EMİRHAN KODALAK", class: "4/E", game_id: 5 }, { id: 73, name: "YAĞMUR KIZIL", class: "4/F", game_id: 5 }, { id: 74, name: "AZRA TOROS", class: "4/A", game_id: 5 }, { id: 75, name: "ALİ AYAZ KAZAN", class: "3/B", game_id: 5 }, { id: 76, name: "SONGÜL ESMA AĞBULUT", class: "3/D", game_id: 5 }, { id: 77, name: "ÖMER KAŞIKÇI", class: "2/D", game_id: 5 }, { id: 78, name: "ÖZNUR DUMAN", class: "3/D", game_id: 5 }, { id: 79, name: "MEMDUHA NEHİR KÖKSALAN", class: "3/D", game_id: 5 }, { id: 80, name: "HAMZA MUSUL", class: "4/F", game_id: 5 }, { id: 81, name: "POYRAZ LAÇİNKAYA", class: "4/F", game_id: 5 }, { id: 82, name: "ZEYNEP KUZEY", class: "4/A", game_id: 5 }, { id: 83, name: "AZİZ MUHARREM ATİLA", class: "3/D", game_id: 5 }, { id: 84, name: "ALİ TUĞRA DEMİR", class: "2/D", game_id: 5 }
+    ];
+
+    let savedTournaments = {}; 
+    let activeGameId = null;
+
+    function loadFromStorage() {
+        const saved = localStorage.getItem('merkezTurnuvaFixedFinal1'); 
+        if(saved) savedTournaments = JSON.parse(saved);
+    }
+    
+    function saveToStorage() {
+        localStorage.setItem('merkezTurnuvaFixedFinal1', JSON.stringify(savedTournaments));
+    }
+
+    // YÖNETİCİ ŞİFRESİ: 04051257
+    function toggleAdmin() {
+        const pass = prompt("Yönetici Şifresi:");
+        if (pass === "04051257") {
+            document.body.classList.toggle('admin-mode');
+            alert(document.body.classList.contains('admin-mode') ? "Yönetici Modu AÇIK" : "İzleme Moduna Geçildi");
+            const activeFilter = document.querySelector('.f-btn.active');
+            renderGames(activeFilter ? activeFilter.innerText.split(' ')[0].toLowerCase().replace('tümü','all') : 'all');
+        } else if(pass !== null) {
+            alert("Hatalı Şifre!");
+        }
+    }
+
+    window.onload = () => {
+        loadFromStorage();
+        renderGames('all');
+    };
+
+    function filterGames(filter, btn) {
+        document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderGames(filter);
+    }
+
+    function renderGames(filter) {
+        const grid = document.getElementById('games-grid');
+        grid.innerHTML = '';
+        const list = filter === 'all' ? games : games.filter(g => g.date.includes(filter));
+        
+        list.forEach(g => {
+            const count = players.filter(p => p.game_id === g.id).length;
+            const isStarted = savedTournaments[g.id] !== undefined;
+            const btnText = isStarted ? "SONUÇLARI GÖR" : "TURNUVAYI BAŞLAT";
+            const btnClass = isStarted ? "start-btn resume-btn" : "start-btn";
+            
+            let resetButton = '';
+            if (isStarted) {
+                resetButton = `<button class="reset-btn" onclick="resetTournament(${g.id}, event)" title="Sıfırla"><i class="fas fa-sync-alt"></i></button>`;
+            }
+
+            grid.innerHTML += `
+                <div class="game-card">
+                    <div class="card-icon-header"><i class="${g.icon} game-icon"></i></div>
+                    <div class="card-body">
+                        <h3 class="font-modern">${g.name}</h3>
+                        <div class="game-meta">
+                            <span><i class="fas fa-calendar"></i> ${g.date.split(' ')[0]}</span>
+                            <span><i class="fas fa-users"></i> ${count}</span>
+                        </div>
+                        <div class="btn-group">
+                            <button class="${btnClass}" onclick="handleGameClick(${g.id})">${btnText}</button>
+                            ${resetButton}
+                        </div>
+                    </div>
+                </div>`;
+        });
+    }
+
+    function handleGameClick(gameId) {
+        activeGameId = gameId;
+        if (!savedTournaments[gameId]) {
+            initTournament(gameId);
+        }
+        showTournamentView();
+    }
+    
+    function resetTournament(gameId, event) {
+        event.stopPropagation();
+        if(!document.body.classList.contains('admin-mode')) {
+             alert("Bu işlem için yönetici girişi yapmalısınız!");
+             return;
+        }
+        const pass = prompt("Sıfırlama Onayı için Şifre (04051257):", "");
+        if(pass !== "04051257") { alert("Hatalı Şifre!"); return; }
+
+        if(confirm("Tüm veriler silinecek ve kura yeniden çekilecek. Onaylıyor musunuz?")) {
+            delete savedTournaments[gameId];
+            saveToStorage();
+            initTournament(gameId);
+            showTournamentView();
+        }
+    }
+
+    function shuffle(arr) { return arr.sort(() => Math.random() - 0.5); }
+
+    function initTournament(gameId) {
+        const game = games.find(g => g.id === gameId);
+        let participants = shuffle(players.filter(p => p.game_id === gameId));
+        
+        // 2'nin Kuvvetlerine Tamamlama (Play-In Mantığı)
+        // Eğer sayı 2^k değilse, (N - 2^k) * 2 kadar kişi ön eleme oynar.
+        // Geri kalanlar bekler.
+        // Örn 17 Kişi -> En büyük 2'nin kuvveti 16. Fazlalık 1. Oynayacak kişi: 2. Bekleyen: 15.
+        // Kazanan 1 + Bekleyen 15 = 16.
+        // Örn 6 Kişi -> En büyük 2'nin kuvveti 4. Fazlalık 2. Oynayacak kişi: 4. Bekleyen: 2.
+        // Kazanan 2 + Bekleyen 2 = 4.
+        
+        const N = participants.length;
+        let rounds = [];
+        let power = 1;
+        while (power * 2 <= N) power *= 2;
+        
+        if (N === power) {
+             let m = [];
+             for(let i=0; i<N; i+=2) m.push({ p1: participants[i], p2: participants[i+1], s1:0, s2:0, winner:null });
+             rounds.push({ name: "1. TUR", matches: m });
+        } else {
+             // PLAY-IN GEREKİYOR
+             const playInCount = (N - power) * 2; 
+             let playInMatches = [];
+             
+             // İlk 'playInCount' kadar oyuncuyu al ve eşleştir
+             for(let i=0; i<playInCount; i+=2) {
+                 playInMatches.push({ 
+                     p1: participants[i], 
+                     p2: participants[i+1], 
+                     s1:0, s2:0, winner:null,
+                     nextRoundMatchIndex: -1, 
+                     nextSlot: -1 
+                 });
+             }
+             rounds.push({ name: "ÖN ELEME", matches: playInMatches });
+             
+             // 1. Tur (Ana Tablo)
+             // Toplam (Power/2) maç olacak.
+             let mainMatches = [];
+             let directPlayers = participants.slice(playInCount); // Direkt geçenler
+             
+             let dpIdx = 0;
+             let piIdx = 0; 
+             
+             for(let i=0; i < power/2; i++) {
+                 let p1 = null, p2 = null;
+                 
+                 // P1 Slotu
+                 if (dpIdx < directPlayers.length) {
+                     p1 = directPlayers[dpIdx++];
+                 } else {
+                     if(piIdx < playInMatches.length) {
+                        playInMatches[piIdx].nextRoundMatchIndex = i; 
+                        playInMatches[piIdx].nextSlot = 1; 
+                        piIdx++;
+                     }
+                 }
+                 
+                 // P2 Slotu
+                 if (dpIdx < directPlayers.length) {
+                     p2 = directPlayers[dpIdx++];
+                 } else {
+                     if(piIdx < playInMatches.length) {
+                         playInMatches[piIdx].nextRoundMatchIndex = i; 
+                         playInMatches[piIdx].nextSlot = 2; 
+                         piIdx++;
+                     }
+                 }
+                 
+                 mainMatches.push({ p1: p1, p2: p2, s1:0, s2:0, winner:null });
+             }
+             rounds.push({ name: "1. TUR", matches: mainMatches });
+        }
+        
+        // Kalan turları oluştur
+        let lastRound = rounds[rounds.length-1];
+        let matchCount = lastRound.matches.length;
+        let rCounter = 2;
+        
+        while(matchCount > 1) {
+            matchCount /= 2;
+            let m = Array(matchCount).fill(null).map(() => ({ p1:null, p2:null, s1:0, s2:0, winner:null }));
+            rounds.push({ name: `TUR ${rCounter}`, matches: m });
+            rCounter++;
+        }
+        
+        // Tur İsimleri
+        rounds.forEach((r, i) => {
+            if (i === rounds.length - 1) r.name = "🏆 FİNAL";
+            else if (i === rounds.length - 2) r.name = "🔥 YARI FİNAL";
+            else if (i === rounds.length - 3) r.name = "⚔️ ÇEYREK FİNAL";
+        });
+
+        savedTournaments[gameId] = { game, rounds, totalRounds: rounds.length };
+        saveToStorage();
+    }
+
+    function updateScore(rIdx, mIdx, pNum, change) {
+        if (!document.body.classList.contains('admin-mode')) return;
+
+        const t = savedTournaments[activeGameId];
+        const match = t.rounds[rIdx].matches[mIdx];
+        
+        if (match.winner && change > 0) return; 
+        
+        if (pNum === 1) match.s1 = Math.max(0, Math.min(2, match.s1 + change));
+        else match.s2 = Math.max(0, Math.min(2, match.s2 + change));
+
+        let newWinner = null;
+        if (match.s1 === 2) newWinner = match.p1;
+        else if (match.s2 === 2) newWinner = match.p2;
+
+        if (match.winner !== newWinner) {
+            match.winner = newWinner;
+            if (t.rounds[rIdx].name === "ÖN ELEME") advancePlayInWinner(activeGameId, mIdx, newWinner);
+            else advanceWinner(activeGameId, rIdx, mIdx, newWinner);
+        }
+        saveToStorage();
+        renderBracket();
+        checkChampion();
+    }
+
+    function advancePlayInWinner(gId, mIdx, winner) {
+        const t = savedTournaments[gId];
+        const currentMatch = t.rounds[0].matches[mIdx];
+        const targetRIdx = 1;
+        const targetMIdx = currentMatch.nextRoundMatchIndex;
+        const targetSlot = currentMatch.nextSlot;
+        
+        if (targetMIdx !== undefined && targetMIdx !== -1) {
+            const targetMatch = t.rounds[targetRIdx].matches[targetMIdx];
+            if (targetSlot === 1) targetMatch.p1 = winner;
+            else targetMatch.p2 = winner;
+            if (!winner) { 
+                targetMatch.s1 = 0; targetMatch.s2 = 0; targetMatch.winner = null; 
+                advanceWinner(gId, targetRIdx, targetMIdx, null); 
+            }
+        }
+    }
+
+    function advanceWinner(gId, rIdx, mIdx, winner) {
+        const t = savedTournaments[gId];
+        const nextRIdx = rIdx + 1;
+        if (nextRIdx < t.totalRounds) {
+            const nextMIdx = Math.floor(mIdx / 2);
+            const isTopSlot = (mIdx % 2 === 0);
+            const nextMatch = t.rounds[nextRIdx].matches[nextMIdx];
+            if (isTopSlot) nextMatch.p1 = winner; else nextMatch.p2 = winner;
+            if (!winner) { 
+                nextMatch.s1 = 0; nextMatch.s2 = 0; nextMatch.winner = null; 
+                advanceWinner(gId, nextRIdx, nextMIdx, null); 
+            }
+        }
+    }
+
+    function showTournamentView() {
+        document.getElementById('games-view').style.display = 'none';
+        document.getElementById('tournament-view').style.display = 'block';
+        renderBracket();
+    }
+
+    function closeTournamentView() {
+        document.getElementById('tournament-view').style.display = 'none';
+        document.getElementById('games-view').style.display = 'block';
+        const activeFilter = document.querySelector('.f-btn.active');
+        renderGames(activeFilter ? activeFilter.innerText.split(' ')[0].toLowerCase().replace('tümü','all') : 'all');
+    }
+
+    function renderBracket() {
+        const t = savedTournaments[activeGameId];
+        const container = document.getElementById('tournament-view');
+        let html = `
+            <div class="bracket-header">
+                <div>
+                    <h2 class="font-modern" style="color:var(--primary)">${t.game.name}</h2>
+                    <span style="color:#888; font-size:0.9rem">${t.game.date}</span>
+                </div>
+                <button class="back-btn" onclick="closeTournamentView()">KAYDET VE ÇIK</button>
+            </div>
+            <div class="rounds-container">
+        `;
+
+        t.rounds.forEach((r, rIdx) => {
+            html += `<div class="round-block">
+                        <div class="round-title"><i class="fas fa-layer-group"></i> ${r.name}</div>
+                        <div class="matches-grid">`;
+            r.matches.forEach((m, mIdx) => {
+                const isCompleted = m.winner !== null;
+                const isBye = m.isBye;
+                html += `<div class="match-card ${isCompleted?'completed':''} ${isBye?'bye-match':''}">`;
+                if(isCompleted) html += `<div class="status-badge">TAMAMLANDI</div>`;
+                html += renderPlayer(m.p1, m.s1, m.winner, rIdx, mIdx, 1, isBye);
+                
+                if (isBye) html += `<div class="bye-label"><i class="fas fa-forward"></i> BAY GEÇTİ</div>`;
+                else if (m.waitingForPlayIn && !m.p2) html += `<div style="text-align:center; font-size:0.7rem; color:#444; margin:4px 0;">ÖN ELEMEDEN GELECEK</div>`;
+                else html += `<div style="text-align:center; font-size:0.7rem; color:#444; margin:4px 0;">VS</div>`;
+                
+                if (!isBye) html += renderPlayer(m.p2, m.s2, m.winner, rIdx, mIdx, 2, false);
+                html += `</div>`;
+            });
+            html += `</div></div>`;
+        });
+        
+        const finalRound = t.rounds[t.rounds.length - 1];
+        if(finalRound && finalRound.matches[0].winner) {
+            const champ = finalRound.matches[0].winner;
+            html += `<div class="champion-section"><div class="champ-card"><i class="fas fa-trophy champ-icon"></i><h2 style="color:var(--warning); font-size:2rem; margin-bottom:10px" class="font-modern">KAZANAN</h2><div style="font-size:1.8rem; font-weight:700;">${champ.name}</div><div style="color:#888">${champ.class}</div></div></div>`;
+             document.getElementById('champion-modal').innerHTML = `
+                <div class="champion-overlay">
+                    <div class="champion-card">
+                        <i class="fas fa-crown champ-icon"></i>
+                        <h2 style="color:var(--gold); font-family:var(--font-tech); font-size:2.5rem; margin-bottom:10px">KAZANAN</h2>
+                        <div class="champ-name">${champ.name}</div>
+                        <div style="color:#888">${champ.class}</div>
+                        <button class="close-champ-btn" onclick="document.getElementById('champion-modal').style.display='none'">KAPAT</button>
+                    </div>
+                </div>`;
+        } else {
+             document.getElementById('champion-modal').innerHTML = '';
+        }
+        container.innerHTML = html + '</div>';
+    }
+
+    function renderPlayer(p, s, winner, rIdx, mIdx, pNum, isBye) {
+        if (!p) return `<div class="player-row" style="opacity:0.5; border:1px dashed #333"><div class="score-val"></div><div class="p-name" style="font-size:0.85rem">Bekleniyor...</div></div>`;
+        const isWin = winner && winner.id === p.id;
+        const disablePlus = s >= 2;
+        let controls = '';
+        if(!isBye) {
+             controls = `<div class="score-controls">
+                <button class="btn-s btn-minus" onclick="updateScore(${rIdx}, ${mIdx}, ${pNum}, -1)" ${s<=0?'disabled':''}>-</button>
+                <div class="score-val">${s}</div>
+                <button class="btn-s btn-plus" onclick="updateScore(${rIdx}, ${mIdx}, ${pNum}, 1)" ${disablePlus?'disabled':''}>+</button>
+            </div>`;
+        } else {
+             controls = `<div class="score-val" style="color:var(--gold); font-size:0.9rem;">AUTO</div>`;
+        }
+        return `<div class="player-row ${isWin?'winner':''} ${isBye?'bye-row':''}">
+                <div><div class="p-name">${p.name} ${isWin ? '<i class="fas fa-trophy fa-trophy-gold"></i>' : ''}</div><div class="p-class">${p.class}</div></div>${controls}</div>`;
+    }
+
+    function checkChampion() {
+        const t = savedTournaments[activeGameId];
+        const finalRound = t.rounds[t.rounds.length - 1];
+        if (finalRound && finalRound.matches[0].winner) {
+             document.getElementById('champion-modal').style.display = 'block';
+        }
+    }
+</script>
+</body>
+</html>
