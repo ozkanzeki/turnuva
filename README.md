@@ -1,0 +1,2 @@
+# turnuva
+Okul turnuvası sonuçlar
