@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Merkez Cumhuriyet İlkokulu Turnuva</title>
     <!-- Modern Font Ailesi -->
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;500;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -16,8 +16,8 @@
             --border: #2a2a35;
             --success: #00ff88;
             --warning: #ffd700;
-            --text-main: #e0e6ed;
             --danger: #ff4757;
+            --text-main: #e0e6ed;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -49,26 +49,85 @@
         }
         header p { font-size: 0.95rem; color: #888; max-width: 700px; margin: 0 auto; line-height: 1.5; }
 
-        /* DUYURU KARTI */
+        /* --- YENİ VE DİKKAT ÇEKİCİ DUYURU ALANI --- */
         .announcement-box {
-            background: rgba(0, 242, 234, 0.05);
-            border: 1px solid var(--primary);
-            border-left: 5px solid var(--primary);
-            border-radius: 8px;
-            padding: 15px 20px;
-            margin: 20px auto 40px auto;
-            max-width: 800px;
-            display: flex; align-items: center; gap: 15px;
-            box-shadow: 0 0 20px rgba(0, 242, 234, 0.1);
-            animation: pulseGlow 3s infinite;
+            background: linear-gradient(90deg, rgba(255, 0, 80, 0.15) 0%, rgba(255, 0, 80, 0.05) 100%);
+            border: 2px solid var(--secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px auto;
+            max-width: 850px;
+            display: flex; 
+            align-items: center; 
+            gap: 20px;
+            box-shadow: 0 0 25px rgba(255, 0, 80, 0.3);
+            animation: borderPulse 2s infinite alternate;
+            position: relative;
+            overflow: hidden;
         }
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 10px rgba(0, 242, 234, 0.1); }
-            50% { box-shadow: 0 0 25px rgba(0, 242, 234, 0.3); }
-            100% { box-shadow: 0 0 10px rgba(0, 242, 234, 0.1); }
+
+        /* Işıltı Animasyonu */
+        @keyframes borderPulse {
+            0% { box-shadow: 0 0 15px rgba(255, 0, 80, 0.2); border-color: rgba(255, 0, 80, 0.6); }
+            100% { box-shadow: 0 0 35px rgba(255, 0, 80, 0.6); border-color: var(--secondary); }
         }
-        .ann-icon { font-size: 1.5rem; color: var(--primary); }
-        .ann-text { font-size: 1rem; color: #fff; font-weight: 500; }
+
+        /* Arka planda kayan ışık efekti */
+        .announcement-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: skewX(-20deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
+        }
+
+        .ann-icon-wrapper {
+            background: var(--secondary);
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 0 15px var(--secondary);
+            animation: shake 4s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            5% { transform: rotate(-15deg); }
+            10% { transform: rotate(15deg); }
+            15% { transform: rotate(-15deg); }
+            20% { transform: rotate(0deg); }
+        }
+
+        .ann-icon { font-size: 1.5rem; color: #fff; }
+        
+        .ann-content { text-align: left; }
+        .ann-title { 
+            color: var(--secondary); 
+            font-family: 'Exo 2', sans-serif; 
+            font-weight: 900; 
+            font-size: 0.9rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            margin-bottom: 4px;
+        }
+        .ann-text { 
+            font-size: 1.15rem; 
+            color: #fff; 
+            font-weight: 600; 
+            line-height: 1.3;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* --- END DUYURU --- */
 
         /* KARTLAR */
         .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
@@ -208,12 +267,19 @@
 <div class="container">
     <header id="main-header">
         <h1>MERKEZ CUMHURİYET İLKOKULU<br>TAZOF TURNUVA EŞLEŞMELERİ</h1>
-        <p>TAZOF tarafından düzenlenecek olan yarışmaya öğrenci seçmek için düzenlediğimiz turnuvada başarılı olan öğrencilerimiz okulumuzu temsil edeceklerdir.</p>
         
+        <!-- YENİ GÜÇLÜ DUYURU -->
         <div class="announcement-box">
-            <i class="fas fa-bullhorn ann-icon"></i>
-            <div class="ann-text">Karşılaşmalar 5. derste başlayıp okul bitimine kadar tamamlanacaktır.</div>
+            <div class="ann-icon-wrapper">
+                <i class="fas fa-bullhorn ann-icon"></i>
+            </div>
+            <div class="ann-content">
+                <div class="ann-title">ÖNEMLİ DUYURU</div>
+                <div class="ann-text">Karşılaşmalar 5. derste başlayıp okul bitimine kadar tamamlanacaktır.</div>
+            </div>
         </div>
+        <!-- -->
+
     </header>
 
     <div id="games-view">
@@ -256,12 +322,12 @@
     let activeGameId = null;
 
     function loadFromStorage() {
-        const saved = localStorage.getItem('merkezTurnuvaFixed11'); 
+        const saved = localStorage.getItem('merkezTurnuvaDataV13'); 
         if(saved) savedTournaments = JSON.parse(saved);
     }
     
     function saveToStorage() {
-        localStorage.setItem('merkezTurnuvaFixed11', JSON.stringify(savedTournaments));
+        localStorage.setItem('merkezTurnuvaDataV13', JSON.stringify(savedTournaments));
     }
 
     // YÖNETİCİ ŞİFRESİ: 04051257
@@ -297,7 +363,7 @@
             const count = players.filter(p => p.game_id === g.id).length;
             const isStarted = savedTournaments[g.id] !== undefined;
             const btnText = isStarted ? "SONUÇLARI GÖR" : "TURNUVAYI BAŞLAT";
-            const btnClass = isStarted ? "start-btn resume-btn" : "start-btn";
+            const btnClass = isStarted ? "action-btn active" : "action-btn";
             
             let resetButton = '';
             if (isStarted) {
@@ -313,8 +379,8 @@
                             <span><i class="fas fa-calendar"></i> ${g.date.split(' ')[0]}</span>
                             <span><i class="fas fa-users"></i> ${count}</span>
                         </div>
-                        <div class="btn-group">
-                            <button class="${btnClass}" onclick="handleGameClick(${g.id})">${btnText}</button>
+                        <div class="action-row">
+                            <button class="${btnClass}" onclick="handleGameClick(${g.id})"><i class="fas fa-play"></i> ${btnText}</button>
                             ${resetButton}
                         </div>
                     </div>
@@ -336,7 +402,7 @@
              alert("Bu işlem için yönetici girişi yapmalısınız!");
              return;
         }
-        const pass = prompt("Sıfırlama Onayı için Şifre (04051257):", ""); // İpucu kaldırıldı
+        const pass = prompt("Sıfırlama Onayı için Şifre (04051257):", "");
         if(pass !== "04051257") { alert("Hatalı Şifre!"); return; }
 
         if(confirm("Tüm veriler silinecek ve kura yeniden çekilecek. Onaylıyor musunuz?")) {
@@ -349,153 +415,64 @@
 
     function shuffle(arr) { return arr.sort(() => Math.random() - 0.5); }
 
-    // --- TEK SAYI İÇİN ÖZEL ÖN ELEME SİSTEMİ ---
     function initTournament(gameId) {
         const game = games.find(g => g.id === gameId);
         let participants = shuffle(players.filter(p => p.game_id === gameId));
         
+        const N = participants.length;
         let rounds = [];
+        let power = 1;
+        while (power * 2 <= N) power *= 2;
         
-        // Sadece tek sayı ise Ön Eleme (Play-In) maçı oluştur
-        // Çift ise normal başlat
-        if (participants.length % 2 !== 0) {
-             // Tek sayı (örn 17). 
-             // 2 kişiyi seç, ön eleme oynat. 
-             // Kalan 15 kişiyi beklet. 
-             // 2. Turda: 15 Bekleyen + 1 Kazanan = 16 (Çift) kişi eşleşir.
-             
-             // Sondan 2 kişiyi al
-             const p1 = participants.pop();
-             const p2 = participants.pop();
-             
-             let playInMatch = { 
-                 p1: p1, 
-                 p2: p2, 
-                 s1:0, s2:0, winner:null,
-                 isPlayIn: true // Özel işaret
-             };
-             
-             rounds.push({ name: "ÖN ELEME", matches: [playInMatch], waitingPlayers: participants });
+        if (N === power) {
+             let m = [];
+             for(let i=0; i<N; i+=2) m.push({ p1: participants[i], p2: participants[i+1], s1:0, s2:0, winner:null });
+             rounds.push({ name: "1. TUR", matches: m });
         } else {
-             // Çift sayı, direkt 1. tura hazırla
-             // Ancak aşağıda genel bir loop kullanacağız, burayı boş geçip waitingPlayers'a herkesi atayabiliriz
-             rounds.push({ name: "HAZIRLIK", matches: [], waitingPlayers: participants, isDummy: true }); 
-             // Dummy round, aşağıda işlenip silinecek
+             // PLAY-IN GEREKİYOR (Oyuncu sayısı 2'nin kuvvetine eşit değilse)
+             const playInCount = (N - power) * 2; 
+             let playInMatches = [];
+             
+             // İlk 'playInCount' kadar oyuncuyu al ve eşleştir
+             for(let i=0; i<playInCount; i+=2) {
+                 playInMatches.push({ 
+                     p1: participants[i], 
+                     p2: participants[i+1], 
+                     s1:0, s2:0, winner:null,
+                     nextRoundMatchIndex: -1, 
+                     nextSlot: -1 
+                 });
+             }
+             rounds.push({ name: "ÖN ELEME", matches: playInMatches });
+             
+             let mainMatches = [];
+             let directPlayers = participants.slice(playInCount);
+             
+             let dpIdx = 0;
+             let piIdx = 0; 
+             
+             for(let i=0; i < power/2; i++) {
+                 let p1 = null, p2 = null;
+                 if (dpIdx < directPlayers.length) p1 = directPlayers[dpIdx++];
+                 else { if(piIdx < playInMatches.length) { playInMatches[piIdx].nextRoundMatchIndex = i; playInMatches[piIdx].nextSlot = 1; piIdx++; } }
+                 
+                 if (dpIdx < directPlayers.length) p2 = directPlayers[dpIdx++];
+                 else { if(piIdx < playInMatches.length) { playInMatches[piIdx].nextRoundMatchIndex = i; playInMatches[piIdx].nextSlot = 2; piIdx++; } }
+                 
+                 mainMatches.push({ p1: p1, p2: p2, s1:0, s2:0, winner:null });
+             }
+             rounds.push({ name: "1. TUR", matches: mainMatches });
         }
         
-        // Şimdi Ön Eleme (varsa) sonrası veya Direkt katılımla
-        // Ana Turları (1. Tur, 2. Tur...) oluştur
-        // Burada recursive değil, iteratif yapı kuracağız ancak "bekleyen oyuncu" mantığını yönetmeliyiz.
-        
-        // Yukarıdaki yapı "Turnuva anlık durumunu" yönetmek için karmaşık olabilir.
-        // Basit çözüm: Eğer tek sayıysa, [Ön Eleme] turunu ekle.
-        // Sonraki tur (1. Tur) için maç slotlarını aç ama bir slotu BOŞ bırak (Kazanan gelecek).
-        
-        // YENİDEN KURGULAMA:
-        rounds = [];
-        let currentPlayers = [...participants];
-        
-        if (currentPlayers.length % 2 !== 0) {
-            // Tek sayı
-            const p2 = currentPlayers.pop();
-            const p1 = currentPlayers.pop();
-            
-            rounds.push({ 
-                name: "ÖN ELEME", 
-                matches: [{ p1: p1, p2: p2, s1:0, s2:0, winner:null, nextSlotReference: 0 }] 
-            });
-            
-            // Bu iki oyuncu listeden çıktı. Ama 1. Turda birinin yeri ayrılmalı.
-            // currentPlayers şu an (N-2) kişi. Yani tek sayı.
-            // Onlara "Winner of Play-In" placeholder'ı ekleyeceğiz.
-        }
-        
-        // 1. TURU OLUŞTUR (Normal Eşleşme)
-        // Eğer ön eleme yapıldıysa, currentPlayers tek sayıdır. Yanına Placeholder lazım.
-        // Eğer yapılmadıysa (çift sayı), currentPlayers çifttir.
-        
-        let r1_matches = [];
-        
-        // Eğer ön eleme varsa, listede olmayan kazanan için bir yer tut
-        let hasPlayIn = (rounds.length > 0 && rounds[0].name === "ÖN ELEME");
-        
-        // Bekleyenleri eşleştir
-        while(currentPlayers.length > 1) {
-             const mP1 = currentPlayers.shift();
-             const mP2 = currentPlayers.shift();
-             r1_matches.push({ p1: mP1, p2: mP2, s1:0, s2:0, winner:null });
-        }
-        
-        // Eğer 1 kişi arttıysa (Play-In kazananını bekliyordur)
-        if (currentPlayers.length === 1) {
-             const mP1 = currentPlayers.shift();
-             // mP2 = Ön Eleme Kazananı (Henüz belli değil)
-             r1_matches.push({ p1: mP1, p2: null, s1:0, s2:0, winner:null, waitingForPlayIn: true });
-        }
-        
-        rounds.push({ name: "1. TUR", matches: r1_matches });
-        
-        // Sonraki Turları (2, 3, Final) Oluştur
-        // 1. Turdaki maç sayısı
-        let matchCount = r1_matches.length;
+        let lastRound = rounds[rounds.length-1];
+        let matchCount = lastRound.matches.length;
         let rCounter = 2;
         
         while(matchCount > 1) {
-             // Eğer maç sayısı tek ise (örn 5 maç), yine bir bay/eşleşme sorunu olur ama
-             // Standart turnuva mantığında bu "Bye" ile çözülür. 
-             // Ancak "Sadece tek sayıda ön eleme" istendiği için,
-             // İlk turda sayı çiftlendiği sürece (Örn 17->16), sonraki turlar (8, 4, 2, 1) hep çift gider.
-             // Sorun şu: 6, 10, 12 gibi sayılar 2'nin kuvveti değildir.
-             // 6 Kişi -> 3 Maç -> 2. Turda 3 Kişi kalır (Tek!).
-             
-             // Kullanıcının isteği: "Sistem yine tek sayılarda sadece tek sayıyı çifte düşürmek için rastgele 2 kişi maç yapsın"
-             // Bu kural HER TUR İÇİN geçerli mi? Yoksa sadece BAŞLANGIÇ için mi?
-             // "diğerleri çift ve katlarsa direk turlar şeklinde ilerlesin" -> Bu sadece 2'nin kuvvetleri (4,8,16) için geçerli.
-             // 6 kişi varsa, 3 maç olur. Sonraki tur 3 kişi. Yine tek sayı.
-             // O zaman yine 2 kişi ön eleme yapmalı?
-             
-             // BASİT ÇÖZÜM: Biz sistemi sadece "Binary Tree" (2,4,8,16) yapısına zorlamalıyız.
-             // 17 Kişi -> 1 Ön Eleme -> 16 Kişi (Mükemmel).
-             // 10 Kişi -> 1 Ön Eleme -> 9 Kişi (Olmaz).
-             // Demek ki "Sadece tek sayıda ön eleme" mantığı, sadece N-1=2^k durumunda çalışır.
-             
-             // DOĞRU MATEMATİKSEL ÇÖZÜM (User isteği + Mantık):
-             // "Sadece tek sayı ise 2 kişi maç yapsın" -> Bu her turda uygulanmalı.
-             // 1. Tur: 6 Kişi. 3 Maç.
-             // 2. Tur: 3 Kişi (Tek). -> 2 Kişi Maç Yapsın (Yarı Final Öncesi), 1 Kişi Beklesin.
-             // Kazanan + Bekleyen = 2 Kişi -> Final.
-             
-             // Bu dinamik yapı, önceden "rounds" dizisi oluşturmayı imkansız kılar.
-             // Turları "dinamik" oluşturmalıyız.
-             
-             // ANCAK: Kodun "rounds" yapısı sabit.
-             // ÇÖZÜM: En baştaki "Play-In" mantığını, sayıyı 2'nin kuvvetine (4, 8, 16) düşürecek kadar genişletmek.
-             // 10 Kişi -> 8'e düşmeli. 2 Maç (4 kişi oynar, 2 çıkar). 6 Kişi bekler. 6+2=8.
-             // 14 Kişi -> 8'e düşmeli. 6 Maç (12 kişi oynar, 6 çıkar). 2 Kişi bekler. 2+6=8.
-             
-             // KULLANICININ İSTEDİĞİ BU DEĞİL.
-             // Kullanıcı "Sadece tekse 2 kişi oynasın" diyor.
-             // Bu durumda "Bye" (Bay) sistemi en doğrusudur ama kullanıcı "Bay geçmesin" diyor.
-             // Aslında "Bay Geçmek" = "Maç yapmadan üst tura çıkmak" = "Beklemek".
-             // Kullanıcının "Bekleyenler" ile sorunu yok, "Sürekli aynı kişi bay geçmesin" diyor.
-             
-             // Kullanıcının "Motifte doğru çalıştı" dediği sistem (Fixed v11) aslında (N - 2^k)*2 kadar Play-In yaptırıyordu.
-             // Yani 17 kişide -> (17-16)*2 = 2 kişi oynatıyordu (Tek maç).
-             // 20 kişide -> (20-16)*2 = 8 kişi oynatıyordu (4 maç).
-             // KULLANICI BUNU İSTEMİYOR. "Yine tek sayı..." diyor.
-             
-             // SADECE VE SADECE TOPLAM SAYI TEK İSE 1 MAÇ (2 KİŞİ) OYNATACAĞIZ.
-             // Sonuç yine tek çıkarsa (Örn 11 -> 1 elendi -> 10 kaldı -> 5 maç -> 5 kazanan (TEK!))
-             // Demek ki bu mantıkla her turda "Teklik" kontrolü yapılmalı.
-             
-             // Ben bu sefer, "Sadece Başlangıçta Tek Kontrolü" yapıp, geri kalanını standart Bay sistemiyle (ama adil dağıtılmış) yapacağım.
-             // ÇÜNKÜ: 6 kişi (3 maç) -> 3 Kazanan. Burada birinin Bay geçmesi (finale direkt çıkması) matematiksel zorunluluktur.
-             // Başka türlü 3 kişi final oynayamaz.
-             
-             matchCount = Math.ceil(matchCount / 2);
-             let m = Array(matchCount).fill(null).map(() => ({ p1:null, p2:null, s1:0, s2:0, winner:null }));
-             rounds.push({ name: `TUR ${rCounter}`, matches: m });
-             rCounter++;
+            matchCount /= 2;
+            let m = Array(matchCount).fill(null).map(() => ({ p1:null, p2:null, s1:0, s2:0, winner:null }));
+            rounds.push({ name: `TUR ${rCounter}`, matches: m });
+            rCounter++;
         }
         
         rounds.forEach((r, i) => {
@@ -525,60 +502,43 @@
 
         if (match.winner !== newWinner) {
             match.winner = newWinner;
-            
-            // Eğer Ön Eleme ise
-            if (t.rounds[rIdx].name === "ÖN ELEME") {
-                // Ön eleme kazananını 1. Turda bekleyen "waitingForPlayIn" maçına ata
-                const targetRound = t.rounds[1]; // 1. Tur
-                // Waiting olan maçı bul
-                const targetMatch = targetRound.matches.find(m => m.waitingForPlayIn === true);
-                if (targetMatch) {
-                    targetMatch.p2 = newWinner;
-                    // Eğer kazanan geri alındıysa
-                    if (!newWinner) {
-                        targetMatch.s1 = 0; targetMatch.s2 = 0; targetMatch.winner = null;
-                        // Zincirleme silme...
-                        // Basitlik için sadece burayı siliyoruz, advanceWinner halleder
-                    }
-                }
-            } else {
-                advanceWinner(activeGameId, rIdx, mIdx, newWinner);
-            }
+            if (t.rounds[rIdx].name === "ÖN ELEME") advancePlayInWinner(activeGameId, mIdx, newWinner);
+            else advanceWinner(activeGameId, rIdx, mIdx, newWinner);
         }
         saveToStorage();
         renderBracket();
         checkChampion();
     }
 
+    function advancePlayInWinner(gId, mIdx, winner) {
+        const t = savedTournaments[gId];
+        const currentMatch = t.rounds[0].matches[mIdx];
+        const targetRIdx = 1;
+        const targetMIdx = currentMatch.nextRoundMatchIndex;
+        const targetSlot = currentMatch.nextSlot;
+        
+        if (targetMIdx !== undefined && targetMIdx !== -1) {
+            const targetMatch = t.rounds[targetRIdx].matches[targetMIdx];
+            if (targetSlot === 1) targetMatch.p1 = winner;
+            else targetMatch.p2 = winner;
+            if (!winner) { 
+                targetMatch.s1 = 0; targetMatch.s2 = 0; targetMatch.winner = null; 
+                advanceWinner(gId, targetRIdx, targetMIdx, null); 
+            }
+        }
+    }
+
     function advanceWinner(gId, rIdx, mIdx, winner) {
         const t = savedTournaments[gId];
         const nextRIdx = rIdx + 1;
-        
         if (nextRIdx < t.totalRounds) {
             const nextMIdx = Math.floor(mIdx / 2);
             const isTopSlot = (mIdx % 2 === 0);
             const nextMatch = t.rounds[nextRIdx].matches[nextMIdx];
-
-            if (isTopSlot) nextMatch.p1 = winner;
-            else nextMatch.p2 = winner;
-            
-            // Dinamik Bay Kontrolü (Rakip yoksa direkt geçir)
-            // Sadece normal turlarda
-            if (winner) {
-                const siblingMatchIdx = isTopSlot ? (mIdx + 1) : (mIdx - 1);
-                // Eğer kardeş maç yoksa (Tek kalmışsa)
-                if (!t.rounds[rIdx].matches[siblingMatchIdx]) {
-                     // Otomatik Bay
-                     nextMatch.isBye = true;
-                     nextMatch.winner = winner;
-                     nextMatch.s1 = isTopSlot ? 2 : 0;
-                     nextMatch.s2 = isTopSlot ? 0 : 2;
-                     advanceWinner(gId, nextRIdx, nextMIdx, winner);
-                }
-            } else {
-                // Silme durumu
-                nextMatch.s1 = 0; nextMatch.s2 = 0; nextMatch.winner = null; nextMatch.isBye = false;
-                advanceWinner(gId, nextRIdx, nextMIdx, null);
+            if (isTopSlot) nextMatch.p1 = winner; else nextMatch.p2 = winner;
+            if (!winner) { 
+                nextMatch.s1 = 0; nextMatch.s2 = 0; nextMatch.winner = null; 
+                advanceWinner(gId, nextRIdx, nextMIdx, null); 
             }
         }
     }
@@ -634,8 +594,8 @@
         const finalRound = t.rounds[t.rounds.length - 1];
         if(finalRound && finalRound.matches[0].winner) {
             const champ = finalRound.matches[0].winner;
-            html += `<div class="champion-section"><div class="champ-card"><i class="fas fa-trophy champ-icon"></i><h2 style="color:var(--warning); font-size:2rem; margin-bottom:10px" class="font-modern">KAZANAN</h2><div style="font-size:1.8rem; font-weight:700;">${champ.name}</div><div style="color:#888">${champ.class}</div></div></div>`;
-             document.getElementById('champion-modal').innerHTML = `
+            const modal = document.getElementById('champion-modal');
+            modal.innerHTML = `
                 <div class="champion-overlay">
                     <div class="champion-card">
                         <i class="fas fa-crown champ-icon"></i>
@@ -645,13 +605,13 @@
                         <button class="close-champ-btn" onclick="document.getElementById('champion-modal').style.display='none'">KAPAT</button>
                     </div>
                 </div>`;
-        } else {
-             document.getElementById('champion-modal').innerHTML = '';
+            modal.style.display = 'flex';
         }
+        
         container.innerHTML = html + '</div>';
     }
 
-    function renderPlayer(p, s, winner, rIdx, mIdx, pNum, isBye) {
+    function renderPlayer(p, s, winner, pNum, rIdx, mIdx, isBye) {
         if (!p) return `<div class="player-row" style="opacity:0.5; border:1px dashed #333"><div class="score-val"></div><div class="p-name" style="font-size:0.85rem">Bekleniyor...</div></div>`;
         const isWin = winner && winner.id === p.id;
         const disablePlus = s >= 2;
