@@ -7,72 +7,63 @@
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;500;700;900&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #00f2ea;
-            --secondary: #ff0050;
-            --bg-dark: #0b0c15;
-            --card-bg: #151922;
-            --border: #2a2a35;
-            --success: #00ff88;
-            --warning: #ffd700;
-            --text-main: #e0e6ed;
-        }
-        /* Kaydırma Çubuğunu Gizle */
+        :root { --primary: #00f2ea; --secondary: #ff0050; --bg-dark: #0b0c15; --card-bg: #151922; --border: #2a2a35; --success: #00ff88; --warning: #ffd700; --text-main: #e0e6ed; }
         html, body { overflow-x: hidden; scrollbar-width: none; -ms-overflow-style: none; }
         ::-webkit-scrollbar { display: none; }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; padding-bottom: 50px; }
-        
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        
-        /* HEADER */
         header { text-align: center; margin-bottom: 30px; padding-top: 30px; }
         h1 { font-family: 'Exo 2'; font-size: 2.5rem; font-weight: 800; background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
-        
-        /* LOADING */
         #loading-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; display:flex; justify-content:center; align-items:center; flex-direction:column; }
         .spinner { width: 50px; height: 50px; border: 5px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        /* VIEW CONTAINERS */
         .view-section { display: none; animation: fadeIn 0.5s ease; }
         .view-section.active { display: block; }
         @keyframes fadeIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
-
-        /* FORM STYLES */
         .form-card { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 16px; max-width: 500px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group { margin-bottom: 20px; text-align: left; position: relative; }
         label { display: block; margin-bottom: 8px; font-weight: 600; color: #aaa; }
         input, select { width: 100%; padding: 12px; background: #0b0c15; border: 1px solid var(--border); color: #fff; border-radius: 8px; font-size: 1rem; }
         input:focus, select:focus { border-color: var(--primary); outline: none; }
         .submit-btn { width: 100%; padding: 15px; background: var(--primary); color: #000; font-weight: 800; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; transition: 0.3s; }
         .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 242, 234, 0.3); }
-
-        /* ADMIN DASHBOARD */
-        .admin-panel { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); padding: 20px; border-radius: 12px; margin-bottom: 30px; }
         
-        .admin-add-box { background: rgba(0, 242, 234, 0.05); border: 1px dashed var(--primary); padding: 15px; border-radius: 8px; margin-bottom: 20px; }
-        .admin-add-row { display: flex; gap: 10px; align-items: flex-end; }
-        .admin-add-row .form-group { margin-bottom: 0; flex: 1; }
-        .btn-admin-add { background: var(--primary); color: #000; font-weight: bold; border: none; padding: 0 20px; height: 45px; border-radius: 8px; cursor: pointer; }
+        /* ARAMA SONUÇLARI LİSTESİ */
+        .search-results {
+            position: absolute; top: 100%; left: 0; width: 100%;
+            background: #1a1d26; border: 1px solid var(--primary);
+            border-radius: 8px; max-height: 200px; overflow-y: auto;
+            z-index: 1000; display: none;
+        }
+        .search-item { padding: 10px 15px; cursor: pointer; border-bottom: 1px solid #333; transition: 0.2s; }
+        .search-item:hover { background: rgba(0, 242, 234, 0.1); color: #fff; }
+        .search-item strong { color: var(--primary); display: block; }
+        .search-item span { font-size: 0.85rem; color: #aaa; }
 
+        /* SEÇİLEN ÖĞRENCİ KARTI */
+        .selected-student-card {
+            background: rgba(0, 255, 136, 0.1); border: 1px solid var(--success);
+            padding: 15px; border-radius: 8px; margin-bottom: 20px; display: none;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .selected-info strong { display: block; color: #fff; font-size: 1.1rem; }
+        .selected-info span { color: var(--success); font-weight: bold; }
+        .btn-remove-sel { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 1.2rem; }
+
+        /* DİĞER STİLLER (AYNI) */
+        .admin-panel { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); padding: 20px; border-radius: 12px; margin-bottom: 30px; }
         .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
         .stat-card { background: #000; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #333; }
         .stat-num { font-size: 2rem; font-weight: 800; color: var(--primary); }
-        
         .player-list { max-height: 400px; overflow-y: auto; background: #000; border-radius: 8px; border: 1px solid var(--border); }
         .player-item { display: flex; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #222; align-items: center; }
-        .player-item:last-child { border-bottom: none; }
         .del-btn { background: var(--secondary); color: #fff; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
-
         .action-bar { display: flex; gap: 10px; margin-top: 20px; }
         .action-btn { flex: 1; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; }
         .btn-start { background: var(--success); color: #000; }
         .btn-close { background: var(--warning); color: #000; }
         .btn-reset { background: var(--danger); color: #fff; }
-
-        /* TURNUVA GÖRÜNÜMÜ */
         .bracket-container { display: flex; flex-direction: column; gap: 30px; }
         .round-block { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
         .round-title { text-align: center; color: var(--warning); font-size: 1.5rem; font-weight: 800; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
@@ -89,12 +80,12 @@
         .btn-s { width: 24px; height: 24px; cursor: pointer; border: none; border-radius: 4px; font-weight: bold; margin: 0 2px; }
         .btn-plus { background: var(--primary); }
         .btn-minus { background: #333; color: #fff; }
-        
         .game-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
         .tab-btn { padding: 10px 25px; background: transparent; border: 1px solid var(--border); color: #888; border-radius: 50px; cursor: pointer; }
         .tab-btn.active { border-color: var(--primary); color: #fff; background: rgba(0, 242, 234, 0.1); }
-
         .admin-login-btn { position: fixed; bottom: 10px; right: 10px; opacity: 0.3; cursor: pointer; background: none; border: none; color: #fff; font-size: 1.5rem; }
+        
+        .announcement-box { background: linear-gradient(90deg, rgba(255, 0, 80, 0.15) 0%, rgba(255, 0, 80, 0.05) 100%); border: 2px solid var(--secondary); border-radius: 12px; padding: 15px; margin: 20px auto; max-width: 800px; text-align:center; }
     </style>
 </head>
 <body>
@@ -110,11 +101,11 @@
         <h3 style="color:#888; letter-spacing:2px;">TURNUVA YÖNETİM SİSTEMİ</h3>
     </header>
 
-    <!-- 1. KAYIT EKRANI (Ziyaretçi) -->
+    <!-- 1. KAYIT EKRANI (Ziyaretçi - Akıllı Arama) -->
     <div id="registration-view" class="view-section">
-        <div class="announcement-box" style="text-align:center; margin-bottom:20px;">
-            <h2 style="color:var(--primary); margin-bottom:10px;">KAYITLAR AÇIK</h2>
-            <p>Aşağıdaki formu doldurarak turnuvaya katılabilirsiniz.</p>
+        <div class="announcement-box">
+            <h2 style="color:var(--primary); margin-bottom:10px;">TURNUVA KAYIT</h2>
+            <p>Lütfen isminizi aratarak seçiniz.</p>
         </div>
         <div class="form-card">
             <div class="form-group">
@@ -124,75 +115,52 @@
                     <option value="4">Equilibrio</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label>Ad Soyad</label>
-                <input type="text" id="reg-name" placeholder="Örn: Ahmet Yılmaz" autocomplete="off">
+            
+            <!-- Seçilen Öğrenci Görünümü -->
+            <div id="selected-student-display" class="selected-student-card" style="display:none;">
+                <div class="selected-info">
+                    <strong id="disp-name"></strong>
+                    <span id="disp-class"></span>
+                </div>
+                <button class="btn-remove-sel" onclick="clearSelection()"><i class="fas fa-times"></i></button>
             </div>
-            <div class="form-group">
-                <label>Sınıf</label>
-                <input type="text" id="reg-class" placeholder="Örn: 4/A" autocomplete="off">
+
+            <!-- Arama Kutusu -->
+            <div class="form-group" id="search-container">
+                <label>Öğrenci Adı Ara</label>
+                <input type="text" id="student-search" placeholder="İsim yazmaya başlayın..." autocomplete="off">
+                <div id="search-results" class="search-results"></div>
             </div>
+
             <button class="submit-btn" onclick="registerStudent()">KAYIT OL</button>
         </div>
     </div>
 
-    <!-- 2. BEKLEME EKRANI (Kayıtlar Kapandıysa) -->
+    <!-- 2. BEKLEME EKRANI -->
     <div id="waiting-view" class="view-section">
         <div class="form-card" style="text-align:center;">
             <i class="fas fa-clock" style="font-size:3rem; color:var(--warning); margin-bottom:20px;"></i>
             <h2>Kayıtlar Kapandı</h2>
-            <p style="color:#aaa; margin-top:10px;">Turnuva eşleşmeleri hazırlanıyor. Lütfen bekleyiniz.</p>
+            <p style="color:#aaa; margin-top:10px;">Turnuva eşleşmeleri hazırlanıyor.</p>
         </div>
     </div>
 
-    <!-- 3. TURNUVA İZLEME EKRANI (Ziyaretçi & Admin) -->
+    <!-- 3. TURNUVA İZLEME -->
     <div id="tournament-view" class="view-section">
-        <div class="game-tabs" id="game-tabs">
-            <!-- Oyun butonları buraya gelecek -->
-        </div>
+        <div class="game-tabs" id="game-tabs"></div>
         <div id="bracket-area" class="bracket-container"></div>
     </div>
 
-    <!-- 4. ADMIN PANELİ (Sadece Giriş Yapanlar) -->
+    <!-- 4. ADMIN PANELİ -->
     <div id="admin-view" class="view-section">
         <div class="admin-panel">
             <h2 style="margin-bottom:20px; color:var(--primary)">YÖNETİCİ PANELİ</h2>
-            
-            <div class="admin-add-box">
-                <h4 style="margin-bottom:10px; color:#fff"><i class="fas fa-plus-circle"></i> Manuel Kayıt Ekle</h4>
-                <div class="admin-add-row">
-                    <div class="form-group">
-                        <select id="admin-reg-game">
-                            <option value="2">Abluka</option>
-                            <option value="4">Equilibrio</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="admin-reg-name" placeholder="Ad Soyad">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="admin-reg-class" placeholder="Sınıf">
-                    </div>
-                    <button class="btn-admin-add" onclick="adminRegisterStudent()">EKLE</button>
-                </div>
-            </div>
-
             <div class="stat-grid">
-                <div class="stat-card">
-                    <div>Abluka Kayıt</div>
-                    <div class="stat-num" id="count-abluka">0</div>
-                </div>
-                <div class="stat-card">
-                    <div>Equilibrio Kayıt</div>
-                    <div class="stat-num" id="count-equilibrio">0</div>
-                </div>
-                <div class="stat-card">
-                    <div>Durum</div>
-                    <div class="stat-num" id="status-text" style="font-size:1.2rem; line-height:2.5rem">-</div>
-                </div>
+                <div class="stat-card"><div>Abluka Kayıt</div><div class="stat-num" id="count-abluka">0</div></div>
+                <div class="stat-card"><div>Equilibrio Kayıt</div><div class="stat-num" id="count-equilibrio">0</div></div>
+                <div class="stat-card"><div>Durum</div><div class="stat-num" id="status-text" style="font-size:1.2rem; line-height:2.5rem">-</div></div>
             </div>
-
-            <div style="margin-bottom:10px; font-weight:bold;">Kayıt Listesi:</div>
+            
             <div class="player-list" id="admin-player-list"></div>
 
             <div class="action-bar">
@@ -202,23 +170,31 @@
             </div>
             
             <div style="margin-top:20px; text-align:center;">
-                <button class="tab-btn" onclick="showTournamentViewAdmin()">TURNUVA EKRANINA GİT (Skor Girişi)</button>
+                <button class="tab-btn" onclick="showTournamentViewAdmin()">TURNUVA EKRANINA GİT</button>
             </div>
         </div>
     </div>
-
 </div>
 
 <button class="admin-login-btn" onclick="adminLogin()"><i class="fas fa-lock"></i></button>
 
 <script>
-    // --- JSONBIN AYARLARI ---
-    const BIN_ID = "69663710ae596e708fd967a0"; 
-    const API_KEY = "$2a$10$jyaUVJ4i7lf8QTCnEWTlpesulUPPq0rODrO1Yy/ljOVLKy.FVU1M2"; 
+    // --- BURAYA 800 KİŞİLİK LİSTENİZİ YAPIŞTIRACAKSINIZ ---
+    // Format: { name: "AD SOYAD", class: "SINIF" },
+    const ALL_STUDENTS = [
+        { name: "AHMET YILMAZ", class: "4/A" },
+        { name: "AYŞE DEMİR", class: "3/B" },
+        { name: "MEHMET KAYA", class: "2/C" },
+        { name: "FATMA ÇELİK", class: "4/D" },
+        { name: "ALİ CAN", class: "1/A" },
+        { name: "VELİ GÜNEŞ", class: "2/B" },
+        { name: "ZEYNEP YILDIZ", class: "3/C" },
+        // ... Buraya Excel'den kopyaladığınız listeyi JSON formatında ekleyin
+        // Örnek Excel'den JSON çevirici kullanabilirsiniz.
+    ];
 
-    // --- BAŞLANGIÇ VERİLERİ (SİZİN VERDİĞİNİZ LİSTE) ---
+    // --- MEVCUT OYUNCULAR ---
     const BASE_PLAYERS = [
-        // ABLUKA (15 Kişi)
         { name: "SALİH ERDEM YAZAR", class: "2/E", gameId: 2 },
         { name: "YİĞİT HAMZA CENGİZ", class: "2/E", gameId: 2 },
         { name: "ÖYKÜ TİRYAKİ", class: "4/A", gameId: 2 },
@@ -234,8 +210,6 @@
         { name: "HAYRUNNİSA ÇEÇEN", class: "2/E", gameId: 2 },
         { name: "ÜMRA SUNA KALELİ", class: "4/A", gameId: 2 },
         { name: "DEFNE SULUOĞLU", class: "4/A", gameId: 2 },
-
-        // EQUILIBRIO (15 Kişi)
         { name: "ECRİN ÇAKIR", class: "4/E", gameId: 4 },
         { name: "YAĞMUR KIZIL", class: "4/F", gameId: 4 },
         { name: "MUHAMMED EMİR KOÇAK", class: "2/E", gameId: 4 },
@@ -253,328 +227,185 @@
         { name: "HAYRUNNİSA ÇEÇEN", class: "2/E", gameId: 4 }
     ];
 
-    const GAMES = [
-        { id: 2, name: "Abluka" },
-        { id: 4, name: "Equilibrio" }
-    ];
+    const BIN_ID = "69663710ae596e708fd967a0"; 
+    const API_KEY = "$2a$10$jyaUVJ4i7lf8QTCnEWTlpesulUPPq0rODrO1Yy/ljOVLKy.FVU1M2"; 
+    const GAMES = [ { id: 2, name: "Abluka" }, { id: 4, name: "Equilibrio" } ];
 
-    let systemData = {
-        status: "registration",
-        players: [...BASE_PLAYERS], 
-        brackets: {} 
-    };
-
+    let systemData = { status: "registration", players: [...BASE_PLAYERS], brackets: {} };
     let isAdmin = false;
     let activeTabGameId = 2;
+    let selectedStudent = null; // Seçilen öğrenci
 
-    // --- BAŞLANGIÇ ---
-    window.onload = async () => {
-        await loadData();
-        setInterval(loadData, 5000); 
-    };
+    window.onload = async () => { await loadData(); setInterval(loadData, 5000); };
 
+    // --- AKILLI ARAMA MANTIĞI ---
+    const searchInput = document.getElementById('student-search');
+    const resultsBox = document.getElementById('search-results');
+
+    searchInput.addEventListener('input', function(e) {
+        const val = e.target.value.toUpperCase();
+        if(val.length < 2) { resultsBox.style.display = 'none'; return; }
+
+        const matches = ALL_STUDENTS.filter(s => s.name.startsWith(val));
+        resultsBox.innerHTML = '';
+        
+        if(matches.length > 0) {
+            resultsBox.style.display = 'block';
+            matches.slice(0, 10).forEach(s => { // Maks 10 sonuç göster
+                const div = document.createElement('div');
+                div.className = 'search-item';
+                div.innerHTML = `<strong>${s.name}</strong><span>${s.class}</span>`;
+                div.onclick = () => selectStudent(s);
+                resultsBox.appendChild(div);
+            });
+        } else {
+            resultsBox.style.display = 'none';
+        }
+    });
+
+    function selectStudent(student) {
+        selectedStudent = student;
+        document.getElementById('search-container').style.display = 'none';
+        document.getElementById('selected-student-display').style.display = 'flex';
+        document.getElementById('disp-name').innerText = student.name;
+        document.getElementById('disp-class').innerText = student.class;
+        resultsBox.style.display = 'none';
+        searchInput.value = '';
+    }
+
+    function clearSelection() {
+        selectedStudent = null;
+        document.getElementById('search-container').style.display = 'block';
+        document.getElementById('selected-student-display').style.display = 'none';
+        searchInput.focus();
+    }
+
+    // --- DİĞER FONKSİYONLAR (AYNI) ---
     async function loadData() {
         try {
             if(BIN_ID.length < 5) {
-                const local = localStorage.getItem('merkezV24');
+                const local = localStorage.getItem('merkezV25');
                 if(local) systemData = JSON.parse(local);
-                updateUI();
-                document.getElementById('loading-overlay').style.display = 'none';
-                return;
+                updateUI(); document.getElementById('loading-overlay').style.display = 'none'; return;
             }
-
-            const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-                headers: { 'X-Master-Key': API_KEY }
-            });
-            if(res.ok) {
-                const json = await res.json();
-                if (Object.keys(json.record).length === 0) {
-                    await saveData(); 
-                } else {
-                    systemData = json.record;
-                }
-                updateUI();
-            }
-        } catch(e) { console.error(e); }
-        document.getElementById('loading-overlay').style.display = 'none';
+            const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers: { 'X-Master-Key': API_KEY } });
+            if(res.ok) { const json = await res.json(); if (Object.keys(json.record).length === 0) { await saveData(); } else { systemData = json.record; } updateUI(); }
+        } catch(e) {} document.getElementById('loading-overlay').style.display = 'none';
     }
 
     async function saveData() {
         document.getElementById('loading-overlay').style.display = 'flex';
         try {
-            if(BIN_ID.length < 5) {
-                localStorage.setItem('merkezV24', JSON.stringify(systemData));
-            } else {
-                await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
-                    body: JSON.stringify(systemData)
-                });
-            }
+            if(BIN_ID.length < 5) { localStorage.setItem('merkezV25', JSON.stringify(systemData)); } 
+            else { await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY }, body: JSON.stringify(systemData) }); }
         } catch(e) { alert("Kaydetme hatası!"); }
-        document.getElementById('loading-overlay').style.display = 'none';
-        updateUI();
+        document.getElementById('loading-overlay').style.display = 'none'; updateUI();
     }
 
-    // --- UI GÜNCELLEME ---
     function updateUI() {
         document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-
-        if (isAdmin) {
-            document.getElementById('admin-view').classList.add('active');
-            renderAdminPanel();
-        } else {
-            if (systemData.status === 'registration') {
-                document.getElementById('registration-view').classList.add('active');
-            } else if (systemData.status === 'closed') {
-                document.getElementById('waiting-view').classList.add('active');
-            } else if (systemData.status === 'active') {
-                document.getElementById('tournament-view').classList.add('active');
-                renderTournamentTabs();
-                renderBracket(activeTabGameId);
-            }
+        if (isAdmin) { document.getElementById('admin-view').classList.add('active'); renderAdminPanel(); }
+        else {
+            if (systemData.status === 'registration') document.getElementById('registration-view').classList.add('active');
+            else if (systemData.status === 'closed') document.getElementById('waiting-view').classList.add('active');
+            else if (systemData.status === 'active') { document.getElementById('tournament-view').classList.add('active'); renderTournamentTabs(); renderBracket(activeTabGameId); }
         }
     }
 
-    // --- ZİYARETÇİ KAYIT ---
     async function registerStudent() {
-        const name = document.getElementById('reg-name').value.trim().toUpperCase();
-        const sClass = document.getElementById('reg-class').value.trim().toUpperCase();
+        if(!selectedStudent) { alert("Lütfen listeden bir öğrenci seçiniz."); return; }
         const gameId = parseInt(document.getElementById('reg-game').value);
 
-        if(!name || !sClass) { alert("Lütfen tüm alanları doldurun."); return; }
+        const exists = systemData.players.some(p => p.name === selectedStudent.name && p.class === selectedStudent.class && p.gameId === gameId);
+        if(exists) { alert("Zaten kayıtlısınız!"); return; }
 
-        const exists = systemData.players.some(p => p.name === name && p.class === sClass && p.gameId === gameId);
-        if(exists) { alert("Bu öğrenci zaten bu oyuna kayıtlı!"); return; }
-
-        systemData.players.push({ name, class: sClass, gameId });
+        systemData.players.push({ name: selectedStudent.name, class: selectedStudent.class, gameId });
         alert("Kayıt Başarılı!");
-        
-        document.getElementById('reg-name').value = "";
-        document.getElementById('reg-class').value = "";
-        
+        clearSelection();
         await saveData();
     }
 
-    // --- ADMİN KAYIT ---
-    async function adminRegisterStudent() {
-        const name = document.getElementById('admin-reg-name').value.trim().toUpperCase();
-        const sClass = document.getElementById('admin-reg-class').value.trim().toUpperCase();
-        const gameId = parseInt(document.getElementById('admin-reg-game').value);
-
-        if(!name || !sClass) { alert("İsim ve Sınıf giriniz."); return; }
-
-        const exists = systemData.players.some(p => p.name === name && p.class === sClass && p.gameId === gameId);
-        if(exists) { alert("Zaten kayıtlı!"); return; }
-
-        systemData.players.push({ name, class: sClass, gameId });
-        alert("Manuel kayıt eklendi.");
-        
-        document.getElementById('admin-reg-name').value = "";
-        document.getElementById('admin-reg-class').value = "";
-        
-        await saveData();
-    }
-
-    function adminLogin() {
-        const pass = prompt("Kurum Kodu:");
-        if(pass === "853256") {
-            isAdmin = true;
-            updateUI();
-        } else {
-            alert("Hatalı Şifre");
-        }
-    }
+    function adminLogin() { const pass = prompt("Kurum Kodu:"); if(pass === "853256") { isAdmin = true; updateUI(); } else { alert("Hatalı Şifre"); } }
 
     function renderAdminPanel() {
         document.getElementById('count-abluka').innerText = systemData.players.filter(p => p.gameId === 2).length;
         document.getElementById('count-equilibrio').innerText = systemData.players.filter(p => p.gameId === 4).length;
-        
-        let statusText = "Kayıt Açık";
-        if(systemData.status === 'closed') statusText = "Kayıt Kapalı";
-        if(systemData.status === 'active') statusText = "Turnuva Başladı";
+        let statusText = "Kayıt Açık"; if(systemData.status === 'closed') statusText = "Kayıt Kapalı"; if(systemData.status === 'active') statusText = "Turnuva Başladı";
         document.getElementById('status-text').innerText = statusText;
-
-        const listEl = document.getElementById('admin-player-list');
-        listEl.innerHTML = '';
+        const listEl = document.getElementById('admin-player-list'); listEl.innerHTML = '';
         systemData.players.forEach((p, index) => {
-            const gameObj = GAMES.find(g => g.id === p.gameId);
-            const gameName = gameObj ? gameObj.name : "Bilinmeyen";
-            listEl.innerHTML += `
-                <div class="player-item">
-                    <div>
-                        <strong>${p.name}</strong> <span style="color:#aaa">(${p.class})</span>
-                        <span style="color:var(--primary); font-size:0.8rem; margin-left:10px;">${gameName}</span>
-                    </div>
-                    <button class="del-btn" onclick="deletePlayer(${index})">Sil</button>
-                </div>`;
+            const gameObj = GAMES.find(g => g.id === p.gameId); const gameName = gameObj ? gameObj.name : "-";
+            listEl.innerHTML += `<div class="player-item"><div><strong>${p.name}</strong> <span style="color:#aaa">(${p.class})</span><span style="color:var(--primary); font-size:0.8rem; margin-left:10px;">${gameName}</span></div><button class="del-btn" onclick="deletePlayer(${index})">Sil</button></div>`;
         });
     }
 
-    async function deletePlayer(index) {
-        if(confirm("Bu kaydı silmek istediğinize emin misiniz?")) {
-            systemData.players.splice(index, 1);
-            await saveData();
-        }
-    }
-
-    async function changeStatus(newStatus) {
-        systemData.status = newStatus;
-        await saveData();
-    }
-
-    async function resetSystem() {
-        if(confirm("DİKKAT: Tüm yeni kayıtlar silinecek ve sistem başa dönecek!")) {
-            systemData.status = 'registration';
-            systemData.players = [...BASE_PLAYERS]; 
-            systemData.brackets = {};
-            await saveData();
-        }
-    }
+    async function deletePlayer(index) { if(confirm("Silinsin mi?")) { systemData.players.splice(index, 1); await saveData(); } }
+    async function changeStatus(newStatus) { systemData.status = newStatus; await saveData(); }
+    async function resetSystem() { if(confirm("Sıfırlansın mı?")) { systemData.status = 'registration'; systemData.players = [...BASE_PLAYERS]; systemData.brackets = {}; await saveData(); } }
 
     async function startTournament() {
-        if(confirm("Turnuva başlatılacak ve kuralar çekilecek. Onaylıyor musunuz?")) {
+        if(confirm("Turnuva Başlatılsın mı?")) {
             systemData.brackets = {};
-            
             GAMES.forEach(game => {
                 const participants = systemData.players.filter(p => p.gameId === game.id);
                 participants.sort(() => Math.random() - 0.5);
                 systemData.brackets[game.id] = generateBracket(participants);
             });
-
-            systemData.status = 'active';
-            await saveData();
+            systemData.status = 'active'; await saveData();
         }
     }
 
     function generateBracket(participants) {
-        const rounds = [];
-        let matches = [];
-        let power = 1;
-        while(power < participants.length) power *= 2;
-        const totalSlots = power;
-        
+        const rounds = []; let matches = []; let power = 1; while(power < participants.length) power *= 2;
         let pIndex = 0;
-        for(let i=0; i<totalSlots/2; i++) {
-            let p1 = participants[pIndex++] || null;
-            let p2 = participants[pIndex++] || null;
-            
-            matches.push({ 
-                id: Math.random().toString(36).substr(2, 9),
-                p1: p1, p2: p2, s1: 0, s2: 0, 
-                winner: (!p2 && p1) ? p1 : null 
-            });
+        for(let i=0; i<power/2; i++) {
+            let p1 = participants[pIndex++] || null; let p2 = participants[pIndex++] || null;
+            matches.push({ id: Math.random().toString(36).substr(2, 9), p1: p1, p2: p2, s1: 0, s2: 0, winner: (!p2 && p1) ? p1 : null });
         }
         rounds.push(matches);
-
         let matchCount = matches.length;
         while(matchCount > 1) {
-            matchCount /= 2;
-            let nextRound = [];
-            for(let i=0; i<matchCount; i++) {
-                nextRound.push({ 
-                    id: Math.random().toString(36).substr(2, 9),
-                    p1: null, p2: null, s1:0, s2:0, winner: null 
-                });
-            }
+            matchCount /= 2; let nextRound = [];
+            for(let i=0; i<matchCount; i++) nextRound.push({ id: Math.random().toString(36).substr(2, 9), p1: null, p2: null, s1:0, s2:0, winner: null });
             rounds.push(nextRound);
         }
         return rounds;
     }
 
-    function showTournamentViewAdmin() {
-        document.getElementById('admin-view').classList.remove('active');
-        document.getElementById('tournament-view').classList.add('active');
-        renderTournamentTabs();
-        renderBracket(activeTabGameId);
-    }
-
-    function renderTournamentTabs() {
-        const container = document.getElementById('game-tabs');
-        container.innerHTML = '';
-        GAMES.forEach(g => {
-            container.innerHTML += `<button class="tab-btn ${g.id === activeTabGameId ? 'active' : ''}" onclick="switchTab(${g.id})">${g.name}</button>`;
-        });
-    }
-
-    function switchTab(id) {
-        activeTabGameId = id;
-        renderTournamentTabs();
-        renderBracket(id);
-    }
+    function showTournamentViewAdmin() { document.getElementById('admin-view').classList.remove('active'); document.getElementById('tournament-view').classList.add('active'); renderTournamentTabs(); renderBracket(activeTabGameId); }
+    function renderTournamentTabs() { const c = document.getElementById('game-tabs'); c.innerHTML = ''; GAMES.forEach(g => { c.innerHTML += `<button class="tab-btn ${g.id === activeTabGameId ? 'active' : ''}" onclick="switchTab(${g.id})">${g.name}</button>`; }); }
+    function switchTab(id) { activeTabGameId = id; renderTournamentTabs(); renderBracket(id); }
 
     function renderBracket(gameId) {
-        const rounds = systemData.brackets[gameId];
-        if(!rounds) return;
-
-        const container = document.getElementById('bracket-area');
-        container.innerHTML = '';
-
+        const rounds = systemData.brackets[gameId]; if(!rounds) return;
+        const c = document.getElementById('bracket-area'); c.innerHTML = '';
         rounds.forEach((round, rIndex) => {
-            let title = `${rIndex + 1}. TUR`;
-            if(rIndex === rounds.length - 1) title = "🏆 FİNAL";
-            else if(rIndex === rounds.length - 2) title = "YARI FİNAL";
-
-            let html = `<div class="round-block">
-                <div class="round-title">${title}</div>
-                <div class="matches-grid">`;
-            
+            let title = `${rIndex + 1}. TUR`; if(rIndex === rounds.length - 1) title = "🏆 FİNAL";
+            let html = `<div class="round-block"><div class="round-title">${title}</div><div class="matches-grid">`;
             round.forEach((match, mIndex) => {
                 const isCompleted = match.winner !== null;
-                const p1Name = match.p1 ? match.p1.name : '...';
-                const p2Name = match.p2 ? match.p2.name : '...';
-                const p1Class = match.p1 ? match.p1.class : '';
-                const p2Class = match.p2 ? match.p2.class : '';
-                
+                const p1Name = match.p1 ? match.p1.name : '...'; const p2Name = match.p2 ? match.p2.name : '...';
                 let controls1 = '', controls2 = '';
                 if(isAdmin && !match.winner && match.p1 && match.p2) {
                     controls1 = `<div class="score-controls"><button class="btn-s btn-minus" onclick="updateScore(${gameId}, ${rIndex}, ${mIndex}, 1, -1)">-</button><button class="btn-s btn-plus" onclick="updateScore(${gameId}, ${rIndex}, ${mIndex}, 1, 1)">+</button></div>`;
                     controls2 = `<div class="score-controls"><button class="btn-s btn-minus" onclick="updateScore(${gameId}, ${rIndex}, ${mIndex}, 2, -1)">-</button><button class="btn-s btn-plus" onclick="updateScore(${gameId}, ${rIndex}, ${mIndex}, 2, 1)">+</button></div>`;
                 }
-
-                html += `
-                <div class="match-card ${isCompleted ? 'completed' : ''}">
+                html += `<div class="match-card ${isCompleted ? 'completed' : ''}">
                     ${isCompleted ? '<div class="status-badge">BİTTİ</div>' : ''}
-                    
-                    <div class="player-row ${match.winner && match.winner.name === p1Name ? 'winner' : ''}">
-                        <div>
-                            <div class="p-name">${p1Name}</div>
-                            <div class="p-class">${p1Class}</div>
-                        </div>
-                        <div style="display:flex;align-items:center;gap:5px;">
-                            ${controls1}
-                            <div class="score-val">${match.s1}</div>
-                        </div>
-                    </div>
-
-                    <div class="player-row ${match.winner && match.winner.name === p2Name ? 'winner' : ''}">
-                        <div>
-                            <div class="p-name">${p2Name}</div>
-                            <div class="p-class">${p2Class}</div>
-                        </div>
-                        <div style="display:flex;align-items:center;gap:5px;">
-                            ${controls2}
-                            <div class="score-val">${match.s2}</div>
-                        </div>
-                    </div>
+                    <div class="player-row ${match.winner && match.winner.name === p1Name ? 'winner' : ''}"><div><div class="p-name">${p1Name}</div><div class="p-class">${match.p1 ? match.p1.class : ''}</div></div><div style="display:flex;align-items:center;gap:5px;">${controls1}<div class="score-val">${match.s1}</div></div></div>
+                    <div class="player-row ${match.winner && match.winner.name === p2Name ? 'winner' : ''}"><div><div class="p-name">${p2Name}</div><div class="p-class">${match.p2 ? match.p2.class : ''}</div></div><div style="display:flex;align-items:center;gap:5px;">${controls2}<div class="score-val">${match.s2}</div></div></div>
                 </div>`;
             });
-
-            html += `</div></div>`;
-            container.innerHTML += html;
+            html += `</div></div>`; c.innerHTML += html;
         });
     }
 
     async function updateScore(gId, rIdx, mIdx, pNum, change) {
         const match = systemData.brackets[gId][rIdx][mIdx];
-        
-        if (pNum === 1) match.s1 = Math.max(0, match.s1 + change);
-        else match.s2 = Math.max(0, match.s2 + change);
-
+        if (pNum === 1) match.s1 = Math.max(0, match.s1 + change); else match.s2 = Math.max(0, match.s2 + change);
         if (match.s1 >= 2) { match.winner = match.p1; advanceWinner(gId, rIdx, mIdx, match.p1); }
         else if (match.s2 >= 2) { match.winner = match.p2; advanceWinner(gId, rIdx, mIdx, match.p2); }
-        else { match.winner = null; } 
-
+        else { match.winner = null; }
         await saveData();
     }
 
@@ -584,9 +415,7 @@
             const nextMIdx = Math.floor(mIdx / 2);
             const isTopSlot = (mIdx % 2 === 0);
             const nextMatch = systemData.brackets[gId][nextRIdx][nextMIdx];
-            
-            if (isTopSlot) nextMatch.p1 = winner;
-            else nextMatch.p2 = winner;
+            if (isTopSlot) nextMatch.p1 = winner; else nextMatch.p2 = winner;
         }
     }
 </script>
