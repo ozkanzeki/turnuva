@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Merkez Cumhuriyet İlkokulu Turnuva</title>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;500;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;500;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -30,133 +30,172 @@
             color: var(--text-main);
             min-height: 100vh;
             padding-bottom: 80px;
+            overflow-x: hidden; /* Yatay kaydırmayı engelle */
         }
 
         h1, h2, h3, .font-modern { font-family: 'Exo 2', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
         
-        /* GENİŞ EKRAN AYARI */
-        .container { max-width: 1400px; margin: 0 auto; padding: 30px; }
+        /* CONTAINER AYARLARI */
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; transition: all 0.5s ease; }
+        
+        /* TV MODU: Kenarları neredeyse sıfırla, tam ekran yap */
+        .container.wide-mode { 
+            max-width: 100%; 
+            padding: 10px 20px; 
+        }
 
-        header { text-align: center; padding: 40px 0 30px 0; margin-bottom: 20px; }
+        header { text-align: center; padding: 40px 0 20px 0; margin-bottom: 10px; }
         header h1 { 
-            font-size: 2.5rem; font-weight: 800;
+            font-size: 2.2rem; font-weight: 700;
             background: linear-gradient(to right, #fff, var(--primary));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 15px; letter-spacing: 2px;
+            margin-bottom: 10px;
         }
 
         /* DUYURU ALANI */
         .announcement-box {
             background: linear-gradient(90deg, rgba(255, 0, 80, 0.15) 0%, rgba(255, 0, 80, 0.05) 100%);
-            border: 2px solid var(--secondary); border-radius: 16px;
-            padding: 25px; margin: 30px auto; max-width: 900px;
-            display: flex; align-items: center; gap: 25px;
-            box-shadow: 0 0 30px rgba(255, 0, 80, 0.25);
+            border: 2px solid var(--secondary); border-radius: 12px;
+            padding: 20px; margin: 30px auto; max-width: 850px;
+            display: flex; align-items: center; gap: 20px;
+            box-shadow: 0 0 25px rgba(255, 0, 80, 0.3);
             animation: borderPulse 2s infinite alternate;
             position: relative; overflow: hidden;
         }
-        @keyframes borderPulse { 0% { border-color: rgba(255, 0, 80, 0.6); } 100% { border-color: var(--secondary); box-shadow: 0 0 40px rgba(255, 0, 80, 0.5); } }
+        @keyframes borderPulse { 0% { box-shadow: 0 0 15px rgba(255, 0, 80, 0.2); border-color: rgba(255, 0, 80, 0.6); } 100% { box-shadow: 0 0 35px rgba(255, 0, 80, 0.6); border-color: var(--secondary); } }
         .announcement-box::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent); transform: skewX(-20deg); animation: shine 3s infinite; }
         @keyframes shine { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
-        .ann-icon-wrapper { background: var(--secondary); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 0 20px var(--secondary); animation: shake 4s infinite; }
-        @keyframes shake { 0%, 100% { transform: rotate(0deg); } 5% { transform: rotate(-15deg); } 10% { transform: rotate(15deg); } 15% { transform: rotate(-15deg); } 20% { transform: rotate(0deg); } }
-        .ann-icon { font-size: 1.8rem; color: #fff; }
+        .ann-icon-wrapper { background: var(--secondary); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 0 15px var(--secondary); animation: shake 4s infinite; }
+        .ann-icon { font-size: 1.5rem; color: #fff; }
         .ann-content { text-align: left; }
-        .ann-title { color: var(--secondary); font-family: 'Exo 2'; font-weight: 900; font-size: 1rem; margin-bottom: 5px; letter-spacing: 1px; }
-        .ann-text { font-size: 1.3rem; color: #fff; font-weight: 600; line-height: 1.3; }
+        .ann-title { color: var(--secondary); font-family: 'Exo 2'; font-weight: 900; font-size: 0.9rem; margin-bottom: 4px; }
+        .ann-text { font-size: 1.15rem; color: #fff; font-weight: 600; line-height: 1.3; }
 
-        /* OYUN KARTLARI (BÜYÜTÜLDÜ) */
-        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+        /* ANA EKRAN KARTLARI (KÜÇÜK) */
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .game-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: 0.3s; position: relative; display: flex; flex-direction: column; }
+        .game-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .card-icon-header { height: 100px; background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent); display: flex; align-items: center; justify-content: center; }
+        .game-icon { font-size: 2.5rem; color: var(--primary); filter: drop-shadow(0 0 10px rgba(0, 242, 234, 0.5)); transition: 0.3s; }
+        .card-body { padding: 15px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .game-card h3 { font-size: 1.2rem; color: #fff; margin-bottom: 5px; }
+        .game-meta { font-size: 0.8rem; color: #666; margin-bottom: 15px; display: flex; justify-content: center; gap: 10px; }
         
-        .game-card {
-            background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: 16px; overflow: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative; display: flex; flex-direction: column; min-height: 280px;
-        }
-        .game-card:hover { transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
-
-        .card-icon-header { height: 120px; background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent); display: flex; align-items: center; justify-content: center; }
-        .game-icon { font-size: 3.5rem; color: var(--primary); filter: drop-shadow(0 0 15px rgba(0, 242, 234, 0.4)); transition: 0.3s; }
-        .game-card:hover .game-icon { transform: scale(1.15) rotate(5deg); color: #fff; }
-        
-        .card-body { padding: 25px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .game-card h3 { font-size: 1.5rem; color: #fff; margin-bottom: 10px; font-weight: 700; }
-        .game-meta { font-size: 1rem; color: #888; margin-bottom: 20px; display: flex; justify-content: center; gap: 15px; }
-
         .btn-group { display: flex; gap: 10px; }
-        .start-btn { flex: 1; padding: 14px; background: rgba(0, 242, 234, 0.1); border: 1px solid var(--primary); color: var(--primary); font-family: 'Exo 2'; font-weight: 700; cursor: pointer; transition: 0.2s; border-radius: 8px; font-size: 1.1rem; }
+        .start-btn { flex: 1; padding: 10px; background: rgba(0, 242, 234, 0.1); border: 1px solid var(--primary); color: var(--primary); font-family: 'Exo 2'; font-weight: 600; cursor: pointer; transition: 0.2s; border-radius: 6px; font-size: 0.9rem; }
         .start-btn:hover { background: var(--primary); color: #000; }
         .start-btn.watch-mode { background: rgba(255, 255, 255, 0.05); border-color: #666; color: #aaa; }
         .start-btn.watch-mode:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
         .resume-btn { background: rgba(0, 255, 136, 0.1); border-color: var(--success); color: var(--success); }
         .resume-btn:hover { background: var(--success); color: #000; }
 
-        .reset-btn { width: 50px; padding: 14px; background: rgba(255, 0, 80, 0.1); border: 1px solid var(--secondary); color: var(--secondary); border-radius: 8px; cursor: pointer; display: none; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .reset-btn { width: 40px; padding: 10px; background: rgba(255, 0, 80, 0.1); border: 1px solid var(--secondary); color: var(--secondary); border-radius: 6px; cursor: pointer; display: none; align-items: center; justify-content: center; }
         .reset-btn:hover { background: var(--secondary); color: #fff; }
         body.admin-mode .reset-btn { display: flex; }
 
-        .admin-toggle { position: fixed; bottom: 10px; right: 10px; background: rgba(255,255,255,0.05); border: none; color: rgba(255,255,255,0.2); padding: 5px; border-radius: 5px; cursor: pointer; font-size: 1.5rem; z-index: 9999; }
-        .admin-toggle:hover { color: #fff; }
-        .admin-badge { display: none; position: fixed; bottom: 10px; left: 10px; background: var(--secondary); color: white; padding: 6px 12px; border-radius: 6px; font-size: 0.9rem; font-weight: bold; z-index: 1000; }
+        .admin-toggle { position: fixed; bottom: 10px; right: 10px; background: rgba(255,255,255,0.05); border: none; color: rgba(255,255,255,0.2); padding: 5px; border-radius: 5px; cursor: pointer; font-size: 1.2rem; z-index: 9999; }
+        .admin-badge { display: none; position: fixed; bottom: 10px; left: 10px; background: var(--secondary); color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; z-index: 1000; }
         body.admin-mode .admin-badge { display: block; }
 
-        /* TURNUVA EKRANI (BÜYÜK BOY) */
-        #tournament-view { display: none; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* --- TURNUVA EKRANI (TV İÇİN ÖZELLEŞTİRİLMİŞ) --- */
+        #tournament-view { display: none; animation: zoomIn 0.4s ease; }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
         
-        .bracket-header { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); padding: 20px 30px; border-radius: 16px; margin-bottom: 40px; border: 1px solid var(--border); position: sticky; top: 10px; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .bracket-header h2 { font-size: 2rem; }
+        .bracket-header {
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(21, 25, 34, 0.95);
+            padding: 15px 30px; border-radius: 12px; margin-bottom: 20px;
+            border: 1px solid var(--border); position: sticky; top: 10px; z-index: 100;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+        }
+
+        .rounds-container { display: flex; flex-direction: column; gap: 30px; padding-bottom: 60px; }
         
-        .rounds-container { display: flex; flex-direction: column; gap: 50px; padding-bottom: 40px; }
+        .round-block {
+            background: rgba(255,255,255,0.01); border: 1px solid var(--border);
+            border-radius: 16px; padding: 25px; position: relative;
+        }
+
+        .round-title {
+            text-align: left; color: var(--warning); font-size: 1.5rem; font-weight: 800; 
+            margin-bottom: 25px; padding-bottom: 10px; border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        /* TV İÇİN DEV GRID */
+        .matches-grid { 
+            display: grid; 
+            /* Min 380px yaparak kartları büyütüyoruz, ekrana yayılıyorlar */
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); 
+            gap: 25px; 
+        }
+
+        .match-card {
+            background: rgba(30, 34, 45, 0.7);
+            border: 1px solid #333;
+            border-radius: 12px; padding: 15px; 
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        .match-card.completed { border: 2px solid var(--success); background: rgba(0, 255, 136, 0.05); }
         
-        .round-block { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 16px; padding: 25px; }
-        .round-title { text-align: left; color: var(--warning); font-size: 1.4rem; font-weight: 700; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
-        
-        /* Eşleşme Kartları Izgarası (Daha Geniş) */
-        .matches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 25px; }
-        
-        .match-card { background: #121218; border: 1px solid var(--border); border-radius: 12px; padding: 18px; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .match-card.completed { border-color: var(--success); }
-        .status-badge { position: absolute; top: -10px; right: 15px; font-size: 0.75rem; background: var(--success); color: #000; padding: 4px 10px; border-radius: 6px; font-weight: bold; display: none; box-shadow: 0 0 10px rgba(0,255,136,0.4); }
+        .status-badge { 
+            position: absolute; top: -10px; right: 15px; font-size: 0.8rem; 
+            background: var(--success); color: #000; padding: 4px 10px; border-radius: 12px; 
+            font-weight: 800; display: none; box-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
+        }
         .match-card.completed .status-badge { display: block; }
-        
+
         .player-row { 
             display: flex; justify-content: space-between; align-items: center; 
-            background: rgba(255,255,255,0.03); padding: 12px 15px; margin-bottom: 10px; 
-            border-radius: 8px; border-left: 3px solid transparent; min-height: 65px; transition: 0.3s; 
+            background: rgba(255,255,255,0.04); padding: 12px 15px; margin-bottom: 8px; 
+            border-radius: 8px; border-left: 4px solid transparent; min-height: 55px; 
         }
-        .player-row.winner { background: rgba(0, 255, 136, 0.15); border: 1px solid var(--success); border-left: 5px solid var(--success); box-shadow: inset 0 0 20px rgba(0, 255, 136, 0.1); }
-        .match-card.completed .player-row:not(.winner) { opacity: 0.4; }
+        .player-row.winner { 
+            background: linear-gradient(90deg, rgba(0, 255, 136, 0.25), transparent); 
+            border: 1px solid var(--success); border-left: 6px solid var(--success); 
+        }
+        .match-card.completed .player-row:not(.winner) { opacity: 0.3; filter: grayscale(1); }
         
-        .player-row.waiting { font-style: italic; opacity: 0.4; font-size: 1rem; }
+        /* BÜYÜTÜLEN YAZILAR */
+        .p-name { 
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 700; 
+            font-size: 1.3rem; /* İsim boyutu arttı */
+            letter-spacing: 0.5px;
+            display: flex; align-items: center; gap: 10px; 
+        }
+        .p-class { 
+            font-size: 1.1rem; /* Sınıf boyutu devasa oldu */
+            font-weight: 800;
+            color: #ff9f43; /* Parlak turuncu renk */
+            margin-left: auto; padding-left: 15px; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
         
-        /* Yazı Boyutları Büyütüldü */
-        .p-name { font-weight: 700; font-size: 1.25rem; display: flex; align-items: center; gap: 10px; color: #fff; }
-        .p-class { font-size: 1.05rem; color: #aaa; margin-left: auto; padding-left: 15px; font-weight: 500; letter-spacing: 0.5px; }
-        
-        .fa-trophy-gold { color: var(--gold); font-size: 1.1rem; filter: drop-shadow(0 0 5px rgba(255,215,0,0.6)); }
-        
-        .score-controls { display: flex; align-items: center; gap: 8px; }
-        .score-val { font-family: 'Exo 2'; font-weight: 700; font-size: 1.6rem; width: 35px; text-align: center; color: #fff; }
-        .player-row.winner .score-val { color: var(--success); }
+        .score-controls { display: flex; align-items: center; gap: 5px; }
+        .score-val { 
+            font-family: 'Exo 2'; font-weight: 800; 
+            font-size: 2rem; /* Skor boyutu arttı */
+            width: 40px; text-align: center; color: #fff; 
+        }
+        .player-row.winner .score-val { color: var(--success); text-shadow: 0 0 15px var(--success); }
 
-        .btn-s { width: 32px; height: 32px; cursor: pointer; border: none; border-radius: 6px; font-weight: bold; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+        .btn-s { width: 30px; height: 30px; font-size: 1.2rem; cursor: pointer; border: none; border-radius: 6px; font-weight: bold; display: flex; align-items: center; justify-content: center; }
         body:not(.admin-mode) .btn-s { display: none; }
         .btn-plus { background: var(--primary); color: #000; }
-        .btn-minus { background: var(--border); color: #fff; }
-        .btn-plus[disabled] { background: #333; color: #555; cursor: not-allowed; }
+        .btn-minus { background: #333; color: #aaa; }
 
-        .filter-nav { display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; }
-        .f-btn { padding: 10px 24px; background: transparent; border: 1px solid var(--border); color: #888; border-radius: 50px; cursor: pointer; transition: 0.3s; font-size: 1.1rem; font-weight: 500; }
+        .filter-nav { display: flex; justify-content: center; gap: 8px; margin-bottom: 30px; flex-wrap: wrap; }
+        .f-btn { padding: 8px 20px; background: transparent; border: 1px solid var(--border); color: #888; border-radius: 50px; cursor: pointer; transition: 0.3s; font-size: 1rem; }
         .f-btn.active { border-color: var(--primary); color: #fff; background: rgba(0,242,255,0.05); }
-        .back-btn { background: #222; color: #fff; border: 1px solid #444; padding:12px 24px; border-radius:8px; cursor:pointer; font-size: 1rem; font-weight: 600; }
+        .back-btn { background: var(--secondary); color: #fff; border: none; padding:10px 30px; border-radius:8px; cursor:pointer; font-size: 1.1rem; font-weight: bold; box-shadow: 0 0 15px rgba(255,0,80,0.3); transition:0.3s; }
+        .back-btn:hover { background: #d60045; box-shadow: 0 0 30px rgba(255,0,80,0.6); }
 
-        .champion-section { margin-top: 20px; text-align: center; animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
-        .champ-card { background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), transparent); border: 2px solid var(--warning); padding: 40px; border-radius: 24px; display: inline-block; min-width: 350px; box-shadow: 0 0 40px rgba(255, 215, 0, 0.2); }
-        .close-champ-btn { margin-top: 30px; padding: 12px 30px; background: var(--gold); color: #000; border: none; font-weight: bold; cursor: pointer; border-radius: 8px; font-size: 1.1rem; }
-        .champion-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 9999; display: flex; align-items: center; justify-content: center; }
-        .champion-card { background: #1a1a1a; border: 3px solid var(--gold); padding: 50px; border-radius: 30px; text-align: center; transform: scale(1.2); }
-
+        .champion-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+        .champion-card { background: #1a1a1a; border: 4px solid var(--gold); padding: 60px; border-radius: 30px; text-align: center; box-shadow: 0 0 100px rgba(255, 215, 0, 0.3); animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+        .close-champ-btn { margin-top: 30px; padding: 15px 40px; background: var(--gold); color: #000; border: none; font-weight: bold; font-size: 1.2rem; cursor: pointer; border-radius: 8px; }
     </style>
 </head>
 <body>
@@ -164,7 +203,6 @@
 <div class="container">
     <header id="main-header">
         <h1>MERKEZ CUMHURİYET İLKOKULU<br>TAZOF TURNUVA EŞLEŞMELERİ</h1>
-        
         <div class="announcement-box">
             <div class="ann-icon-wrapper">
                 <i class="fas fa-bullhorn ann-icon"></i>
@@ -174,7 +212,6 @@
                 <div class="ann-text">Karşılaşmalar 5. derste başlayıp okul bitimine kadar tamamlanacaktır.</div>
             </div>
         </div>
-
     </header>
 
     <div id="games-view">
@@ -205,30 +242,27 @@
     ];
 
     const players = [
-        // PENTAGO (id:1)
-        { id: 1, name: "YAĞMUR KIZIL", class: "4/F", game_id: 1 }, { id: 2, name: "AHSEN DEMİRBAŞ", class: "2/F", game_id: 1 }, { id: 3, name: "ZEYNEP MİNA KURBAN", class: "2/D", game_id: 1 }, { id: 4, name: "ELİF SU YILDIZAY", class: "3/E", game_id: 1 }, { id: 5, name: "ÖMER ASAF ERHAN", class: "2/E", game_id: 1 }, { id: 6, name: "DERİN AKBULUT", class: "2/E", game_id: 1 }, { id: 7, name: "ELİF NAZ BİLEN", class: "2/E", game_id: 1 }, { id: 8, name: "SALİH ERDEM YAZAR", class: "2/E", game_id: 1 }, { id: 9, name: "YASEMİN KILBAŞ", class: "2/E", game_id: 1 }, { id: 10, name: "MUHAMMED EMİR KOÇAK", class: "2/E", game_id: 1 }, { id: 11, name: "SİMANUR UÇAR", class: "4/A", game_id: 1 }, { id: 12, name: "NEHİR EROĞLU", class: "4/F", game_id: 1 }, { id: 13, name: "ALİ AYAZ KAZAN", class: "3/B", game_id: 1 }, { id: 14, name: "SONGÜL ESMA AĞBULUT", class: "3/D", game_id: 1 }, { id: 15, name: "EYÜP ASAF BEKTAŞ", class: "2/B", game_id: 1 }, { id: 16, name: "AHMET BUĞRA DEMİR", class: "2/B", game_id: 1 }, { id: 17, name: "ÖMER KAŞIKÇI", class: "2/D", game_id: 1 }, { id: 18, name: "ÖZNUR DUMAN", class: "3/D", game_id: 1 }, { id: 19, name: "MEMDUHA NEHİR KÖKSALAN", class: "3/D", game_id: 1 }, { id: 20, name: "HAMZA MUSUL", class: "4/F", game_id: 1 }, { id: 21, name: "POYRAZ LAÇİNKAYA", class: "4/F", game_id: 1 }, { id: 22, name: "HAYRUNNİSA ÇEÇEN", class: "2/E", game_id: 1 }, { id: 23, name: "MELİN PEKİN", class: "2/E", game_id: 1 }, { id: 24, name: "ALİ TUĞRA DEMİR", class: "2/D", game_id: 1 }, { id: 100, name: "YUSUF CEYLAN", class: "2/E", game_id: 1 },
-        // ABLUKA (id:2)
-        { id: 25, name: "SALİH ERDEM YAZAR", class: "2/E", game_id: 2 }, { id: 26, name: "YİĞİT HAMZA CENGİZ", class: "2/E", game_id: 2 }, { id: 27, name: "ÖYKÜ TİRYAKİ", class: "4/A", game_id: 2 }, { id: 28, name: "AZRA TOROS", class: "4/A", game_id: 2 }, { id: 29, name: "ALİ AYAZ KAZAN", class: "3/B", game_id: 2 }, { id: 30, name: "SONGÜL ESMA AĞBULUT", class: "3/D", game_id: 2 }, { id: 31, name: "ÖMER KAŞIKÇI", class: "2/D", game_id: 2 }, { id: 32, name: "ÖZNUR DUMAN", class: "3/D", game_id: 2 }, { id: 33, name: "MEMDUHA NEHİR KÖKSALAN", class: "3/D", game_id: 2 }, { id: 34, name: "HAMZA MUSUL", class: "4/F", game_id: 2 }, { id: 35, name: "POYRAZ LAÇİNKAYA", class: "4/F", game_id: 2 }, { id: 36, name: "AZİZ MUHARREM ATİLA", class: "3/D", game_id: 2 }, { id: 37, name: "HAYRUNNİSA ÇEÇEN", class: "2/E", game_id: 2 }, { id: 38, name: "ÜMRA SUNA KALELİ", class: "4/A", game_id: 2 }, { id: 39, name: "ALİ TUĞRA DEMİR", class: "2/D", game_id: 2 }, { id: 99, name: "DEFNE SULUOĞLU", class: "4/A", game_id: 2 },
-        // DİĞERLERİ
+        { id: 1, name: "YAĞMUR KIZIL", class: "4/F", game_id: 1 }, { id: 2, name: "AHSEN DEMİRBAŞ", class: "2/F", game_id: 1 }, { id: 3, name: "ZEYNEP MİNA KURBAN", class: "2/D", game_id: 1 }, { id: 4, name: "ELİF SU YILDIZAY", class: "3/E", game_id: 1 }, { id: 5, name: "ÖMER ASAF ERHAN", class: "2/E", game_id: 1 }, { id: 6, name: "DERİN AKBULUT", class: "2/E", game_id: 1 }, { id: 7, name: "ELİF NAZ BİLEN", class: "2/E", game_id: 1 }, { id: 8, name: "SALİH ERDEM YAZAR", class: "2/E", game_id: 1 }, { id: 9, name: "YASEMİN KILBAŞ", class: "2/E", game_id: 1 }, { id: 10, name: "MUHAMMED EMİR KOÇAK", class: "2/E", game_id: 1 }, { id: 11, name: "SİMANUR UÇAR", class: "4/A", game_id: 1 }, { id: 12, name: "NEHİR EROĞLU", class: "4/F", game_id: 1 }, { id: 13, name: "ALİ AYAZ KAZAN", class: "3/B", game_id: 1 }, { id: 14, name: "SONGÜL ESMA AĞBULUT", class: "3/D", game_id: 1 }, { id: 15, name: "EYÜP ASAF BEKTAŞ", class: "2/B", game_id: 1 }, { id: 16, name: "AHMET BUĞRA DEMİR", class: "2/B", game_id: 1 }, { id: 17, name: "ÖMER KAŞIKÇI", class: "2/D", game_id: 1 }, { id: 18, name: "ÖZNUR DUMAN", class: "3/D", game_id: 1 }, { id: 19, name: "MEMDUHA NEHİR KÖKSALAN", class: "3/D", game_id: 1 }, { id: 20, name: "HAMZA MUSUL", class: "4/F", game_id: 1 }, { id: 21, name: "POYRAZ LAÇİNKAYA", class: "4/F", game_id: 1 }, { id: 22, name: "HAYRUNNİSA ÇEÇEN", class: "2/E", game_id: 1 }, { id: 23, name: "MELİN PEKİN", class: "2/E", game_id: 1 }, { id: 24, name: "ALİ TUĞRA DEMİR", class: "2/D", game_id: 1 },
+        { id: 25, name: "SALİH ERDEM YAZAR", class: "2/E", game_id: 2 }, { id: 26, name: "YİĞİT HAMZA CENGİZ", class: "2/E", game_id: 2 }, { id: 27, name: "ÖYKÜ TİRYAKİ", class: "4/A", game_id: 2 }, { id: 28, name: "AZRA TOROS", class: "4/A", game_id: 2 }, { id: 29, name: "ALİ AYAZ KAZAN", class: "3/B", game_id: 2 }, { id: 30, name: "SONGÜL ESMA AĞBULUT", class: "3/D", game_id: 2 }, { id: 31, name: "ÖMER KAŞIKÇI", class: "2/D", game_id: 2 }, { id: 32, name: "ÖZNUR DUMAN", class: "3/D", game_id: 2 }, { id: 33, name: "MEMDUHA NEHİR KÖKSALAN", class: "3/D", game_id: 2 }, { id: 34, name: "HAMZA MUSUL", class: "4/F", game_id: 2 }, { id: 35, name: "POYRAZ LAÇİNKAYA", class: "4/F", game_id: 2 }, { id: 36, name: "AZİZ MUHARREM ATİLA", class: "3/D", game_id: 2 }, { id: 37, name: "HAYRUNNİSA ÇEÇEN", class: "2/E", game_id: 2 }, { id: 38, name: "ÜMRA SUNA KALELİ", class: "4/A", game_id: 2 }, { id: 39, name: "ALİ TUĞRA DEMİR", class: "2/D", game_id: 2 },
         { id: 40, name: "ECRİN ÇAKIR", class: "4/E", game_id: 3 }, { id: 41, name: "TUĞÇENUR GÖZE", class: "2/D", game_id: 3 }, { id: 42, name: "YAĞIZ DUMAN", class: "4/F", game_id: 3 }, { id: 43, name: "ENES GÜZEL", class: "4/D", game_id: 3 }, { id: 44, name: "AHMET EYMEN KOÇ", class: "2/A", game_id: 3 }, { id: 45, name: "ALPER ÇAKAR", class: "4/F", game_id: 3 }, { id: 46, name: "ALİ ASLAN", class: "4/C", game_id: 3 }, { id: 47, name: "AHMET EMRE ÖZDEMİR", class: "2/C", game_id: 3 }, { id: 48, name: "ALİ AYAZ KAZAN", class: "3/B", game_id: 3 }, { id: 49, name: "SONGÜL ESMA AĞBULUT", class: "3/D", game_id: 3 }, { id: 50, name: "YÜSRA NUR GÜLER", class: "3/D", game_id: 3 }, { id: 51, name: "ÖMER KAŞIKÇI", class: "2/D", game_id: 3 }, { id: 52, name: "ÖZNUR DUMAN", class: "3/D", game_id: 3 }, { id: 53, name: "EGEMEN ALTUNDAĞ", class: "3/D", game_id: 3 }, { id: 54, name: "HAMZA MUSUL", class: "4/F", game_id: 3 }, { id: 55, name: "POYRAZ LAÇİNKAYA", class: "4/F", game_id: 3 }, { id: 56, name: "AZİZ MUHARREM ATİLA", class: "3/D", game_id: 3 },
         { id: 57, name: "ECRİN ÇAKIR", class: "4/E", game_id: 4 }, { id: 58, name: "YAĞMUR KIZIL", class: "4/F", game_id: 4 }, { id: 59, name: "MUHAMMED EMİR KOÇAK", class: "2/E", game_id: 4 }, { id: 60, name: "ENES GÜZEL", class: "4/D", game_id: 4 }, { id: 61, name: "AYŞENUR YILMAZ", class: "2/A", game_id: 4 }, { id: 62, name: "AMİNE BAHADIR", class: "4/F", game_id: 4 }, { id: 63, name: "ALİ AYAZ KAZAN", class: "3/B", game_id: 4 }, { id: 64, name: "SONGÜL ESMA AĞBULUT", class: "3/D", game_id: 4 }, { id: 65, name: "YAVUZ SELİM GÜNEŞ", class: "3/D", game_id: 4 }, { id: 66, name: "MELİSA ÇANKAYA", class: "3/D", game_id: 4 }, { id: 67, name: "ÖMER KAŞIKÇI", class: "2/D", game_id: 4 }, { id: 68, name: "ÖZNUR DUMAN", class: "3/D", game_id: 4 }, { id: 69, name: "HAMZA MUSUL", class: "4/F", game_id: 4 }, { id: 70, name: "POYRAZ LAÇİNKAYA", class: "4/F", game_id: 4 }, { id: 71, name: "HAYRUNNİSA ÇEÇEN", class: "2/E", game_id: 4 },
-        { id: 72, name: "EMİRHAN KODALAK", class: "4/E", game_id: 5 }, { id: 73, name: "YAĞMUR KIZIL", class: "4/F", game_id: 5 }, { id: 74, name: "AZRA TOROS", class: "4/A", game_id: 5 }, { id: 75, name: "ALİ AYAZ KAZAN", class: "3/B", game_id: 5 }, { id: 76, name: "SONGÜL ESMA AĞBULUT", class: "3/D", game_id: 5 }, { id: 77, name: "ÖMER KAŞIKÇI", class: "2/D", game_id: 5 }, { id: 78, name: "ÖZNUR DUMAN", class: "3/D", game_id: 5 }, { id: 79, name: "MEMDUHA NEHİR KÖKSALAN", class: "3/D", game_id: 5 }, { id: 80, name: "HAMZA MUSUL", class: "4/F", game_id: 5 }, { id: 81, name: "POYRAZ LAÇİNKAYA", class: "4/F", game_id: 5 }, { id: 82, name: "ZEYNEP KUZEY", class: "4/A", game_id: 5 }, { id: 83, name: "AZİZ MUHARREM ATİLA", class: "3/D", game_id: 5 }, { id: 84, name: "ALİ TUĞRA DEMİR", class: "2/D", game_id: 5 }
+        { id: 72, name: "EMİRHAN KODALAK", class: "4/E", game_id: 5 }, { id: 73, name: "YAĞMUR KIZIL", class: "4/F", game_id: 5 }, { id: 74, name: "AZRA TOROS", class: "4/A", game_id: 5 }, { id: 75, name: "ALİ AYAZ KAZAN", class: "3/B", game_id: 5 }, { id: 76, name: "SONGÜL ESMA AĞBULUT", class: "3/D", game_id: 5 }, { id: 77, name: "ÖMER KAŞIKÇI", class: "2/D", game_id: 5 }, { id: 78, name: "ÖZNUR DUMAN", class: "3/D", game_id: 5 }, { id: 79, name: "MEMDUHA NEHİR KÖKSALAN", class: "3/D", game_id: 5 }, { id: 80, name: "HAMZA MUSUL", class: "4/F", game_id: 5 }, { id: 81, name: "POYRAZ LAÇİNKAYA", class: "4/F", game_id: 5 }, { id: 82, name: "ZEYNEP KUZEY", class: "4/A", game_id: 5 }, { id: 83, name: "AZİZ MUHARREM ATİLA", class: "3/D", game_id: 5 }, { id: 84, name: "ALİ TUĞRA DEMİR", class: "2/D", game_id: 5 },
+        { id: 86, name: "DEFNE SULUOĞLU", class: "4/A", game_id: 2 },
+        { id: 87, name: "YUSUF CEYLAN", class: "2/E", game_id: 1 }
     ];
 
     let savedTournaments = {}; 
     let activeGameId = null;
 
     function loadFromStorage() {
-        // VERSİYON DEĞİŞTİ V17
-        const saved = localStorage.getItem('merkezTurnuvaDataV17'); 
+        const saved = localStorage.getItem('merkezTurnuvaDataV18'); 
         if(saved) savedTournaments = JSON.parse(saved);
     }
     
     function saveToStorage() {
-        localStorage.setItem('merkezTurnuvaDataV17', JSON.stringify(savedTournaments));
+        localStorage.setItem('merkezTurnuvaDataV18', JSON.stringify(savedTournaments));
     }
 
-    // YÖNETİCİ ŞİFRESİ: 3525853256
     function toggleAdmin() {
         const pass = prompt("Yönetici Şifresi:");
         if (pass === "3525853256") {
@@ -306,7 +340,6 @@
         showTournamentView();
     }
     
-    // SIFIRLAMA ŞİFRESİ: 04051257
     function resetTournament(gameId, event) {
         event.stopPropagation();
         if(!document.body.classList.contains('admin-mode')) {
@@ -316,7 +349,7 @@
         const pass = prompt("Sıfırlama Onayı için Şifre:");
         if(pass !== "04051257") { alert("Hatalı Şifre!"); return; }
 
-        if(confirm("DİKKAT: Tüm veriler silinecek ve kura yeniden çekilecek. Onaylıyor musunuz?")) {
+        if(confirm("Tüm veriler silinecek ve kura yeniden çekilecek. Onaylıyor musunuz?")) {
             delete savedTournaments[gameId];
             saveToStorage();
             initTournament(gameId);
@@ -325,7 +358,7 @@
     }
 
     function shuffle(arr) { return arr.sort(() => Math.random() - 0.5); }
-    function genID() { return Math.random().toString(36).substr(2, 9); } 
+    function genID() { return Math.random().toString(36).substr(2, 9); }
 
     function initTournament(gameId) {
         const game = games.find(g => g.id === gameId);
@@ -470,12 +503,14 @@
     }
 
     function showTournamentView() {
+        document.querySelector('.container').classList.add('wide-mode'); 
         document.getElementById('games-view').style.display = 'none';
         document.getElementById('tournament-view').style.display = 'block';
         renderBracket();
     }
 
     function closeTournamentView() {
+        document.querySelector('.container').classList.remove('wide-mode'); 
         document.getElementById('tournament-view').style.display = 'none';
         document.getElementById('games-view').style.display = 'block';
         const activeFilter = document.querySelector('.f-btn.active');
@@ -489,7 +524,7 @@
             <div class="bracket-header">
                 <div>
                     <h2 class="font-modern" style="color:var(--primary)">${t.game.name}</h2>
-                    <span style="color:#888; font-size:1.1rem">${t.game.date}</span>
+                    <span style="color:#888; font-size:0.9rem">${t.game.date}</span>
                 </div>
                 <button class="back-btn" onclick="closeTournamentView()">ÇIK</button>
             </div>
@@ -508,8 +543,8 @@
                 html += renderPlayer(m.p1, m.s1, m.winner, m.id, 1, isBye);
                 
                 if (isBye) html += `<div class="bye-label"><i class="fas fa-forward"></i> BAY GEÇTİ</div>`;
-                else if (m.waitingForPlayIn && !m.p2) html += `<div style="text-align:center; font-size:0.9rem; color:#444; margin:8px 0;">ÖN ELEMEDEN GELECEK</div>`;
-                else html += `<div style="text-align:center; font-size:0.8rem; color:#444; margin:8px 0;">VS</div>`;
+                else if (m.waitingForPlayIn && !m.p2) html += `<div style="text-align:center; font-size:0.9rem; color:#444; margin:10px 0;">ÖN ELEMEDEN GELECEK</div>`;
+                else html += `<div style="text-align:center; font-size:0.9rem; color:#444; margin:10px 0;">VS</div>`;
                 
                 if (!isBye) html += renderPlayer(m.p2, m.s2, m.winner, m.id, 2, false);
                 html += `</div>`;
@@ -524,10 +559,10 @@
             modal.innerHTML = `
                 <div class="champion-overlay">
                     <div class="champion-card">
-                        <i class="fas fa-crown champ-icon" style="font-size:4rem; color:var(--gold); margin-bottom:20px;"></i>
-                        <h2 style="color:var(--gold); font-family:var(--font-tech); font-size:3rem; margin-bottom:15px">KAZANAN</h2>
-                        <div class="champ-name" style="font-size:2.5rem; font-weight:700; color:#fff;">${champ.name}</div>
-                        <div style="color:#aaa; font-size:1.5rem; margin-top:10px;">${champ.class}</div>
+                        <i class="fas fa-crown champ-icon" style="font-size:3rem; color:var(--gold); margin-bottom:20px;"></i>
+                        <h2 style="color:var(--gold); font-family:'Exo 2'; font-size:3rem; margin-bottom:10px">KAZANAN</h2>
+                        <div class="champ-name" style="font-size:2.5rem; font-weight:bold; color:#fff">${champ.name}</div>
+                        <div style="color:#888; font-size:1.5rem">${champ.class}</div>
                         <button class="close-champ-btn" onclick="document.getElementById('champion-modal').style.display='none'">KAPAT</button>
                     </div>
                 </div>`;
@@ -549,7 +584,7 @@
                 <button class="btn-s btn-plus" onclick="updateScore('${matchId}', ${pNum}, 1)" ${disablePlus?'disabled':''}>+</button>
             </div>`;
         } else {
-             controls = `<div class="score-val" style="color:var(--gold); font-size:1rem;">AUTO</div>`;
+             controls = `<div class="score-val" style="color:var(--gold); font-size:0.9rem;">AUTO</div>`;
         }
         return `<div class="player-row ${isWin?'winner':''} ${isBye?'bye-row':''}">
                 <div><div class="p-name">${p.name} ${isWin ? '<i class="fas fa-trophy fa-trophy-gold"></i>' : ''}</div><div class="p-class">${p.class}</div></div>${controls}</div>`;
