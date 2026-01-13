@@ -52,7 +52,6 @@
         /* ADMIN DASHBOARD */
         .admin-panel { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); padding: 20px; border-radius: 12px; margin-bottom: 30px; }
         
-        /* Manuel Kayıt Alanı */
         .admin-add-box { background: rgba(0, 242, 234, 0.05); border: 1px dashed var(--primary); padding: 15px; border-radius: 8px; margin-bottom: 20px; }
         .admin-add-row { display: flex; gap: 10px; align-items: flex-end; }
         .admin-add-row .form-group { margin-bottom: 0; flex: 1; }
@@ -159,7 +158,6 @@
         <div class="admin-panel">
             <h2 style="margin-bottom:20px; color:var(--primary)">YÖNETİCİ PANELİ</h2>
             
-            <!-- Manuel Kayıt Ekleme Kutusu -->
             <div class="admin-add-box">
                 <h4 style="margin-bottom:10px; color:#fff"><i class="fas fa-plus-circle"></i> Manuel Kayıt Ekle</h4>
                 <div class="admin-add-row">
@@ -195,9 +193,7 @@
             </div>
 
             <div style="margin-bottom:10px; font-weight:bold;">Kayıt Listesi:</div>
-            <div class="player-list" id="admin-player-list">
-                <!-- Oyuncular buraya gelecek -->
-            </div>
+            <div class="player-list" id="admin-player-list"></div>
 
             <div class="action-bar">
                 <button class="action-btn btn-close" onclick="changeStatus('closed')">KAYITLARI KAPAT</button>
@@ -220,19 +216,26 @@
     const BIN_ID = "69663710ae596e708fd967a0"; 
     const API_KEY = "$2a$10$jyaUVJ4i7lf8QTCnEWTlpesulUPPq0rODrO1Yy/ljOVLKy.FVU1M2"; 
 
-    // --- BAŞLANGIÇ VERİLERİ (GÜNCELLENDİ) ---
+    // --- BAŞLANGIÇ VERİLERİ (SİZİN VERDİĞİNİZ LİSTE) ---
     const BASE_PLAYERS = [
-        // ABLUKA (Game ID: 2)
-        { name: "SALİH ERDEM YAZAR", class: "2/E", gameId: 2 }, { name: "YİĞİT HAMZA CENGİZ", class: "2/E", gameId: 2 },
-        { name: "ÖYKÜ TİRYAKİ", class: "4/A", gameId: 2 }, { name: "AZRA TOROS", class: "4/A", gameId: 2 },
-        { name: "ALİ AYAZ KAZAN", class: "3/B", gameId: 2 }, { name: "SONGÜL ESMA AĞBULUT", class: "3/D", gameId: 2 },
-        { name: "ÖMER KAŞIKÇI", class: "2/D", gameId: 2 }, { name: "ÖZNUR DUMAN", class: "3/D", gameId: 2 },
-        { name: "MEMDUHA NEHİR KÖKSALAN", class: "3/D", gameId: 2 }, { name: "HAMZA MUSUL", class: "4/F", gameId: 2 },
-        { name: "POYRAZ LAÇİNKAYA", class: "4/F", gameId: 2 }, { name: "AZİZ MUHARREM ATİLA", class: "3/D", gameId: 2 },
-        { name: "HAYRUNNİSA ÇEÇEN", class: "2/E", gameId: 2 }, { name: "ÜMRA SUNA KALELİ", class: "4/A", gameId: 2 },
-        { name: "ALİ TUĞRA DEMİR", class: "2/D", gameId: 2 }, { name: "DEFNE SULUOĞLU", class: "4/A", gameId: 2 },
-        
-        // EQUILIBRIO (Game ID: 4) - YENİ LİSTE
+        // ABLUKA (15 Kişi)
+        { name: "SALİH ERDEM YAZAR", class: "2/E", gameId: 2 },
+        { name: "YİĞİT HAMZA CENGİZ", class: "2/E", gameId: 2 },
+        { name: "ÖYKÜ TİRYAKİ", class: "4/A", gameId: 2 },
+        { name: "AZRA TOROS", class: "4/A", gameId: 2 },
+        { name: "ALİ AYAZ KAZAN", class: "3/B", gameId: 2 },
+        { name: "SONGÜL ESMA AĞBULUT", class: "3/D", gameId: 2 },
+        { name: "ÖMER KAŞIKÇI", class: "2/D", gameId: 2 },
+        { name: "ÖZNUR DUMAN", class: "3/D", gameId: 2 },
+        { name: "MEMDUHA NEHİR KÖKSALAN", class: "3/D", gameId: 2 },
+        { name: "HAMZA MUSUL", class: "4/F", gameId: 2 },
+        { name: "POYRAZ LAÇİNKAYA", class: "4/F", gameId: 2 },
+        { name: "AZİZ MUHARREM ATİLA", class: "3/D", gameId: 2 },
+        { name: "HAYRUNNİSA ÇEÇEN", class: "2/E", gameId: 2 },
+        { name: "ÜMRA SUNA KALELİ", class: "4/A", gameId: 2 },
+        { name: "DEFNE SULUOĞLU", class: "4/A", gameId: 2 },
+
+        // EQUILIBRIO (15 Kişi)
         { name: "ECRİN ÇAKIR", class: "4/E", gameId: 4 },
         { name: "YAĞMUR KIZIL", class: "4/F", gameId: 4 },
         { name: "MUHAMMED EMİR KOÇAK", class: "2/E", gameId: 4 },
@@ -256,7 +259,7 @@
     ];
 
     let systemData = {
-        status: "registration", // registration, closed, active
+        status: "registration",
         players: [...BASE_PLAYERS], 
         brackets: {} 
     };
@@ -273,7 +276,7 @@
     async function loadData() {
         try {
             if(BIN_ID.length < 5) {
-                const local = localStorage.getItem('merkezV23');
+                const local = localStorage.getItem('merkezV24');
                 if(local) systemData = JSON.parse(local);
                 updateUI();
                 document.getElementById('loading-overlay').style.display = 'none';
@@ -300,7 +303,7 @@
         document.getElementById('loading-overlay').style.display = 'flex';
         try {
             if(BIN_ID.length < 5) {
-                localStorage.setItem('merkezV23', JSON.stringify(systemData));
+                localStorage.setItem('merkezV24', JSON.stringify(systemData));
             } else {
                 await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
                     method: 'PUT',
@@ -333,7 +336,7 @@
         }
     }
 
-    // --- ZİYARETÇİ KAYIT İŞLEMLERİ ---
+    // --- ZİYARETÇİ KAYIT ---
     async function registerStudent() {
         const name = document.getElementById('reg-name').value.trim().toUpperCase();
         const sClass = document.getElementById('reg-class').value.trim().toUpperCase();
@@ -353,7 +356,7 @@
         await saveData();
     }
 
-    // --- YÖNETİCİ KAYIT EKLEME ---
+    // --- ADMİN KAYIT ---
     async function adminRegisterStudent() {
         const name = document.getElementById('admin-reg-name').value.trim().toUpperCase();
         const sClass = document.getElementById('admin-reg-class').value.trim().toUpperCase();
@@ -373,7 +376,6 @@
         await saveData();
     }
 
-    // --- ADMİN İŞLEMLERİ ---
     function adminLogin() {
         const pass = prompt("Kurum Kodu:");
         if(pass === "853256") {
@@ -430,7 +432,6 @@
         }
     }
 
-    // --- TURNUVA BAŞLATMA VE KURA ---
     async function startTournament() {
         if(confirm("Turnuva başlatılacak ve kuralar çekilecek. Onaylıyor musunuz?")) {
             systemData.brackets = {};
@@ -481,7 +482,6 @@
         return rounds;
     }
 
-    // --- TURNUVA İZLEME VE SKOR ---
     function showTournamentViewAdmin() {
         document.getElementById('admin-view').classList.remove('active');
         document.getElementById('tournament-view').classList.add('active');
@@ -589,7 +589,6 @@
             else nextMatch.p2 = winner;
         }
     }
-
 </script>
 </body>
 </html>
