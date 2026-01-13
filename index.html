@@ -24,31 +24,33 @@
         .view-section.active { display: block; }
         @keyframes fadeIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
 
-        .form-card { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 16px; max-width: 500px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative; }
+        .form-card { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 16px; max-width: 500px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         .form-group { margin-bottom: 20px; text-align: left; position: relative; }
         label { display: block; margin-bottom: 8px; font-weight: 600; color: #aaa; }
         input, select { width: 100%; padding: 12px; background: #0b0c15; border: 1px solid var(--border); color: #fff; border-radius: 8px; font-size: 1rem; }
         input:focus, select:focus { border-color: var(--primary); outline: none; }
         .submit-btn { width: 100%; padding: 15px; background: var(--primary); color: #000; font-weight: 800; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; transition: 0.3s; margin-bottom: 10px; }
-        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 242, 234, 0.3); }
         .list-btn { width: 100%; padding: 12px; background: transparent; border: 1px solid var(--primary); color: var(--primary); font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-        .list-btn:hover { background: rgba(0, 242, 234, 0.1); }
-
-        /* MODALS */
-        .custom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { max-width: 500px; width:100%; background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border); text-align: center; }
-        .public-list-item { padding: 10px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; text-align: left; }
-        .close-modal-btn { background: var(--secondary); color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin-bottom: 15px; font-weight: bold; }
         
-        .search-results-dropdown { position: absolute; top: 100%; left: 0; width: 100%; background: #1a1a1a; border: 1px solid var(--primary); border-radius: 0 0 8px 8px; max-height: 200px; overflow-y: auto; z-index: 1000; display: none; }
-        .search-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #333; text-align: left; }
-        .search-item:hover { background: var(--primary); color: #000; }
-        .search-item strong { display: block; font-size: 1rem; }
-        .search-item small { font-size: 0.8rem; opacity: 0.8; }
+        /* ARAMA SONUÇLARI */
+        .search-results { position: absolute; top: 100%; left: 0; width: 100%; background: #1a1d26; border: 1px solid var(--primary); border-radius: 8px; max-height: 250px; overflow-y: auto; z-index: 1000; display: none; }
+        .search-item { padding: 12px 15px; cursor: pointer; border-bottom: 1px solid #333; transition: 0.2s; }
+        .search-item:hover { background: rgba(0, 242, 234, 0.1); color: #fff; }
+        .search-item strong { color: var(--primary); display: block; font-size: 1.1rem; }
 
+        .selected-student-card { background: rgba(0, 255, 136, 0.1); border: 1px solid var(--success); padding: 15px; border-radius: 8px; margin-bottom: 20px; display: none; display: flex; justify-content: space-between; align-items: center; }
+        .selected-info strong { display: block; color: #fff; font-size: 1.2rem; }
+        .selected-info span { color: var(--success); font-weight: bold; font-size: 1.1rem; }
+        .btn-remove-sel { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 1.5rem; padding: 0 10px; }
+
+        /* ADMIN PANEL */
         .admin-panel { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); padding: 20px; border-radius: 12px; margin-bottom: 30px; }
-        .admin-add-box { background: rgba(0, 242, 234, 0.05); border: 1px dashed var(--primary); padding: 15px; border-radius: 8px; margin-bottom: 20px; }
-        
+        /* Yeni Kompakt Admin Ekleme Alanı */
+        .admin-add-compact { display: flex; gap: 10px; align-items: center; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed #444; }
+        .admin-add-compact select { width: 120px; padding: 10px; }
+        .admin-add-compact input { flex: 1; padding: 10px; }
+        .admin-add-compact button { width: auto; padding: 10px 20px; margin: 0; font-size: 0.9rem; }
+
         .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
         .stat-card { background: #000; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #333; }
         .stat-num { font-size: 2rem; font-weight: 800; color: var(--primary); }
@@ -60,32 +62,43 @@
         .btn-start { background: var(--success); color: #000; }
         .btn-close { background: var(--warning); color: #000; }
         .btn-reset { background: var(--danger); color: #fff; }
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: none; align-items: center; justify-content: center; }
+        .modal-content { background: var(--card-bg); width: 90%; max-width: 500px; border-radius: 12px; border: 1px solid var(--border); padding: 25px; max-height: 80vh; display: flex; flex-direction: column; }
+        .modal-list { overflow-y: auto; flex: 1; margin-top: 15px; }
+        .modal-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #333; color: #fff; }
 
         .bracket-container { display: flex; flex-direction: column; gap: 30px; }
         .round-block { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
         .round-title { text-align: center; color: var(--warning); font-size: 1.5rem; font-weight: 800; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
         .matches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
         .match-card { background: #16181e; border: 1px solid var(--border); border-radius: 8px; padding: 10px; position: relative; }
-        .match-card.completed { border-color: var(--success); }
+        
+        /* Tamamlanan maçlarda bile border normal kalsın, sadece kazananı yeşil gösterelim */
+        .match-card.completed { border-color: #444; } 
+        
         .status-badge { position: absolute; top: -8px; right: 10px; font-size: 0.7rem; background: var(--success); color: #000; padding: 2px 8px; border-radius: 8px; font-weight: 800; display: none; }
-        .match-card.completed .status-badge { display: block; }
-        .player-row { display: flex; justify-content: space-between; padding: 8px 10px; background: rgba(255,255,255,0.03); margin-bottom: 5px; border-radius: 4px; align-items: center; }
-        .player-row.winner { background: rgba(0, 255, 136, 0.15); border-left: 4px solid var(--success); }
+        /* Rozeti kaldırdım, skor yetiyor */
+        
+        .player-row { display: flex; justify-content: space-between; padding: 8px 10px; background: rgba(255,255,255,0.03); margin-bottom: 5px; border-radius: 4px; align-items: center; transition: all 0.3s ease; }
+        .player-row.winner { background: rgba(0, 255, 136, 0.2); border-left: 4px solid var(--success); }
         .p-name { font-weight: 700; color: #fff; font-size: 0.95rem; }
         .p-class { font-size: 0.8rem; color: #ff9f43; margin-left: auto; padding-left: 10px; }
         .score-val { font-weight: 800; font-size: 1.2rem; width: 30px; text-align: center; }
-        .btn-s { width: 24px; height: 24px; cursor: pointer; border: none; border-radius: 4px; font-weight: bold; margin: 0 2px; }
-        .btn-plus { background: var(--primary); }
+        
+        /* Skor butonları her zaman görünsün */
+        .score-controls { display: flex; gap: 2px; }
+        .btn-s { width: 24px; height: 24px; cursor: pointer; border: none; border-radius: 4px; font-weight: bold; }
+        .btn-plus { background: var(--primary); color: #000; }
         .btn-minus { background: #333; color: #fff; }
+        .btn-minus:hover { background: var(--secondary); }
+
         .game-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
         .tab-btn { padding: 10px 25px; background: transparent; border: 1px solid var(--border); color: #888; border-radius: 50px; cursor: pointer; }
         .tab-btn.active { border-color: var(--primary); color: #fff; background: rgba(0, 242, 234, 0.1); }
-        .admin-login-btn { position: fixed; bottom: 10px; right: 10px; opacity: 0.3; cursor: pointer; background: none; border: none; color: #fff; font-size: 1.5rem; }
-        .announcement-box { background: linear-gradient(90deg, rgba(255, 0, 80, 0.15) 0%, rgba(255, 0, 80, 0.05) 100%); border: 2px solid var(--secondary); border-radius: 12px; padding: 15px; margin: 20px auto; max-width: 800px; text-align:center; }
         
-        .back-admin-btn { position: fixed; bottom: 20px; right: 20px; background: var(--secondary); color: #fff; padding: 15px 25px; border-radius: 50px; border: none; font-weight: bold; cursor: pointer; box-shadow: 0 5px 20px rgba(255, 0, 80, 0.4); z-index: 1000; animation: bounce 2s infinite; display: none; }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
-
+        .admin-login-btn { position: fixed; bottom: 10px; right: 10px; opacity: 0.3; cursor: pointer; background: none; border: none; color: #fff; font-size: 1.5rem; z-index: 3000; }
+        .announcement-box { background: linear-gradient(90deg, rgba(255, 0, 80, 0.15) 0%, rgba(255, 0, 80, 0.05) 100%); border: 2px solid var(--secondary); border-radius: 12px; padding: 15px; margin: 20px auto; max-width: 800px; text-align:center; }
     </style>
 </head>
 <body>
@@ -101,7 +114,7 @@
         <h3 style="color:#888; letter-spacing:2px;">TURNUVA YÖNETİM SİSTEMİ</h3>
     </header>
 
-    <!-- KAYIT EKRANI -->
+    <!-- 1. KAYIT EKRANI -->
     <div id="registration-view" class="view-section">
         <div class="announcement-box">
             <h2 style="color:var(--primary); margin-bottom:10px;">TURNUVA KAYIT</h2>
@@ -115,48 +128,50 @@
                     <option value="4">Equilibrio</option>
                 </select>
             </div>
-            <div class="form-group">
+            
+            <div id="selected-student-display" class="selected-student-card" style="display:none;">
+                <div class="selected-info">
+                    <strong id="disp-name"></strong>
+                    <span id="disp-class"></span>
+                </div>
+                <button class="btn-remove-sel" onclick="clearSelection()"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="form-group" id="search-container">
                 <label>Öğrenci Adı Ara</label>
-                <input type="text" id="student-search" placeholder="İsim yazmaya başlayın..." autocomplete="off" onkeyup="filterStudents()">
-                <div id="search-results" class="search-results-dropdown"></div>
+                <input type="text" id="student-search" placeholder="İsim yazmaya başlayın..." autocomplete="off">
+                <div id="search-results" class="search-results"></div>
             </div>
-            <div class="form-group">
-                <label>Seçilen Öğrenci</label>
-                <input type="text" id="selected-student" disabled style="background:#222; color:var(--success); font-weight:bold;">
-            </div>
-            <div class="form-group">
-                <label>Sınıf</label>
-                <input type="text" id="reg-class" disabled style="background:#222;">
-            </div>
+
             <button class="submit-btn" onclick="registerStudent()">KAYIT OL</button>
-            <button class="show-list-btn" onclick="openPublicList()"><i class="fas fa-list"></i> Kayıtlı Listeyi Gör</button>
+            <button class="list-btn" onclick="openRegisteredList()"><i class="fas fa-list"></i> Kayıtlı Listeyi Gör</button>
         </div>
     </div>
 
     <!-- KAYITLI LİSTE MODAL -->
-    <div id="public-list-modal" class="custom-modal">
-        <div class="modal-content" style="max-height:80vh; overflow-y:auto;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <h3 style="color:var(--primary);">KAYITLI ÖĞRENCİLER</h3>
-                <button class="close-modal-btn" onclick="document.getElementById('public-list-modal').style.display='none'">X</button>
+    <div id="list-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="color:var(--primary)">Kayıtlı Öğrenciler</h3>
+                <button onclick="document.getElementById('list-modal').style.display='none'" style="background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;">&times;</button>
             </div>
-            <div id="public-list-container"></div>
+            <div id="modal-list-content" class="modal-list"></div>
         </div>
     </div>
 
-    <!-- GİRİŞ MODAL -->
-    <div id="login-modal" class="custom-modal">
-        <div class="modal-content" style="max-width:400px;">
-            <h3 style="color:var(--primary); margin-bottom:20px;">YÖNETİCİ GİRİŞİ</h3>
-            <input type="password" id="admin-pass-input" placeholder="Şifre Giriniz" style="width:100%; padding:15px; margin-bottom:20px; text-align:center; font-size:1.2rem; letter-spacing:5px;">
+    <!-- ADMIN GİRİŞ MODAL -->
+    <div id="login-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width:350px; text-align:center;">
+            <h3 style="color:var(--primary); margin-bottom:20px;">Yönetici Girişi</h3>
+            <input type="password" id="admin-pass-input" placeholder="Şifre" style="width:100%; padding:15px; margin-bottom:20px; text-align:center; font-size:1.2rem; letter-spacing:5px;">
             <div style="display:flex; gap:10px;">
-                <button class="action-btn btn-reset" onclick="document.getElementById('login-modal').style.display='none'">İPTAL</button>
-                <button class="action-btn btn-start" onclick="checkLogin()">GİRİŞ</button>
+                <button class="action-btn btn-reset" onclick="document.getElementById('login-modal').style.display='none'">İptal</button>
+                <button class="action-btn btn-start" onclick="checkLogin()">Giriş</button>
             </div>
         </div>
     </div>
 
-    <!-- BEKLEME EKRANI -->
+    <!-- 2. BEKLEME EKRANI -->
     <div id="waiting-view" class="view-section">
         <div class="form-card" style="text-align:center;">
             <i class="fas fa-clock" style="font-size:3rem; color:var(--warning); margin-bottom:20px;"></i>
@@ -165,43 +180,43 @@
         </div>
     </div>
 
-    <!-- TURNUVA İZLEME -->
+    <!-- 3. TURNUVA İZLEME -->
     <div id="tournament-view" class="view-section">
         <div class="game-tabs" id="game-tabs"></div>
         <div id="bracket-area" class="bracket-container"></div>
+        <div id="admin-back-btn" style="text-align:center; margin-top:30px; display:none;">
+             <button onclick="backToAdmin()" style="background:#333; color:#fff; padding:10px 20px; border:1px solid #555; border-radius:8px; cursor:pointer;">
+                <i class="fas fa-arrow-left"></i> Yönetici Paneline Dön
+             </button>
+        </div>
     </div>
 
-    <!-- ADMIN PANELİ -->
+    <!-- 4. ADMIN PANELİ -->
     <div id="admin-view" class="view-section">
         <div class="admin-panel">
             <h2 style="margin-bottom:20px; color:var(--primary)">YÖNETİCİ PANELİ</h2>
             
-            <div class="admin-add-box">
-                <h4 style="margin-bottom:10px; color:#fff"><i class="fas fa-plus-circle"></i> Manuel Kayıt Ekle</h4>
-                <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                    <div class="form-group" style="flex:1; min-width:150px;">
-                        <select id="admin-reg-game">
-                            <option value="2">Abluka</option>
-                            <option value="4">Equilibrio</option>
-                        </select>
-                    </div>
-                    <div class="form-group" style="flex:2; min-width:200px; position:relative;">
-                        <input type="text" id="admin-student-search" placeholder="Öğrenci Ara..." onkeyup="filterStudentsAdmin()" autocomplete="off">
-                        <div id="admin-search-results" class="search-results-dropdown"></div>
-                    </div>
-                    <div class="form-group" style="flex:1; min-width:100px;">
-                         <input type="text" id="admin-reg-class" placeholder="Sınıf" disabled style="background:#222;">
-                    </div>
-                    <button class="btn-admin-add" onclick="adminRegisterStudent()">EKLE</button>
+            <!-- KOMPAKT MANUEL KAYIT -->
+            <div class="admin-add-compact">
+                <select id="admin-reg-game">
+                    <option value="2">Abluka</option>
+                    <option value="4">Equilibrio</option>
+                </select>
+                <div style="position:relative; flex:1;">
+                    <input type="text" id="admin-student-search" placeholder="Öğrenci Ara..." autocomplete="off">
+                    <div id="admin-search-results" class="search-results"></div>
                 </div>
+                <input type="text" id="admin-reg-class" placeholder="Sınıf" disabled style="width:80px; background:#222; text-align:center;">
+                <button class="submit-btn" style="width:auto; margin:0;" onclick="adminRegisterStudent()">EKLE</button>
             </div>
 
             <div class="stat-grid">
-                <div class="stat-card"><div>Abluka Kayıt</div><div class="stat-num" id="count-abluka">0</div></div>
-                <div class="stat-card"><div>Equilibrio Kayıt</div><div class="stat-num" id="count-equilibrio">0</div></div>
+                <div class="stat-card"><div>Abluka</div><div class="stat-num" id="count-abluka">0</div></div>
+                <div class="stat-card"><div>Equilibrio</div><div class="stat-num" id="count-equilibrio">0</div></div>
                 <div class="stat-card"><div>Durum</div><div class="stat-num" id="status-text" style="font-size:1.2rem; line-height:2.5rem">-</div></div>
             </div>
-            
+
+            <div style="margin-bottom:10px; font-weight:bold;">Kayıt Listesi:</div>
             <div class="player-list" id="admin-player-list"></div>
 
             <div class="action-bar">
@@ -211,14 +226,13 @@
             </div>
             
             <div style="margin-top:20px; text-align:center;">
-                <button class="tab-btn" onclick="showTournamentViewAdmin()">TURNUVA EKRANINA GİT (SKOR GİRME)</button>
+                <button class="tab-btn" onclick="showTournamentViewAdmin()">TURNUVA EKRANINA GİT (SKOR GİR)</button>
             </div>
         </div>
     </div>
 </div>
 
-<button class="admin-login-btn" onclick="openLoginModal()"><i class="fas fa-lock"></i></button>
-<button id="back-to-admin-btn" class="back-admin-btn" onclick="backToAdminPanel()">YÖNETİCİ PANELİNE DÖN</button>
+<button class="admin-login-btn" onclick="document.getElementById('login-modal').style.display='flex'"><i class="fas fa-lock"></i></button>
 
 <script>
     const BIN_ID = "69663710ae596e708fd967a0"; 
@@ -226,13 +240,13 @@
 
     // --- DÜZELTİLMİŞ ÖĞRENCİ LİSTESİ ---
     const ALL_STUDENTS = [
-{n:"RÜYA KULAK",c:"1/A"},{n:"ALİN ADA GÖRDÜ",c:"1/A"},{n:"HÜSEYİN PAMİR GÜL",c:"1/A"},{n:"ESİLA YILMAZ",c:"1/A"},{n:"YEKTA MİLAT YILDIZ",c:"1/A"},{n:"MUSACAN KAHRAMAN",c:"1/A"},{n:"ELİF ABDULLATİF",c:"1/A"},{n:"AHMET GENÇ AKBAŞ",c:"1/A"},{n:"AHMET SELİM KUL",c:"1/A"},{n:"MAYA ORHAN",c:"1/A"},{n:"DENİZ SALDIRIŞ",c:"1/A"},{n:"FADİMENUR KIRDAGEZER",c:"1/A"},{n:"EMİR ALİ TOZOĞLU",c:"1/A"},{n:"TOPRAK AKDEMİR",c:"1/A"},{n:"NEHİR DEMİRBAŞ",c:"1/A"},{n:"SÜMEYYENUR KIRÇOVA",c:"1/A"},{n:"DERİN TOYRAN",c:"1/A"},{n:"YUSUF ARSLAN",c:"1/A"},{n:"İKRANUR KILIÇ",c:"1/A"},{n:"BERAT KAYA",c:"1/A"},{n:"MUHAMMED EYMEN KONDAL",c:"1/A"},{n:"SUDE BAYRAM",c:"1/A"},{n:"HALİL ATA SEVİNÇ",c:"1/A"},{n:"AYCAN TAŞDÖVEN",c:"1/A"},{n:"MERYEM AĞIRBAŞ",c:"1/A"},{n:"HİRANUR UZUN",c:"1/A"},{n:"NUR ELHUDE AHMED",c:"1/A"},{n:"ALİ YILMAZ ESEN",c:"1/A"},{n:"ESLEM SONDUK",c:"1/A"},{n:"AHMED ATLI",c:"1/A"},{n:"ZEYNEP ECRİN ÖZCAN",c:"1/A"},{n:"YİĞİT TOSUNOĞLU",c:"1/A"},{n:"ATA YİĞİT BAYSAL",c:"1/A"},
-{n:"DENİZ KASAR",c:"1/B"},{n:"BUĞLEM YILMAZOĞLU",c:"1/B"},{n:"ELİF İŞGÜDEN",c:"1/B"},{n:"MELEK ÖZER",c:"1/B"},{n:"BEREN İSTANBULLU",c:"1/B"},{n:"SÜHEYLE ABDULLATİF",c:"1/B"},{n:"ALPARSLAN YEŞİLYURT",c:"1/B"},{n:"ECRİN BOZKURT",c:"1/B"},{n:"MESUT ASLANATA",c:"1/B"},{n:"BULUT DEMİRBAŞ",c:"1/B"},{n:"DEVRAN BEYAZER",c:"1/B"},{n:"KÜBRA GÜRSES",c:"1/B"},{n:"ALİ İHSAN KALELİ",c:"1/B"},{n:"FATİH MEHMET ERİN",c:"1/B"},{n:"HASRET ERDEM",c:"1/B"},{n:"EYÜP ASAF BEKTAŞ",c:"1/B"},{n:"DERİN KOYUN",c:"1/B"},{n:"ELİF NAZ KARAKAŞ",c:"1/B"},{n:"MİRAÇ ÇELİK",c:"1/B"},{n:"HAZAL ÖZTÜRK",c:"1/B"},{n:"EYMEN KAYA",c:"1/B"},{n:"AZMİ ŞEN",c:"1/B"},{n:"ARDA CAN",c:"1/B"},{n:"HAVVA YİĞİT",c:"1/B"},{n:"AHMET BUĞRA DEMİR",c:"1/B"},{n:"ASEL DEMİRBİLEK",c:"1/B"},{n:"BERRA AVCİ",c:"1/B"},{n:"ESİLA EROĞLU",c:"1/B"},{n:"İKRA DEMİRTAŞ",c:"1/B"},{n:"MERT GUNÇE",c:"1/B"},{n:"ALPEREN AĞIRMAN",c:"1/B"},{n:"YUSUF İBRAHİM",c:"1/B"},{n:"RÜZGAR BİLİR",c:"1/B"},{n:"DUYGU NEFES GÜNGÖR",c:"1/B"},
-{n:"ILGIN EROL",c:"1/C"},{n:"AZRA KENİR",c:"1/C"},{n:"MEHMET ARAS ŞAHİN",c:"1/C"},{n:"TOPRAK EFE YÜRÜK",c:"1/C"},{n:"ADNAN AYAZ KUMCU",c:"1/C"},{n:"YUSUF BEDEVİ",c:"1/C"},{n:"HİRANUR AKPINAR",c:"1/C"},{n:"GÖKÇE DÜZMEN",c:"1/C"},{n:"SAMİ ANIK",c:"1/C"},{n:"UMAY ÖZDEMİR",c:"1/C"},{n:"DORUK ÇİNİ",c:"1/C"},{n:"HAYRİYE GENÇ",c:"1/C"},{n:"ENVER EMİR DOYMAZ",c:"1/C"},{n:"FEYZA YÜSRA KILBAŞ",c:"1/C"},{n:"YİĞİT TOPCU",c:"1/C"},{n:"ABDURRAHMAN HAZZANİ",c:"1/C"},{n:"NAME ÖZIŞIK",c:"1/C"},{n:"ZEYNEP KEKLİK",c:"1/C"},{n:"EGEMEN GÖRMEK",c:"1/C"},{n:"POLAT DEMİRBAŞ",c:"1/C"},{n:"ECE TOROS",c:"1/C"},{n:"ZÜMRA KARA",c:"1/C"},{n:"YAĞMUR BALTA",c:"1/C"},{n:"BESTE SARICA",c:"1/C"},{n:"GÖRKEM KARAPINAR",c:"1/C"},{n:"NİDAL HALLAK",c:"1/C"},{n:"HAZAL ŞAHİN",c:"1/C"},{n:"AREL ERDEM AYKURT",c:"1/C"},{n:"MEYS EL DERVİŞ",c:"1/C"},{n:"FATMA DERİN İSTANBULLIOĞLU",c:"1/C"},{n:"BERDAN ERKMEN",c:"1/C"},{n:"AMMAR HAMO",c:"1/C"},{n:"ELİF RAVZA AYDIN",c:"1/C"},{n:"MUHAMMED YAĞIZ KAYA",c:"1/C"},{n:"İSA KARAAĞAÇ",c:"1/C"},{n:"BUĞLEM NURİYE VEZİ",c:"1/C"},
-{n:"EFSA NUR ÇİFTCİ",c:"1/D"},{n:"YAĞMUR LİNA AKALAN",c:"1/D"},{n:"ALİ TUĞRA DEMİR",c:"1/D"},{n:"DURU GENÇ",c:"1/D"},{n:"HATİCE HİRA İLKAY",c:"1/D"},{n:"EGE ÇİNAR",c:"1/D"},{n:"HAMZA DORUK DEMİR",c:"1/D"},{n:"BADE HANSU",c:"1/D"},{n:"BERİVAN NEHİR KOTAN",c:"1/D"},{n:"ÖYKÜ ÖLMEZ",c:"1/D"},{n:"MİRAY DURU BALOĞLU",c:"1/D"},{n:"EBRU ÖNAL",c:"1/D"},{n:"EMİR FATİH ÖRS",c:"1/D"},{n:"EMİR ASAF KIZILTAŞ",c:"1/D"},{n:"İLKER YAĞIZ",c:"1/D"},{n:"YİĞİT KAYRA ÖNCÜ",c:"1/D"},{n:"CANAN NERGİZ",c:"1/D"},{n:"MİLA KASAP",c:"1/D"},{n:"DERİN TAŞDEMİR",c:"1/D"},{n:"HİRANUR KÖSE",c:"1/D"},{n:"ENGİN CAN GÖLCÜ",c:"1/D"},{n:"FURKAN AĞYÜREK",c:"1/D"},{n:"EYMEN KAYAOĞLU",c:"1/D"},{n:"ELİF ADA SEVİK",c:"1/D"},{n:"İRFAN ADİL DEMİREL",c:"1/D"},{n:"DORUK EDİS",c:"1/D"},{n:"ÖMER ASAF ÖNCÜ",c:"1/D"},{n:"OSMAN YİĞİT",c:"1/D"},{n:"KAMURAN AYAZ KANTARCI",c:"1/D"},{n:"REHEF EL ALİ",c:"1/D"},{n:"AMMAR ŞEBBEK",c:"1/D"},{n:"MEDİNE DURU KARA",c:"1/D"},{n:"MEHMET EMİR BAHÇE",c:"1/D"},
-{n:"BARAA İBRAHİM",c:"1/E"},{n:"DAMLA UÇAR",c:"1/E"},{n:"BİLAL GEDİKLİ",c:"1/E"},{n:"MELEK TAŞ",c:"1/E"},{n:"ABDULKAFİ EL ÖMER",c:"1/E"},{n:"YİĞİT HAMZA CENGİZ",c:"1/E"},{n:"UMUT İSA KILIÇ",c:"1/E"},{n:"YAĞIZ İSMET KILIÇ",c:"1/E"},{n:"ATEŞ UÇUK",c:"1/E"},{n:"HİRA ÇELİK",c:"1/E"},{n:"MUHAMMED ENES TUNCER",c:"1/E"},{n:"SALİH ERDEM YAZAR",c:"1/E"},{n:"KERİM SALİH AKMAN",c:"1/E"},{n:"ÖMER ASAF ERHAN",c:"1/E"},{n:"MELİN PEKİN",c:"1/E"},{n:"MUHAMMED EMİR KOÇAK",c:"1/E"},{n:"MEHMET ALİ KOTAN",c:"1/E"},{n:"KAAN ALĞAN",c:"1/E"},{n:"BADE YİĞİT",c:"1/E"},{n:"ZÜLEYHA ŞAHİN",c:"1/E"},{n:"AHMETHAN SARIASLAN",c:"1/E"},{n:"İKRANUR KORKMAZ",c:"1/E"},{n:"BEYZA EMET",c:"1/E"},{n:"MELİKE İLHAN",c:"1/E"},{n:"SIRAÇ DURAN",c:"1/E"},{n:"DİLARA ÇETİN",c:"1/E"},{n:"MEHMET KAĞAN KAÇAR",c:"1/E"},{n:"ELİF YAREN KARTAL",c:"1/E"},{n:"DEFNE ELİF IŞIK",c:"1/E"},{n:"HAYRUNNİSA ÇEÇEN",c:"1/E"},{n:"DERİN AKBULUT",c:"1/E"},{n:"ELİF NAZ BİLEN",c:"1/E"},{n:"YUSUF AYAZ GÖRMEK",c:"1/E"},{n:"YASEMİN KILBAŞ",c:"1/E"},{n:"YUSUF CEYLAN",c:"1/E"},
+{n:"RÜYA KULAK",c:"1/A"}, {n:"ALİN ADA GÖRDÜ",c:"1/A"}, {n:"HÜSEYİN PAMİR GÜL",c:"1/A"}, {n:"ESİLA YILMAZ",c:"1/A"}, {n:"YEKTA MİLAT YILDIZ",c:"1/A"}, {n:"MUSACAN KAHRAMAN",c:"1/A"}, {n:"ELİF ABDULLATİF",c:"1/A"}, {n:"AHMET GENÇ AKBAŞ",c:"1/A"}, {n:"AHMET SELİM KUL",c:"1/A"}, {n:"MAYA ORHAN",c:"1/A"}, {n:"DENİZ SALDIRIŞ",c:"1/A"}, {n:"FADİMENUR KIRDAGEZER",c:"1/A"}, {n:"EMİR ALİ TOZOĞLU",c:"1/A"}, {n:"TOPRAK AKDEMİR",c:"1/A"}, {n:"NEHİR DEMİRBAŞ",c:"1/A"}, {n:"SÜMEYYENUR KIRÇOVA",c:"1/A"}, {n:"DERİN TOYRAN",c:"1/A"}, {n:"YUSUF ARSLAN",c:"1/A"}, {n:"İKRANUR KILIÇ",c:"1/A"}, {n:"BERAT KAYA",c:"1/A"}, {n:"MUHAMMED EYMEN KONDAL",c:"1/A"}, {n:"SUDE BAYRAM",c:"1/A"}, {n:"HALİL ATA SEVİNÇ",c:"1/A"}, {n:"AYCAN TAŞDÖVEN",c:"1/A"}, {n:"MERYEM AĞIRBAŞ",c:"1/A"}, {n:"HİRANUR UZUN",c:"1/A"}, {n:"NUR ELHUDE AHMED",c:"1/A"}, {n:"ALİ YILMAZ ESEN",c:"1/A"}, {n:"ESLEM SONDUK",c:"1/A"}, {n:"AHMED ATLI",c:"1/A"}, {n:"ZEYNEP ECRİN ÖZCAN",c:"1/A"}, {n:"YİĞİT TOSUNOĞLU",c:"1/A"}, {n:"ATA YİĞİT BAYSAL",c:"1/A"},
+{n:"DENİZ KASAR",c:"1/B"}, {n:"BUĞLEM YILMAZOĞLU",c:"1/B"}, {n:"ELİF İŞGÜDEN",c:"1/B"}, {n:"MELEK ÖZER",c:"1/B"}, {n:"BEREN İSTANBULLU",c:"1/B"}, {n:"SÜHEYLE ABDULLATİF",c:"1/B"}, {n:"ALPARSLAN YEŞİLYURT",c:"1/B"}, {n:"ECRİN BOZKURT",c:"1/B"}, {n:"MESUT ASLANATA",c:"1/B"}, {n:"BULUT DEMİRBAŞ",c:"1/B"}, {n:"DEVRAN BEYAZER",c:"1/B"}, {n:"KÜBRA GÜRSES",c:"1/B"}, {n:"ALİ İHSAN KALELİ",c:"1/B"}, {n:"FATİH MEHMET ERİN",c:"1/B"}, {n:"HASRET ERDEM",c:"1/B"}, {n:"EYÜP ASAF BEKTAŞ",c:"1/B"}, {n:"DERİN KOYUN",c:"1/B"}, {n:"ELİF NAZ KARAKAŞ",c:"1/B"}, {n:"MİRAÇ ÇELİK",c:"1/B"}, {n:"HAZAL ÖZTÜRK",c:"1/B"}, {n:"EYMEN KAYA",c:"1/B"}, {n:"AZMİ ŞEN",c:"1/B"}, {n:"ARDA CAN",c:"1/B"}, {n:"HAVVA YİĞİT",c:"1/B"}, {n:"AHMET BUĞRA DEMİR",c:"1/B"}, {n:"ASEL DEMİRBİLEK",c:"1/B"}, {n:"BERRA AVCİ",c:"1/B"}, {n:"ESİLA EROĞLU",c:"1/B"}, {n:"İKRA DEMİRTAŞ",c:"1/B"}, {n:"MERT GUNÇE",c:"1/B"}, {n:"ALPEREN AĞIRMAN",c:"1/B"}, {n:"YUSUF İBRAHİM",c:"1/B"}, {n:"RÜZGAR BİLİR",c:"1/B"}, {n:"DUYGU NEFES GÜNGÖR",c:"1/B"},
+{n:"ILGIN EROL",c:"1/C"}, {n:"AZRA KENİR",c:"1/C"}, {n:"MEHMET ARAS ŞAHİN",c:"1/C"}, {n:"TOPRAK EFE YÜRÜK",c:"1/C"}, {n:"ADNAN AYAZ KUMCU",c:"1/C"}, {n:"YUSUF BEDEVİ",c:"1/C"}, {n:"HİRANUR AKPINAR",c:"1/C"}, {n:"GÖKÇE DÜZMEN",c:"1/C"}, {n:"SAMİ ANIK",c:"1/C"}, {n:"UMAY ÖZDEMİR",c:"1/C"}, {n:"DORUK ÇİNİ",c:"1/C"}, {n:"HAYRİYE GENÇ",c:"1/C"}, {n:"ENVER EMİR DOYMAZ",c:"1/C"}, {n:"FEYZA YÜSRA KILBAŞ",c:"1/C"}, {n:"YİĞİT TOPCU",c:"1/C"}, {n:"ABDURRAHMAN HAZZANİ",c:"1/C"}, {n:"NAME ÖZIŞIK",c:"1/C"}, {n:"ZEYNEP KEKLİK",c:"1/C"}, {n:"EGEMEN GÖRMEK",c:"1/C"}, {n:"POLAT DEMİRBAŞ",c:"1/C"}, {n:"ECE TOROS",c:"1/C"}, {n:"ZÜMRA KARA",c:"1/C"}, {n:"YAĞMUR BALTA",c:"1/C"}, {n:"BESTE SARICA",c:"1/C"}, {n:"GÖRKEM KARAPINAR",c:"1/C"}, {n:"NİDAL HALLAK",c:"1/C"}, {n:"HAZAL ŞAHİN",c:"1/C"}, {n:"AREL ERDEM AYKURT",c:"1/C"}, {n:"MEYS EL DERVİŞ",c:"1/C"}, {n:"FATMA DERİN İSTANBULLIOĞLU",c:"1/C"}, {n:"BERDAN ERKMEN",c:"1/C"}, {n:"AMMAR HAMO",c:"1/C"}, {n:"ELİF RAVZA AYDIN",c:"1/C"}, {n:"MUHAMMED YAĞIZ KAYA",c:"1/C"}, {n:"İSA KARAAĞAÇ",c:"1/C"}, {n:"BUĞLEM NURİYE VEZİ",c:"1/C"},
+{n:"EFSA NUR ÇİFTCİ",c:"1/D"}, {n:"YAĞMUR LİNA AKALAN",c:"1/D"}, {n:"ALİ TUĞRA DEMİR",c:"1/D"}, {n:"DURU GENÇ",c:"1/D"}, {n:"HATİCE HİRA İLKAY",c:"1/D"}, {n:"EGE ÇİNAR",c:"1/D"}, {n:"HAMZA DORUK DEMİR",c:"1/D"}, {n:"BADE HANSU",c:"1/D"}, {n:"BERİVAN NEHİR KOTAN",c:"1/D"}, {n:"ÖYKÜ ÖLMEZ",c:"1/D"}, {n:"MİRAY DURU BALOĞLU",c:"1/D"}, {n:"EBRU ÖNAL",c:"1/D"}, {n:"EMİR FATİH ÖRS",c:"1/D"}, {n:"EMİR ASAF KIZILTAŞ",c:"1/D"}, {n:"İLKER YAĞIZ",c:"1/D"}, {n:"YİĞİT KAYRA ÖNCÜ",c:"1/D"}, {n:"CANAN NERGİZ",c:"1/D"}, {n:"MİLA KASAP",c:"1/D"}, {n:"DERİN TAŞDEMİR",c:"1/D"}, {n:"HİRANUR KÖSE",c:"1/D"}, {n:"ENGİN CAN GÖLCÜ",c:"1/D"}, {n:"FURKAN AĞYÜREK",c:"1/D"}, {n:"EYMEN KAYAOĞLU",c:"1/D"}, {n:"ELİF ADA SEVİK",c:"1/D"}, {n:"İRFAN ADİL DEMİREL",c:"1/D"}, {n:"DORUK EDİS",c:"1/D"}, {n:"ÖMER ASAF ÖNCÜ",c:"1/D"}, {n:"OSMAN YİĞİT",c:"1/D"}, {n:"KAMURAN AYAZ KANTARCI",c:"1/D"}, {n:"REHEF EL ALİ",c:"1/D"}, {n:"AMMAR ŞEBBEK",c:"1/D"}, {n:"MEDİNE DURU KARA",c:"1/D"}, {n:"MEHMET EMİR BAHÇE",c:"1/D"},
+{n:"BARAA İBRAHİM",c:"1/E"}, {n:"DAMLA UÇAR",c:"1/E"}, {n:"BİLAL GEDİKLİ",c:"1/E"}, {n:"MELEK TAŞ",c:"1/E"}, {n:"ABDULKAFİ EL ÖMER",c:"1/E"}, {n:"YİĞİT HAMZA CENGİZ",c:"1/E"}, {n:"UMUT İSA KILIÇ",c:"1/E"}, {n:"YAĞIZ İSMET KILIÇ",c:"1/E"}, {n:"ATEŞ UÇUK",c:"1/E"}, {n:"HİRA ÇELİK",c:"1/E"}, {n:"MUHAMMED ENES TUNCER",c:"1/E"}, {n:"SALİH ERDEM YAZAR",c:"1/E"}, {n:"KERİM SALİH AKMAN",c:"1/E"}, {n:"ÖMER ASAF ERHAN",c:"1/E"}, {n:"MELİN PEKİN",c:"1/E"}, {n:"MUHAMMED EMİR KOÇAK",c:"1/E"}, {n:"MEHMET ALİ KOTAN",c:"1/E"}, {n:"KAAN ALĞAN",c:"1/E"}, {n:"BADE YİĞİT",c:"1/E"}, {n:"ZÜLEYHA ŞAHİN",c:"1/E"}, {n:"AHMETHAN SARIASLAN",c:"1/E"}, {n:"İKRANUR KORKMAZ",c:"1/E"}, {n:"BEYZA EMET",c:"1/E"}, {n:"MELİKE İLHAN",c:"1/E"}, {n:"SIRAÇ DURAN",c:"1/E"}, {n:"DİLARA ÇETİN",c:"1/E"}, {n:"MEHMET KAĞAN KAÇAR",c:"1/E"}, {n:"ELİF YAREN KARTAL",c:"1/E"}, {n:"DEFNE ELİF IŞIK",c:"1/E"}, {n:"HAYRUNNİSA ÇEÇEN",c:"1/E"}, {n:"DERİN AKBULUT",c:"1/E"}, {n:"ELİF NAZ BİLEN",c:"1/E"}, {n:"YUSUF AYAZ GÖRMEK",c:"1/E"}, {n:"YASEMİN KILBAŞ",c:"1/E"}, {n:"YUSUF CEYLAN",c:"1/E"},
 {n:"ZÜLAL SÖZBİLİR",c:"2/A"}, {n:"İKRANUR AYDENİZ",c:"2/A"}, {n:"AYAZ YANAR",c:"2/A"}, {n:"AFRA NAS YILDIZ",c:"2/A"}, {n:"AHMET ASAF KOCA",c:"2/A"}, {n:"EBRAR DİLEK KASAPLAR",c:"2/A"}, {n:"İNCİ KÖSE",c:"2/A"}, {n:"ESİLA ÖZ",c:"2/A"}, {n:"HAFİZE YEŞİLYURT",c:"2/A"}, {n:"AHSEN DEMİRBAŞ",c:"2/A"}, {n:"MİR METE YANAR",c:"2/A"}, {n:"REYYAN AKA",c:"2/A"}, {n:"YİĞİT ARAS GÜLÇİMEN",c:"2/A"}, {n:"ZEYNEP ÇAMUR",c:"2/A"}, {n:"BAŞAK EREN",c:"2/A"}, {n:"HALİT MİRAÇ ARAS",c:"2/A"}, {n:"HAMZA TURAN ÜLBEĞİ",c:"2/A"}, {n:"EMİR ÖZTÜRK",c:"2/A"}, {n:"HACER UHEYBİ",c:"2/A"}, {n:"HAFSANUR SERTEL",c:"2/A"}, {n:"ELA GÜLER",c:"2/A"}, {n:"EZGİ YAZIK",c:"2/A"}, {n:"NİDAL AL ELIWI",c:"2/A"}, {n:"İNCİ SU BÜTÜNER",c:"2/A"}, {n:"MUHAMMED ŞIHADİ",c:"2/A"},
-{n:"BURAK KARA",c:"2/B"}, {n:"HÜSEYİN EFE ARI",c:"2/B"}, {n:"ÇAĞATAY ÖZER",c:"2/B"}, {n:"ALEYNA SEVCAN",c:"2/B"}, {n:"AZRA TOROS",c:"2/B"}, {n:"ALPEREN ÇAVUŞ",c:"2/B"}, {n:"ÇAĞAN MOLLA",c:"2/B"}, {n:"KAAN EMRE AYDIN",c:"2/B"}, {n:"MELİS KIZILÇINAR",c:"2/B"}, {n:"EFE PARLAK",c:"2/B"}, {n:"DEFNE ÖZDEMİR",c:"2/B"}, {n:"RANA ABDULKADER ABLAK",c:"2/B"}, {n:"SİMANUR UÇAR",c:"2/B"}, {n:"ZEYNEP KUZEY",c:"2/B"}, {n:"HAYAL YONTAR",c:"2/B"}, {n:"SEFA YILMAZOĞLU",c:"2/B"}, {n:"KAYRA YAĞIZ SARGIN",c:"2/B"}, {n:"ECENUR KAHRAMAN",c:"2/B"}, {n:"ÇAĞAN ŞEREF ALTUN",c:"2/B"}, {n:"EMRE ÇALIŞLAR",c:"2/B"}, {n:"AZRA DEFNE HORASAN",c:"2/B"}, {n:"BERİL DEMİRTAŞ",c:"2/B"}, {n:"MUHAMMED EMİN ÇORUH",c:"2/B"}, {n:"EDANUR TAŞ",c:"2/B"}, {n:"ARDA BEŞPINARLI",c:"2/B"}, {n:"MELİH KIRŞEHİRLİ",c:"2/B"}, {n:"YUSUF ADSİZ",c:"2/B"}, {n:"EMİNE NİSA ÖZDEMİR",c:"2/B"}, {n:"MUHAMMED ENSAR EROĞLU",c:"2/B"}, {n:"MELEK SU ŞEN",c:"2/B"}, {n:"ELİF İPEK DEMİREL",c:"2/B"},
+{n:"BURAK KARA",c:"2/B"}, {n:"HÜSEYİN EFE ARI",c:"2/B"}, {n:"ÇAĞATAY ÖZER",c:"2/B"}, {n:"ALEYNA SEVCAN",c:"2/B"}, {n:"ALPEREN ÇAVUŞ",c:"2/B"}, {n:"ÇAĞAN MOLLA",c:"2/B"}, {n:"KAAN EMRE AYDIN",c:"2/B"}, {n:"MELİS KIZILÇINAR",c:"2/B"}, {n:"EFE PARLAK",c:"2/B"}, {n:"DEFNE ÖZDEMİR",c:"2/B"}, {n:"RANA ABDULKADER ABLAK",c:"2/B"}, {n:"SİMANUR UÇAR",c:"2/B"}, {n:"ZEYNEP KUZEY",c:"2/B"}, {n:"HAYAL YONTAR",c:"2/B"}, {n:"SEFA YILMAZOĞLU",c:"2/B"}, {n:"KAYRA YAĞIZ SARGIN",c:"2/B"}, {n:"ECENUR KAHRAMAN",c:"2/B"}, {n:"ÇAĞAN ŞEREF ALTUN",c:"2/B"}, {n:"EMRE ÇALIŞLAR",c:"2/B"}, {n:"AZRA DEFNE HORASAN",c:"2/B"}, {n:"BERİL DEMİRTAŞ",c:"2/B"}, {n:"MUHAMMED EMİN ÇORUH",c:"2/B"}, {n:"EDANUR TAŞ",c:"2/B"}, {n:"ARDA BEŞPINARLI",c:"2/B"}, {n:"MELİH KIRŞEHİRLİ",c:"2/B"}, {n:"YUSUF ADSİZ",c:"2/B"}, {n:"EMİNE NİSA ÖZDEMİR",c:"2/B"}, {n:"MUHAMMED ENSAR EROĞLU",c:"2/B"}, {n:"MELEK SU ŞEN",c:"2/B"}, {n:"ELİF İPEK DEMİREL",c:"2/B"},
 {n:"BERAT ACA",c:"2/C"}, {n:"RİM ALBEM",c:"2/C"}, {n:"AYŞEGÜL KABAR",c:"2/C"}, {n:"NAZLI AKBAŞ",c:"2/C"}, {n:"ÖMER AKGÜN",c:"2/C"}, {n:"ALYA CAN",c:"2/C"}, {n:"ELİF RANA YAZAR",c:"2/C"}, {n:"FATMA ABDULLATİF",c:"2/C"}, {n:"ÜMMÜ GÜLSÜM AĞIRBAŞ",c:"2/C"}, {n:"ZEYNEP FEYZA ÖZEN",c:"2/C"}, {n:"TESNİM AHMAD",c:"2/C"}, {n:"ASİL ATA GÜL",c:"2/C"}, {n:"EMRAH KASAP",c:"2/C"}, {n:"ÖMER ASAF SEVİK",c:"2/C"}, {n:"OĞUZ IŞIK",c:"2/C"}, {n:"CANER ÖZTÜRK",c:"2/C"}, {n:"MELİH ACUN",c:"2/C"}, {n:"SELAM EL ALİVİ",c:"2/C"}, {n:"ARAS DEMİRBAŞ",c:"2/C"}, {n:"YUSUF ÇOBAN",c:"2/C"}, {n:"YAĞIZ TUNA ÇETİNKAYA",c:"2/C"}, {n:"ALMİRA GÜLFİDAN EROĞLU",c:"2/C"}, {n:"GADİR DABOL",c:"2/C"}, {n:"FURKAN EMİN UZUN",c:"2/C"}, {n:"BARAN BAHÇE",c:"2/C"}, {n:"MİRASU LAÇİNKAYA",c:"2/C"}, {n:"MİRAY ERKEK",c:"2/C"}, {n:"SİNEM UYANIK",c:"2/C"}, {n:"EBUBEKİR KOÇU",c:"2/C"}, {n:"İLKER MERT ÇETİN",c:"2/C"}, {n:"SILA NUR TÜNCİ",c:"2/C"}, {n:"MUHAMMED SAİD ALEZZO",c:"2/C"},
 {n:"SU TOPCUOĞLU",c:"2/D"}, {n:"ONUR KARAKAŞ",c:"2/D"}, {n:"EYMEN ZINBA",c:"2/D"}, {n:"MİRA KAMA",c:"2/D"}, {n:"KEMAL EGE ARICI",c:"2/D"}, {n:"HİRA TOSUN",c:"2/D"}, {n:"AZRA MELEK ÇAVDAR",c:"2/D"}, {n:"ESLEM TUNA",c:"2/D"}, {n:"İKRA BALOĞLU",c:"2/D"}, {n:"MÜRİVET BELİNAY YILMAZ",c:"2/D"}, {n:"TUĞBA NİSA ŞAHİN",c:"2/D"}, {n:"ZEYNEP ORHAN",c:"2/D"}, {n:"NERMİN MUHAMMED",c:"2/D"}, {n:"ALİ ASLAN",c:"2/D"}, {n:"ÇINAR DEMİRBAŞ",c:"2/D"}, {n:"FURKAN DİLEK",c:"2/D"}, {n:"KEMAL OKTAY",c:"2/D"}, {n:"ÖMER BAK",c:"2/D"}, {n:"UBEYDULLAH ÖNAL",c:"2/D"}, {n:"YİĞİT ŞAHAN",c:"2/D"}, {n:"SERHAT ÜNAL",c:"2/D"}, {n:"UMUT ÖZTÜRK",c:"2/D"}, {n:"ASLAN KEMAL SÖYLEMEZ",c:"2/D"}, {n:"RÜZGAR ERDUR",c:"2/D"}, {n:"SARP GÜNDÜZ",c:"2/D"}, {n:"ATABEY AVCI",c:"2/D"}, {n:"HÜMA ATASOY",c:"2/D"}, {n:"DURU AKIN",c:"2/D"}, {n:"MUHAMMED EFE YENİLMEZ",c:"2/D"}, {n:"EGEMEN CANGÜR",c:"2/D"}, {n:"HUDE ALEZZO",c:"2/D"},
 {n:"HİRANUR ÇEÇEN",c:"2/E"}, {n:"YİĞİT HAMZA SU",c:"2/E"}, {n:"TİMUR TAHA DEMİR",c:"2/E"}, {n:"AZRA ALP",c:"2/E"}, {n:"ASYA DURAN",c:"2/E"}, {n:"KUMSAL AKKUŞ",c:"2/E"}, {n:"SÜMEYYE KIRKPINAR",c:"2/E"}, {n:"GÜNEŞ GENÇ",c:"2/E"}, {n:"ZEHRANUR ATAŞ",c:"2/E"}, {n:"GÖRKEM KARA",c:"2/E"}, {n:"ALİ GÜRSOY",c:"2/E"}, {n:"ENES GÜZEL",c:"2/E"}, {n:"ÖMER SELİM DAĞ",c:"2/E"}, {n:"ATAKAN AĞBULUT",c:"2/E"}, {n:"BARAN EYMEN GÜNCÜ",c:"2/E"}, {n:"YİĞİT KIRKPINAR",c:"2/E"}, {n:"EYÜP OSMAN KÖKLÜTAŞ",c:"2/E"}, {n:"ÇAĞATAY GÜL",c:"2/E"}, {n:"EDİZ TAŞBUNAR",c:"2/E"}, {n:"ABDULSAMET DEMİRDAŞ",c:"2/E"}, {n:"NİZAM CAN FAAL",c:"2/E"}, {n:"MUHAMMED EMİN MURAT",c:"2/E"}, {n:"HÜSEYİN ENES MURAT",c:"2/E"}, {n:"AYAZ EMİR NARİN",c:"2/E"}, {n:"MUHAMMED RUHAYYE",c:"2/E"}, {n:"ASIM EREN ERKAN",c:"2/E"}, {n:"YASİR SERKAN DÜZ",c:"2/E"},
@@ -248,59 +262,82 @@
     ];
 
     const GAMES = [ { id: 2, name: "Abluka" }, { id: 4, name: "Equilibrio" } ];
-    const BASE_PLAYERS = [
-        { name: "SALİH ERDEM YAZAR", class: "2/E", gameId: 2 }, { name: "YİĞİT HAMZA CENGİZ", class: "2/E", gameId: 2 }, { name: "ÖYKÜ TİRYAKİ", class: "4/A", gameId: 2 }, { name: "AZRA TOROS", class: "4/A", gameId: 2 }, { name: "ALİ AYAZ KAZAN", class: "3/B", gameId: 2 }, { name: "SONGÜL ESMA AĞBULUT", class: "3/D", gameId: 2 }, { name: "ÖMER KAŞIKÇI", class: "2/D", gameId: 2 }, { name: "ÖZNUR DUMAN", class: "3/D", gameId: 2 }, { name: "MEMDUHA NEHİR KÖKSALAN", class: "3/D", gameId: 2 }, { name: "HAMZA MUSUL", class: "4/F", gameId: 2 }, { name: "POYRAZ LAÇİNKAYA", class: "4/F", gameId: 2 }, { name: "AZİZ MUHARREM ATİLA", class: "3/D", gameId: 2 }, { name: "HAYRUNNİSA ÇEÇEN", class: "2/E", gameId: 2 }, { name: "ÜMRA SUNA KALELİ", class: "4/A", gameId: 2 }, { name: "DEFNE SULUOĞLU", class: "4/A", gameId: 2 },
-        { name: "ECRİN ÇAKIR", class: "4/E", gameId: 4 }, { name: "YAĞMUR KIZIL", class: "4/F", gameId: 4 }, { name: "MUHAMMED EMİR KOÇAK", class: "2/E", gameId: 4 }, { name: "ENES GÜZEL", class: "4/D", gameId: 4 }, { name: "AYŞENUR YILMAZ", class: "2/A", gameId: 4 }, { name: "AMİNE BAHADIR", class: "4/F", gameId: 4 }, { name: "ALİ AYAZ KAZAN", class: "3/B", gameId: 4 }, { name: "SONGÜL ESMA AĞBULUT", class: "3/D", gameId: 4 }, { name: "YAVUZ SELİM GÜNEŞ", class: "3/D", gameId: 4 }, { name: "MELİSA ÇANKAYA", class: "3/D", gameId: 4 }, { name: "ÖMER KAŞIKÇI", class: "2/D", gameId: 4 }, { name: "ÖZNUR DUMAN", class: "3/D", gameId: 4 }, { name: "HAMZA MUSUL", class: "4/F", gameId: 4 }, { name: "POYRAZ LAÇİNKAYA", class: "4/F", gameId: 4 }, { name: "HAYRUNNİSA ÇEÇEN", class: "2/E", gameId: 4 }
-    ];
 
-    let systemData = { status: "registration", players: [...BASE_PLAYERS], brackets: {} };
+    let systemData = { status: "registration", players: [], brackets: {} };
     let isAdmin = false;
+    let isOnTournamentView = false;
     let activeTabGameId = 2;
-    let selectedStudent = null; 
-    let adminSelectedStudent = null;
-    let isTournamentViewActive = false; // Turnuva ekranında mı?
+    let selectedStudent = null;
 
-    window.onload = async () => { await loadData(); setInterval(loadData, 5000); };
+    window.onload = async () => { await loadData(); setInterval(loadData, 3000); }; // Güncelleme hızı arttırıldı
 
     async function loadData() {
         try {
             if(BIN_ID.length < 5) {
-                const local = localStorage.getItem('merkezV28');
+                const local = localStorage.getItem('merkezV29');
                 if(local) systemData = JSON.parse(local);
                 updateUI(); document.getElementById('loading-overlay').style.display = 'none'; return;
             }
             const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers: { 'X-Master-Key': API_KEY } });
-            if(res.ok) { const json = await res.json(); if (Object.keys(json.record).length === 0) { await saveData(); } else { systemData = json.record; } updateUI(); }
+            if(res.ok) { 
+                const json = await res.json(); 
+                if (Object.keys(json.record).length === 0) systemData = { status: "registration", players: [], brackets: {} }; 
+                else systemData = json.record; 
+                updateUI(); 
+            }
         } catch(e) {} document.getElementById('loading-overlay').style.display = 'none';
     }
 
     async function saveData() {
         document.getElementById('loading-overlay').style.display = 'flex';
         try {
-            if(BIN_ID.length < 5) { localStorage.setItem('merkezV28', JSON.stringify(systemData)); } 
+            if(BIN_ID.length < 5) { localStorage.setItem('merkezV29', JSON.stringify(systemData)); } 
             else { await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY }, body: JSON.stringify(systemData) }); }
         } catch(e) { alert("Kaydetme hatası!"); }
         document.getElementById('loading-overlay').style.display = 'none'; updateUI();
     }
 
     function updateUI() {
-        // Eğer admin turnuva izliyorsa arayüzü resetleme!
-        if (isAdmin && isTournamentViewActive) return;
+        // Eğer zaten turnuva ekranındaysak sadece bracket'i güncelle, yönlendirme yapma
+        if(isOnTournamentView) {
+            renderBracket(activeTabGameId);
+            return;
+        }
 
         document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-        if (isAdmin) { 
-            document.getElementById('admin-view').classList.add('active'); 
-            renderAdminPanel(); 
+
+        if (isAdmin) {
+            document.getElementById('admin-view').classList.add('active');
+            renderAdminPanel();
         } else {
             if (systemData.status === 'registration') document.getElementById('registration-view').classList.add('active');
             else if (systemData.status === 'closed') document.getElementById('waiting-view').classList.add('active');
-            else if (systemData.status === 'active') { document.getElementById('tournament-view').classList.add('active'); renderTournamentTabs(); renderBracket(activeTabGameId); }
+            else if (systemData.status === 'active') {
+                document.getElementById('tournament-view').classList.add('active');
+                renderTournamentTabs();
+                renderBracket(activeTabGameId);
+            }
         }
     }
 
-    // --- SEARCH ---
+    function showTournamentViewAdmin() {
+        isOnTournamentView = true;
+        document.getElementById('admin-view').classList.remove('active');
+        document.getElementById('tournament-view').classList.add('active');
+        document.getElementById('admin-back-btn').style.display = 'block';
+        renderTournamentTabs();
+        renderBracket(activeTabGameId);
+    }
+
+    function backToAdmin() {
+        isOnTournamentView = false;
+        updateUI();
+    }
+
+    // --- AKILLI ARAMA ---
     const searchInput = document.getElementById('student-search');
     const resultsBox = document.getElementById('search-results');
+    
     function filterStudents() {
         const val = searchInput.value.trim().toUpperCase();
         if(val.length < 2) { resultsBox.style.display = 'none'; return; }
@@ -308,28 +345,51 @@
         resultsBox.innerHTML = '';
         if(matches.length > 0) {
             resultsBox.style.display = 'block';
-            matches.slice(0, 8).forEach(s => { 
+            matches.slice(0, 10).forEach(s => { 
                 const div = document.createElement('div');
                 div.className = 'search-item';
-                div.innerHTML = `<strong>${s.n}</strong><small>${s.c}</small>`;
+                div.innerHTML = `<strong>${s.n}</strong><span>${s.c}</span>`;
                 div.onclick = () => selectStudent(s);
                 resultsBox.appendChild(div);
             });
-        } else { resultsBox.style.display = 'none'; }
+        } else resultsBox.style.display = 'none';
     }
+
     function selectStudent(student) {
         selectedStudent = student;
-        document.getElementById('selected-student').value = student.n;
-        document.getElementById('reg-class').value = student.c;
+        document.getElementById('search-container').style.display = 'none';
+        document.getElementById('selected-student-display').style.display = 'flex';
+        document.getElementById('disp-name').innerText = student.n;
+        document.getElementById('disp-class').innerText = student.c;
         resultsBox.style.display = 'none';
         searchInput.value = '';
     }
 
-    // --- ADMIN SEARCH ---
+    function clearSelection() {
+        selectedStudent = null;
+        document.getElementById('search-container').style.display = 'block';
+        document.getElementById('selected-student-display').style.display = 'none';
+        searchInput.focus();
+    }
+
+    async function registerStudent() {
+        if(!selectedStudent) { alert("Lütfen listeden bir öğrenci seçiniz."); return; }
+        const gameId = parseInt(document.getElementById('reg-game').value);
+        const exists = systemData.players.some(p => p.name === selectedStudent.n && p.class === selectedStudent.c && p.gameId === gameId);
+        if(exists) { alert("Bu oyuna zaten kayıtlısınız!"); return; }
+        systemData.players.push({ name: selectedStudent.n, class: selectedStudent.c, gameId });
+        alert("Kayıt Başarılı!");
+        clearSelection();
+        await saveData();
+    }
+
+    // --- ADMIN PANEL LOGIC ---
     const adminSearchInput = document.getElementById('admin-student-search');
     const adminResultsBox = document.getElementById('admin-search-results');
-    function filterStudentsAdmin() {
-        const val = adminSearchInput.value.trim().toUpperCase();
+    let adminSelectedStudent = null;
+
+    adminSearchInput.addEventListener('input', function(e) {
+        const val = e.target.value.toUpperCase();
         if(val.length < 2) { adminResultsBox.style.display = 'none'; return; }
         const matches = ALL_STUDENTS.filter(s => s.n.startsWith(val));
         adminResultsBox.innerHTML = '';
@@ -338,55 +398,17 @@
             matches.slice(0, 8).forEach(s => { 
                 const div = document.createElement('div');
                 div.className = 'search-item';
-                div.innerHTML = `<strong>${s.n}</strong><small>${s.c}</small>`;
-                div.onclick = () => selectStudentAdmin(s);
+                div.innerHTML = `<strong>${s.n}</strong><span>${s.c}</span>`;
+                div.onclick = () => {
+                    adminSelectedStudent = s;
+                    adminSearchInput.value = s.n;
+                    document.getElementById('admin-reg-class').value = s.c;
+                    adminResultsBox.style.display = 'none';
+                };
                 adminResultsBox.appendChild(div);
             });
-        } else { adminResultsBox.style.display = 'none'; }
-    }
-    function selectStudentAdmin(student) {
-        adminSelectedStudent = student;
-        adminSearchInput.value = student.n;
-        document.getElementById('admin-reg-class').value = student.c;
-        adminResultsBox.style.display = 'none';
-    }
-
-    // --- ACTIONS ---
-    async function registerStudent() {
-        if(!selectedStudent) { alert("Lütfen listeden bir öğrenci seçiniz."); return; }
-        const gameId = parseInt(document.getElementById('reg-game').value);
-        const exists = systemData.players.some(p => p.name === selectedStudent.n && p.class === selectedStudent.c && p.gameId === gameId);
-        if(exists) { alert("Zaten kayıtlısınız!"); return; }
-        systemData.players.push({ name: selectedStudent.n, class: selectedStudent.c, gameId });
-        alert("Kayıt Başarılı!");
-        selectedStudent = null;
-        document.getElementById('selected-student').value = "";
-        document.getElementById('reg-class').value = "";
-        await saveData();
-    }
-    function openPublicList() {
-        const gameId = parseInt(document.getElementById('reg-game').value);
-        const listContainer = document.getElementById('public-list-container');
-        listContainer.innerHTML = '';
-        const filtered = systemData.players.filter(p => p.gameId === gameId);
-        if(filtered.length === 0) listContainer.innerHTML = '<div style="text-align:center; color:#888;">Henüz kayıt yok.</div>';
-        else filtered.forEach(p => listContainer.innerHTML += `<div class="public-list-item"><span>${p.name}</span> <span style="color:#aaa">${p.class}</span></div>`);
-        document.getElementById('public-list-modal').style.display = 'flex';
-    }
-
-    function openLoginModal() { document.getElementById('login-modal').style.display = 'flex'; }
-    function checkLogin() {
-        const pass = document.getElementById('admin-pass-input').value;
-        if(pass === "04051257") {
-            isAdmin = true;
-            document.getElementById('login-modal').style.display = 'none';
-            document.getElementById('admin-pass-input').value = "";
-            updateUI();
-        } else {
-            alert("Hatalı Şifre");
-            document.getElementById('admin-pass-input').value = "";
-        }
-    }
+        } else adminResultsBox.style.display = 'none';
+    });
 
     async function adminRegisterStudent() {
         if(!adminSelectedStudent) { alert("Öğrenci seçiniz."); return; }
@@ -396,7 +418,7 @@
         systemData.players.push({ name: adminSelectedStudent.n, class: adminSelectedStudent.c, gameId });
         alert("Manuel kayıt eklendi.");
         adminSelectedStudent = null;
-        document.getElementById('admin-student-search').value = "";
+        adminSearchInput.value = "";
         document.getElementById('admin-reg-class').value = "";
         await saveData();
     }
@@ -413,15 +435,16 @@
         });
     }
 
-    async function deletePlayer(index) { if(confirm("Silinsin mi?")) { systemData.players.splice(index, 1); await saveData(); } }
+    async function deletePlayer(index) { if(confirm("Silmek istiyor musunuz?")) { systemData.players.splice(index, 1); await saveData(); } }
     async function changeStatus(st) { systemData.status = st; await saveData(); }
-    async function resetSystem() { if(confirm("Sıfırlansın mı?")) { systemData.status = 'registration'; systemData.players = [...BASE_PLAYERS]; systemData.brackets = {}; await saveData(); } }
+    async function resetSystem() { if(confirm("Tüm veriler silinecek! Onaylıyor musunuz?")) { systemData.status = 'registration'; systemData.players = []; systemData.brackets = {}; await saveData(); } }
 
     async function startTournament() {
-        if(confirm("Turnuva Başlatılsın mı?")) {
+        if(confirm("Turnuva başlatılsın mı?")) {
             systemData.brackets = {};
             GAMES.forEach(game => {
-                const parts = systemData.players.filter(p => p.gameId === game.id).sort(() => Math.random() - 0.5);
+                const parts = systemData.players.filter(p => p.gameId === game.id);
+                parts.sort(() => Math.random() - 0.5);
                 systemData.brackets[game.id] = generateBracket(parts);
             });
             systemData.status = 'active'; await saveData();
@@ -432,82 +455,113 @@
         const rounds = []; let matches = []; let power = 1; while(power < parts.length) power *= 2;
         let pIndex = 0;
         for(let i=0; i<power/2; i++) {
-            let p1 = parts[pIndex++] || null; let p2 = parts[pIndex++] || null;
+            let p1 = parts[pIndex++] || null; let p2 = participantsCheck(parts, pIndex++);
             matches.push({ id: Math.random().toString(36).substr(2, 9), p1: p1, p2: p2, s1: 0, s2: 0, winner: (!p2 && p1) ? p1 : null });
         }
         rounds.push(matches);
-        let matchCount = matches.length;
-        while(matchCount > 1) {
-            matchCount /= 2; let nextRound = [];
-            for(let i=0; i<matchCount; i++) nextRound.push({ id: Math.random().toString(36).substr(2, 9), p1: null, p2: null, s1:0, s2:0, winner: null });
-            rounds.push(nextRound);
+        let count = matches.length;
+        while(count > 1) {
+            count /= 2; let next = [];
+            for(let i=0; i<count; i++) next.push({ id: Math.random().toString(36).substr(2, 9), p1: null, p2: null, s1:0, s2:0, winner: null });
+            rounds.push(next);
         }
         return rounds;
     }
-
-    // --- TURNUVA GÖRÜNÜM KONTROLLERİ ---
-    function showTournamentViewAdmin() {
-        isTournamentViewActive = true; // Flag'i aktif et
-        document.getElementById('admin-view').classList.remove('active');
-        document.getElementById('tournament-view').classList.add('active');
-        document.getElementById('back-to-admin-btn').style.display = 'block'; // Geri dön butonunu aç
-        renderTournamentTabs();
-        renderBracket(activeTabGameId);
-    }
-
-    function backToAdminPanel() {
-        isTournamentViewActive = false; // Flag'i kapat
-        document.getElementById('back-to-admin-btn').style.display = 'none';
-        updateUI(); // Admin paneline dön
-    }
+    
+    function participantsCheck(arr, idx) { return arr[idx] || null; }
 
     function renderTournamentTabs() {
         const c = document.getElementById('game-tabs'); c.innerHTML='';
         GAMES.forEach(g => c.innerHTML += `<button class="tab-btn ${g.id===activeTabGameId?'active':''}" onclick="activeTabGameId=${g.id};renderTournamentTabs();renderBracket(${g.id})">${g.name}</button>`);
     }
-    
+
     function renderBracket(gid) {
         const rounds = systemData.brackets[gid];
         if(!rounds) return;
         const c = document.getElementById('bracket-area'); c.innerHTML='';
-        rounds.forEach((round, ri) => {
-            let title = (ri === rounds.length-1) ? "🏆 FİNAL" : `${ri+1}. TUR`;
+        rounds.forEach((round, rIndex) => {
+            let title = `${rIndex + 1}. TUR`; if(rIndex === rounds.length - 1) title = "🏆 FİNAL";
             let html = `<div class="round-block"><div class="round-title">${title}</div><div class="matches-grid">`;
-            round.forEach((m, mi) => {
-                const isC = m.winner!==null;
-                const p1n = m.p1?m.p1.name:'...', p2n = m.p2?m.p2.name:'...';
-                let ctr1='', ctr2='';
-                if(isAdmin && !m.winner && m.p1 && m.p2) {
-                    ctr1 = `<div class="score-controls"><button class="btn-s btn-minus" onclick="upS(${gid},${ri},${mi},1,-1)">-</button><button class="btn-s btn-plus" onclick="upS(${gid},${ri},${mi},1,1)">+</button></div>`;
-                    ctr2 = `<div class="score-controls"><button class="btn-s btn-minus" onclick="upS(${gid},${ri},${mi},2,-1)">-</button><button class="btn-s btn-plus" onclick="upS(${gid},${ri},${mi},2,1)">+</button></div>`;
+            round.forEach((match, mIndex) => {
+                // Kazanan varsa completed class'ı ekle ama skor butonları adminse yine de görünsün (DÜZELTME İÇİN)
+                const isC = match.winner !== null;
+                const p1n = match.p1 ? match.p1.name : '...'; const p2n = match.p2 ? match.p2.name : '...';
+                
+                let controls1 = '', controls2 = '';
+                // Admin her zaman butonları görsün, maç bitmiş olsa bile!
+                if(isAdmin && match.p1 && match.p2) {
+                    controls1 = `<div class="score-controls"><button class="btn-s btn-minus" onclick="updateScore(${gid}, ${rIndex}, ${mIndex}, 1, -1)">-</button><button class="btn-s btn-plus" onclick="updateScore(${gid}, ${rIndex}, ${mIndex}, 1, 1)">+</button></div>`;
+                    controls2 = `<div class="score-controls"><button class="btn-s btn-minus" onclick="updateScore(${gid}, ${rIndex}, ${mIndex}, 2, -1)">-</button><button class="btn-s btn-plus" onclick="updateScore(${gid}, ${rIndex}, ${mIndex}, 2, 1)">+</button></div>`;
                 }
+
                 html += `<div class="match-card ${isC?'completed':''}">
-                    ${isC?'<div class="status-badge">BİTTİ</div>':''}
-                    <div class="player-row ${m.winner?.name===p1n?'winner':''}"><div><div class="p-name">${p1n}</div><div class="p-class">${m.p1?m.p1.class:''}</div></div><div style="display:flex;align-items:center;gap:5px;">${ctr1}<div class="score-val">${m.s1}</div></div></div>
-                    <div class="player-row ${m.winner?.name===p2n?'winner':''}"><div><div class="p-name">${p2n}</div><div class="p-class">${m.p2?m.p2.class:''}</div></div><div style="display:flex;align-items:center;gap:5px;">${ctr2}<div class="score-val">${m.s2}</div></div></div>
+                    ${isC ? '<div class="status-badge">BİTTİ</div>' : ''}
+                    <div class="player-row ${match.winner && match.winner.name === p1n ? 'winner' : ''}"><div><div class="p-name">${p1n}</div><div class="p-class">${match.p1 ? match.p1.class : ''}</div></div><div style="display:flex;align-items:center;gap:5px;">${controls1}<div class="score-val">${match.s1}</div></div></div>
+                    <div class="player-row ${match.winner && match.winner.name === p2n ? 'winner' : ''}"><div><div class="p-name">${p2n}</div><div class="p-class">${match.p2 ? match.p2.class : ''}</div></div><div style="display:flex;align-items:center;gap:5px;">${controls2}<div class="score-val">${match.s2}</div></div></div>
                 </div>`;
             });
             c.innerHTML += html + `</div></div>`;
         });
     }
 
-    async function upS(g,r,m,p,v) {
+    async function updateScore(g, r, m, p, v) {
         const match = systemData.brackets[g][r][m];
-        if(p===1) match.s1 = Math.max(0, match.s1+v); else match.s2 = Math.max(0, match.s2+v);
-        if(match.s1>=2) { match.winner=match.p1; adv(g,r,m,match.p1); }
-        else if(match.s2>=2) { match.winner=match.p2; adv(g,r,m,match.p2); }
-        else match.winner=null;
+        
+        // Skor güncelle
+        if (p === 1) match.s1 = Math.max(0, match.s1 + v); 
+        else match.s2 = Math.max(0, match.s2 + v);
+
+        // Kazananı belirle veya İPTAL ET (Düzeltme Mantığı)
+        let newWinner = null;
+        if (match.s1 >= 2) newWinner = match.p1;
+        else if (match.s2 >= 2) newWinner = match.p2;
+        
+        match.winner = newWinner;
+        
+        // Bir sonraki tura taşı veya geri çek
+        updateNextRound(g, r, m, newWinner);
+        
         await saveData();
-        // Render tekrar çağrılmazsa admin basınca ekran güncellenmez.
-        if(isAdmin && isTournamentViewActive) renderBracket(g); 
     }
-    function adv(g,r,m,w) {
-        const nr = r+1;
-        if(nr < systemData.brackets[g].length) {
-            const nm = Math.floor(m/2), top = (m%2===0);
-            const nMatch = systemData.brackets[g][nr][nm];
-            if(top) nMatch.p1=w; else nMatch.p2=w;
+
+    function updateNextRound(gId, rIdx, mIdx, winner) {
+        const nextRIdx = rIdx + 1;
+        if (nextRIdx < systemData.brackets[gId].length) {
+            const nextMIdx = Math.floor(mIdx / 2);
+            const isTopSlot = (mIdx % 2 === 0);
+            const nextMatch = systemData.brackets[gId][nextRIdx][nextMIdx];
+            
+            // Eğer winner null ise (skor düzeltilip maç geri alındıysa), üst turdaki isimi de sil (null yap)
+            if (isTopSlot) nextMatch.p1 = winner; 
+            else nextMatch.p2 = winner;
+            
+            // Eğer üst turdaki maçın skoru veya kazananı varsa onları da sıfırla (Zincirleme hata olmasın diye)
+            if(!winner) {
+                 nextMatch.s1 = 0;
+                 nextMatch.s2 = 0;
+                 nextMatch.winner = null;
+                 // Özyinelemeli olarak sonrakileri de temizle
+                 updateNextRound(gId, nextRIdx, nextMIdx, null);
+            }
         }
+    }
+
+    function checkLogin() {
+        const pass = document.getElementById('admin-pass-input').value;
+        if(pass === "04051257") { isAdmin = true; document.getElementById('login-modal').style.display = 'none'; updateUI(); }
+        else alert("Hatalı Şifre");
+    }
+
+    function openRegisteredList() {
+        const gameId = parseInt(document.getElementById('reg-game').value);
+        const gameName = GAMES.find(g => g.id === gameId).name;
+        const listContent = document.getElementById('modal-list-content');
+        const modal = document.getElementById('list-modal');
+        const registered = systemData.players.filter(p => p.gameId === gameId);
+        listContent.innerHTML = `<h4 style="color:#aaa; border-bottom:1px solid #333; padding-bottom:10px; margin-bottom:10px;">${gameName} Kayıtları (${registered.length})</h4>`;
+        if(registered.length === 0) listContent.innerHTML += `<div style="text-align:center; padding:20px; color:#666;">Henüz kayıt yok.</div>`;
+        else registered.forEach(p => { listContent.innerHTML += `<div class="modal-item"><span>${p.name}</span> <span style="color:var(--primary)">${p.class}</span></div>`; });
+        modal.style.display = 'flex';
     }
 </script>
 </body>
