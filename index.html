@@ -33,13 +33,13 @@
         .search-results {
             position: absolute; top: 100%; left: 0; width: 100%;
             background: #1a1d26; border: 1px solid var(--primary);
-            border-radius: 8px; max-height: 200px; overflow-y: auto;
+            border-radius: 8px; max-height: 250px; overflow-y: auto;
             z-index: 1000; display: none;
         }
-        .search-item { padding: 10px 15px; cursor: pointer; border-bottom: 1px solid #333; transition: 0.2s; }
+        .search-item { padding: 12px 15px; cursor: pointer; border-bottom: 1px solid #333; transition: 0.2s; }
         .search-item:hover { background: rgba(0, 242, 234, 0.1); color: #fff; }
-        .search-item strong { color: var(--primary); display: block; }
-        .search-item span { font-size: 0.85rem; color: #aaa; }
+        .search-item strong { color: var(--primary); display: block; font-size: 1.1rem; }
+        .search-item span { font-size: 0.9rem; color: #aaa; }
 
         /* SEÇİLEN ÖĞRENCİ KARTI */
         .selected-student-card {
@@ -47,11 +47,10 @@
             padding: 15px; border-radius: 8px; margin-bottom: 20px; display: none;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .selected-info strong { display: block; color: #fff; font-size: 1.1rem; }
-        .selected-info span { color: var(--success); font-weight: bold; }
-        .btn-remove-sel { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 1.2rem; }
+        .selected-info strong { display: block; color: #fff; font-size: 1.2rem; }
+        .selected-info span { color: var(--success); font-weight: bold; font-size: 1.1rem; }
+        .btn-remove-sel { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 1.5rem; padding: 0 10px; }
 
-        /* DİĞER STİLLER (AYNI) */
         .admin-panel { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); padding: 20px; border-radius: 12px; margin-bottom: 30px; }
         .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
         .stat-card { background: #000; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #333; }
@@ -179,21 +178,23 @@
 <button class="admin-login-btn" onclick="adminLogin()"><i class="fas fa-lock"></i></button>
 
 <script>
-    // --- BURAYA 800 KİŞİLİK LİSTENİZİ YAPIŞTIRACAKSINIZ ---
-    // Format: { name: "AD SOYAD", class: "SINIF" },
+    // --- TÜM ÖĞRENCİ LİSTESİ ---
     const ALL_STUDENTS = [
-        { name: "AHMET YILMAZ", class: "4/A" },
-        { name: "AYŞE DEMİR", class: "3/B" },
-        { name: "MEHMET KAYA", class: "2/C" },
-        { name: "FATMA ÇELİK", class: "4/D" },
-        { name: "ALİ CAN", class: "1/A" },
-        { name: "VELİ GÜNEŞ", class: "2/B" },
-        { name: "ZEYNEP YILDIZ", class: "3/C" },
-        // ... Buraya Excel'den kopyaladığınız listeyi JSON formatında ekleyin
-        // Örnek Excel'den JSON çevirici kullanabilirsiniz.
+{name:"RÜYA KULAK", class:"1/A"}, {name:"ALİN ADA GÖRDÜ", class:"1/A"}, {name:"HÜSEYİN PAMİR GÜL", class:"1/A"}, {name:"ESİLA YILMAZ", class:"1/A"}, {name:"YEKTA MİLAT YILDIZ", class:"1/A"}, {name:"MUSACAN KAHRAMAN", class:"1/A"}, {name:"ELİF ABDULLATİF", class:"1/A"}, {name:"AHMET GENÇ AKBAŞ", class:"1/A"}, {name:"AHMET SELİM KUL", class:"1/A"}, {name:"MAYA ORHAN", class:"1/A"}, {name:"DENİZ SALDIRIŞ", class:"1/A"}, {name:"FADİMENUR KIRDAGEZER", class:"1/A"}, {name:"EMİR ALİ TOZOĞLU", class:"1/A"}, {name:"TOPRAK AKDEMİR", class:"1/A"}, {name:"NEHİR DEMİRBAŞ", class:"1/A"}, {name:"SÜMEYYENUR KIRÇOVA", class:"1/A"}, {name:"DERİN TOYRAN", class:"1/A"}, {name:"YUSUF ARSLAN", class:"1/A"}, {name:"İKRANUR KILIÇ", class:"1/A"}, {name:"BERAT KAYA", class:"1/A"}, {name:"MUHAMMED EYMEN KONDAL", class:"1/A"}, {name:"SUDE BAYRAM", class:"1/A"}, {name:"HALİL ATA SEVİNÇ", class:"1/A"}, {name:"AYCAN TAŞDÖVEN", class:"1/A"}, {name:"MERYEM AĞIRBAŞ", class:"1/A"}, {name:"HİRANUR UZUN", class:"1/A"}, {name:"NUR ELHUDE AHMED", class:"1/A"}, {name:"ALİ YILMAZ ESEN", class:"1/A"}, {name:"ESLEM SONDUK", class:"1/A"}, {name:"AHMED ATLI", class:"1/A"}, {name:"ZEYNEP ECRİN ÖZCAN", class:"1/A"}, {name:"YİĞİT TOSUNOĞLU", class:"1/A"}, {name:"ATA YİĞİT BAYSAL", class:"1/A"},
+{name:"DENİZ KASAR", class:"1/B"}, {name:"BUĞLEM YILMAZOĞLU", class:"1/B"}, {name:"ELİF İŞGÜDEN", class:"1/B"}, {name:"MELEK ÖZER", class:"1/B"}, {name:"BEREN İSTANBULLU", class:"1/B"}, {name:"SÜHEYLE ABDULLATİF", class:"1/B"}, {name:"ALPARSLAN YEŞİLYURT", class:"1/B"}, {name:"ECRİN BOZKURT", class:"1/B"}, {name:"MESUT ASLANATA", class:"1/B"}, {name:"BULUT DEMİRBAŞ", class:"1/B"}, {name:"DEVRAN BEYAZER", class:"1/B"}, {name:"KÜBRA GÜRSES", class:"1/B"}, {name:"ALİ İHSAN KALELİ", class:"1/B"}, {name:"FATİH MEHMET ERİN", class:"1/B"}, {name:"HASRET ERDEM", class:"1/B"}, {name:"EYÜP ASAF BEKTAŞ", class:"1/B"}, {name:"DERİN KOYUN", class:"1/B"}, {name:"ELİF NAZ KARAKAŞ", class:"1/B"}, {name:"MİRAÇ ÇELİK", class:"1/B"}, {name:"HAZAL ÖZTÜRK", class:"1/B"}, {name:"EYMEN KAYA", class:"1/B"}, {name:"AZMİ ŞEN", class:"1/B"}, {name:"ARDA CAN", class:"1/B"}, {name:"HAVVA YİĞİT", class:"1/B"}, {name:"AHMET BUĞRA DEMİR", class:"1/B"}, {name:"ASEL DEMİRBİLEK", class:"1/B"}, {name:"BERRA AVCİ", class:"1/B"}, {name:"ESİLA EROĞLU", class:"1/B"}, {name:"İKRA DEMİRTAŞ", class:"1/B"}, {name:"MERT GUNÇE", class:"1/B"}, {name:"ALPEREN AĞIRMAN", class:"1/B"}, {name:"YUSUF İBRAHİM", class:"1/B"}, {name:"RÜZGAR BİLİR", class:"1/B"}, {name:"DUYGU NEFES GÜNGÖR", class:"1/B"},
+{name:"ILGIN EROL", class:"1/C"}, {name:"AZRA KENİR", class:"1/C"}, {name:"MEHMET ARAS ŞAHİN", class:"1/C"}, {name:"TOPRAK EFE YÜRÜK", class:"1/C"}, {name:"ADNAN AYAZ KUMCU", class:"1/C"}, {name:"YUSUF BEDEVİ", class:"1/C"}, {name:"HİRANUR AKPINAR", class:"1/C"}, {name:"GÖKÇE DÜZMEN", class:"1/C"}, {name:"SAMİ ANIK", class:"1/C"}, {name:"UMAY ÖZDEMİR", class:"1/C"}, {name:"DORUK ÇİNİ", class:"1/C"}, {name:"HAYRİYE GENÇ", class:"1/C"}, {name:"ENVER EMİR DOYMAZ", class:"1/C"}, {name:"FEYZA YÜSRA KILBAŞ", class:"1/C"}, {name:"YİĞİT TOPCU", class:"1/C"}, {name:"ABDURRAHMAN HAZZANİ", class:"1/C"}, {name:"NAME ÖZIŞIK", class:"1/C"}, {name:"ZEYNEP KEKLİK", class:"1/C"}, {name:"EGEMEN GÖRMEK", class:"1/C"}, {name:"POLAT DEMİRBAŞ", class:"1/C"}, {name:"ECE TOROS", class:"1/C"}, {name:"ZÜMRA KARA", class:"1/C"}, {name:"YAĞMUR BALTA", class:"1/C"}, {name:"BESTE SARICA", class:"1/C"}, {name:"GÖRKEM KARAPINAR", class:"1/C"}, {name:"NİDAL HALLAK", class:"1/C"}, {name:"HAZAL ŞAHİN", class:"1/C"}, {name:"AREL ERDEM AYKURT", class:"1/C"}, {name:"MEYS EL DERVİŞ", class:"1/C"}, {name:"FATMA DERİN İSTANBULLIOĞLU", class:"1/C"}, {name:"BERDAN ERKMEN", class:"1/C"}, {name:"AMMAR HAMO", class:"1/C"}, {name:"ELİF RAVZA AYDIN", class:"1/C"}, {name:"MUHAMMED YAĞIZ KAYA", class:"1/C"}, {name:"İSA KARAAĞAÇ", class:"1/C"}, {name:"BUĞLEM NURİYE VEZİ", class:"1/C"},
+{name:"EFSA NUR ÇİFTCİ", class:"1/D"}, {name:"YAĞMUR LİNA AKALAN", class:"1/D"}, {name:"ALİ TUĞRA DEMİR", class:"1/D"}, {name:"DURU GENÇ", class:"1/D"}, {name:"HATİCE HİRA İLKAY", class:"1/D"}, {name:"EGE ÇİNAR", class:"1/D"}, {name:"HAMZA DORUK DEMİR", class:"1/D"}, {name:"BADE HANSU", class:"1/D"}, {name:"BERİVAN NEHİR KOTAN", class:"1/D"}, {name:"ÖYKÜ ÖLMEZ", class:"1/D"}, {name:"MİRAY DURU BALOĞLU", class:"1/D"}, {name:"EBRU ÖNAL", class:"1/D"}, {name:"EMİR FATİH ÖRS", class:"1/D"}, {name:"EMİR ASAF KIZILTAŞ", class:"1/D"}, {name:"İLKER YAĞIZ", class:"1/D"}, {name:"YİĞİT KAYRA ÖNCÜ", class:"1/D"}, {name:"CANAN NERGİZ", class:"1/D"}, {name:"MİLA KASAP", class:"1/D"}, {name:"DERİN TAŞDEMİR", class:"1/D"}, {name:"HİRANUR KÖSE", class:"1/D"}, {name:"ENGİN CAN GÖLCÜ", class:"1/D"}, {name:"FURKAN AĞYÜREK", class:"1/D"}, {name:"EYMEN KAYAOĞLU", class:"1/D"}, {name:"ELİF ADA SEVİK", class:"1/D"}, {name:"İRFAN ADİL DEMİREL", class:"1/D"}, {name:"DORUK EDİS", class:"1/D"}, {name:"ÖMER ASAF ÖNCÜ", class:"1/D"}, {name:"OSMAN YİĞİT", class:"1/D"}, {name:"KAMURAN AYAZ KANTARCI", class:"1/D"}, {name:"REHEF EL ALİ", class:"1/D"}, {name:"AMMAR ŞEBBEK", class:"1/D"}, {name:"MEDİNE DURU KARA", class:"1/D"}, {name:"MEHMET EMİR BAHÇE", class:"1/D"},
+{name:"BARAA İBRAHİM", class:"1/E"}, {name:"DAMLA UÇAR", class:"1/E"}, {name:"BİLAL GEDİKLİ", class:"1/E"}, {name:"MELEK TAŞ", class:"1/E"}, {name:"ABDULKAFİ EL ÖMER", class:"1/E"}, {name:"YİĞİT HAMZA CENGİZ", class:"1/E"}, {name:"UMUT İSA KILIÇ", class:"1/E"}, {name:"YAĞIZ İSMET KILIÇ", class:"1/E"}, {name:"ATEŞ UÇUK", class:"1/E"}, {name:"HİRA ÇELİK", class:"1/E"}, {name:"MUHAMMED ENES TUNCER", class:"1/E"}, {name:"SALİH ERDEM YAZAR", class:"1/E"}, {name:"KERİM SALİH AKMAN", class:"1/E"}, {name:"ÖMER ASAF ERHAN", class:"1/E"}, {name:"MELİN PEKİN", class:"1/E"}, {name:"MUHAMMED EMİR KOÇAK", class:"1/E"}, {name:"MEHMET ALİ KOTAN", class:"1/E"}, {name:"KAAN ALĞAN", class:"1/E"}, {name:"BADE YİĞİT", class:"1/E"}, {name:"ZÜLEYHA ŞAHİN", class:"1/E"}, {name:"AHMETHAN SARIASLAN", class:"1/E"}, {name:"İKRANUR KORKMAZ", class:"1/E"}, {name:"BEYZA EMET", class:"1/E"}, {name:"MELİKE İLHAN", class:"1/E"}, {name:"SIRAÇ DURAN", class:"1/E"}, {name:"DİLARA ÇETİN", class:"1/E"}, {name:"MEHMET KAĞAN KAÇAR", class:"1/E"}, {name:"ELİF YAREN KARTAL", class:"1/E"}, {name:"DEFNE ELİF IŞIK", class:"1/E"}, {name:"HAYRUNNİSA ÇEÇEN", class:"1/E"}, {name:"DERİN AKBULUT", class:"1/E"}, {name:"ELİF NAZ BİLEN", class:"1/E"}, {name:"YUSUF AYAZ GÖRMEK", class:"1/E"}, {name:"YASEMİN KILBAŞ", class:"1/E"}, {name:"YUSUF CEYLAN", class:"1/E"},
+{name:"ZÜLAL SÖZBİLİR", class:"2/A"}, {name:"İKRANUR AYDENİZ", class:"2/A"}, {name:"AYAZ YANAR", class:"2/A"}, {name:"AFRA NAS YILDIZ", class:"2/A"}, {name:"AHMET ASAF KOCA", class:"2/A"}, {name:"EBRAR DİLEK KASAPLAR", class:"2/A"}, {name:"İNCİ KÖSE", class:"2/A"}, {name:"ESİLA ÖZ", class:"2/A"}, {name:"HAFİZE YEŞİLYURT", class:"2/A"}, {name:"AHSEN DEMİRBAŞ", class:"2/A"}, {name:"MİR METE YANAR", class:"2/A"}, {name:"REYYAN AKA", class:"2/A"}, {name:"YİĞİT ARAS GÜLÇİMEN", class:"2/A"}, {name:"ZEYNEP ÇAMUR", class:"2/A"}, {name:"BAŞAK EREN", class:"2/A"}, {name:"HALİT MİRAÇ ARAS", class:"2/A"}, {name:"HAMZA TURAN ÜLBEĞİ", class:"2/A"}, {name:"EMİR ÖZTÜRK", class:"2/A"}, {name:"HACER UHEYBİ", class:"2/A"}, {name:"HAFSANUR SERTEL", class:"2/A"}, {name:"ELA GÜLER", class:"2/A"}, {name:"EZGİ YAZIK", class:"2/A"}, {name:"NİDAL AL ELIWI", class:"2/A"}, {name:"İNCİ SU BÜTÜNER", class:"2/A"}, {name:"MUHAMMED ŞIHADİ", class:"2/A"},
+{name:"BURAK KARA", class:"2/B"}, {name:"HÜSEYİN EFE ARI", class:"2/B"}, {name:"ÇAĞATAY ÖZER", class:"2/B"}, {name:"ALEYNA SEVCAN", class:"2/B"}, {name:"AZRA TOROS", class:"2/B"}, {name:"ALPEREN ÇAVUŞ", class:"2/B"}, {name:"ÇAĞAN MOLLA", class:"2/B"}, {name:"KAAN EMRE AYDIN", class:"2/B"}, {name:"MELİS KIZILÇINAR", class:"2/B"}, {name:"EFE PARLAK", class:"2/B"}, {name:"DEFNE ÖZDEMİR", class:"2/B"}, {name:"RANA ABDULKADER ABLAK", class:"2/B"}, {name:"SİMANUR UÇAR", class:"2/B"}, {name:"ZEYNEP KUZEY", class:"2/B"}, {name:"HAYAL YONTAR", class:"2/B"}, {name:"SEFA YILMAZOĞLU", class:"2/B"}, {name:"KAYRA YAĞIZ SARGIN", class:"2/B"}, {name:"ECENUR KAHRAMAN", class:"2/B"}, {name:"ÇAĞAN ŞEREF ALTUN", class:"2/B"}, {name:"EMRE ÇALIŞLAR", class:"2/B"}, {name:"AZRA DEFNE HORASAN", class:"2/B"}, {name:"BERİL DEMİRTAŞ", class:"2/B"}, {name:"MUHAMMED EMİN ÇORUH", class:"2/B"}, {name:"EDANUR TAŞ", class:"2/B"}, {name:"ARDA BEŞPINARLI", class:"2/B"}, {name:"MELİH KIRŞEHİRLİ", class:"2/B"}, {name:"YUSUF ADSİZ", class:"2/B"}, {name:"EMİNE NİSA ÖZDEMİR", class:"2/B"}, {name:"MUHAMMED ENSAR EROĞLU", class:"2/B"}, {name:"MELEK SU ŞEN", class:"2/B"}, {name:"ÜMRA SUNA KALELİ", class:"2/B"}, {name:"ÖYKÜ TİRYAKİ", class:"2/B"}, {name:"DEFNE SULUOĞLU", class:"2/B"}, {name:"ELİF İPEK DEMİREL", class:"2/B"},
+{name:"BERAT ACA", class:"2/C"}, {name:"RİM ALBEM", class:"2/C"}, {name:"AYŞEGÜL KABAR", class:"2/C"}, {name:"NAZLI AKBAŞ", class:"2/C"}, {name:"ÖMER AKGÜN", class:"2/C"}, {name:"ALYA CAN", class:"2/C"}, {name:"ELİF RANA YAZAR", class:"2/C"}, {name:"FATMA ABDULLATİF", class:"2/C"}, {name:"ÜMMÜ GÜLSÜM AĞIRBAŞ", class:"2/C"}, {name:"ZEYNEP FEYZA ÖZEN", class:"2/C"}, {name:"TESNİM AHMAD", class:"2/C"}, {name:"ASİL ATA GÜL", class:"2/C"}, {name:"EMRAH KASAP", class:"2/C"}, {name:"ÖMER ASAF SEVİK", class:"2/C"}, {name:"OĞUZ IŞIK", class:"2/C"}, {name:"CANER ÖZTÜRK", class:"2/C"}, {name:"MELİH ACUN", class:"2/C"}, {name:"SELAM EL ALİVİ", class:"2/C"}, {name:"ARAS DEMİRBAŞ", class:"2/C"}, {name:"YUSUF ÇOBAN", class:"2/C"}, {name:"YAĞIZ TUNA ÇETİNKAYA", class:"2/C"}, {name:"ALMİRA GÜLFİDAN EROĞLU", class:"2/C"}, {name:"GADİR DABOL", class:"2/C"}, {name:"FURKAN EMİN UZUN", class:"2/C"}, {name:"BARAN BAHÇE", class:"2/C"}, {name:"MİRASU LAÇİNKAYA", class:"2/C"}, {name:"MİRAY ERKEK", class:"2/C"}, {name:"SİNEM UYANIK", class:"2/C"}, {name:"EBUBEKİR KOÇU", class:"2/C"}, {name:"İLKER MERT ÇETİN", class:"2/C"}, {name:"SILA NUR TÜNCİ", class:"2/C"}, {name:"MUHAMMED SAİD ALEZZO", class:"2/C"},
+{name:"SU TOPCUOĞLU", class:"2/D"}, {name:"ONUR KARAKAŞ", class:"2/D"}, {name:"EYMEN ZINBA", class:"2/D"}, {name:"MİRA KAMA", class:"2/D"}, {name:"KEMAL EGE ARICI", class:"2/D"}, {name:"HİRA TOSUN", class:"2/D"}, {name:"AZRA MELEK ÇAVDAR", class:"2/D"}, {name:"ESLEM TUNA", class:"2/D"}, {name:"İKRA BALOĞLU", class:"2/D"}, {name:"MÜRİVET BELİNAY YILMAZ", class:"2/D"}, {name:"TUĞBA NİSA ŞAHİN", class:"2/D"}, {name:"ZEYNEP ORHAN", class:"2/D"}, {name:"NERMİN MUHAMMED", class:"2/D"}, {name:"ALİ ASLAN", class:"2/D"}, {name:"ÇINAR DEMİRBAŞ", class:"2/D"}, {name:"FURKAN DİLEK", class:"2/D"}, {name:"KEMAL OKTAY", class:"2/D"}, {name:"ÖMER BAK", class:"2/D"}, {name:"UBEYDULLAH ÖNAL", class:"2/D"}, {name:"YİĞİT ŞAHAN", class:"2/D"}, {name:"SERHAT ÜNAL", class:"2/D"}, {name:"UMUT ÖZTÜRK", class:"2/D"}, {name:"ASLAN KEMAL SÖYLEMEZ", class:"2/D"}, {name:"RÜZGAR ERDUR", class:"2/D"}, {name:"SARP GÜNDÜZ", class:"2/D"}, {name:"ATABEY AVCI", class:"2/D"}, {name:"HÜMA ATASOY", class:"2/D"}, {name:"DURU AKIN", class:"2/D"}, {name:"MUHAMMED EFE YENİLMEZ", class:"2/D"}, {name:"EGEMEN CANGÜR", class:"2/D"}, {name:"HUDE ALEZZO", class:"2/D"},
+{name:"HİRANUR ÇEÇEN", class:"2/E"}, {name:"YİĞİT HAMZA SU", class:"2/E"}, {name:"TİMUR TAHA DEMİR", class:"2/E"}, {name:"AZRA ALP", class:"2/E"}, {name:"ASYA DURAN", class:"2/E"}, {name:"KUMSAL AKKUŞ", class:"2/E"}, {name:"SÜMEYYE KIRKPINAR", class:"2/E"}, {name:"GÜNEŞ GENÇ", class:"2/E"}, {name:"ZEHRANUR ATAŞ", class:"2/E"}, {name:"GÖRKEM KARA", class:"2/E"}, {name:"ALİ GÜRSOY", class:"2/E"}, {name:"ENES GÜZEL", class:"2/E"}, {name:"ÖMER SELİM DAĞ", class:"2/E"}, {name:"ATAKAN AĞBULUT", class:"2/E"}, {name:"BARAN EYMEN GÜNCÜ", class:"2/E"}, {name:"YİĞİT KIRKPINAR", class:"2/E"}, {name:"EYÜP OSMAN KÖKLÜTAŞ", class:"2/E"}, {name:"ÇAĞATAY GÜL", class:"2/E"}, {name:"EDİZ TAŞBUNAR", class:"2/E"}, {name:"ABDULSAMET DEMİRDAŞ", class:"2/E"}, {name:"NİZAM CAN FAAL", class:"2/E"}, {name:"MUHAMMED EMİN MURAT", class:"2/E"}, {name:"HÜSEYİN ENES MURAT", class:"2/E"}, {name:"AYAZ EMİR NARİN", class:"2/E"}, {name:"MUHAMMED RUHAYYE", class:"2/E"}, {name:"ASIM EREN ERKAN", class:"2/E"}, {name:"YASİR SERKAN DÜZ", class:"2/E"},
+{name:"YİĞİT ÇİFTCİ", class:"2/F"}, {name:"EMİR KIRKPINAR", class:"2/F"}, {name:"DENİZ İVGEN", class:"2/F"}, {name:"ASYA DİLBAZ", class:"2/F"}, {name:"EYLÜL KANBER", class:"2/F"}, {name:"EMİRHAN KODALAK", class:"2/F"}, {name:"RÜZGAR KODALAK", class:"2/F"}, {name:"FATMA ELÖMER", class:"2/F"}, {name:"TUANA KOTAN", class:"2/F"}, {name:"AHMED AL ELIWI", class:"2/F"}, {name:"ECRİN ÇAKIR", class:"2/F"}, {name:"ESLİM MİNA ATMACA", class:"2/F"}, {name:"İLKNUR SAĞLAM", class:"2/F"}, {name:"NİHAL MIHÇI", class:"2/F"}, {name:"SEVGİ YANĞ", class:"2/F"}, {name:"ZÜLEYHA AYYILDIZ", class:"2/F"}, {name:"MİNEL SENA KARASU", class:"2/F"}, {name:"CEMAL DEMİREL", class:"2/F"}, {name:"DEFNE GÜLSÜM", class:"2/F"}, {name:"CESUR DEMİRBAŞ", class:"2/F"}, {name:"FURKAN YAŞAR", class:"2/F"}, {name:"İSMAİL EYMEN ÖNCÜ", class:"2/F"}, {name:"POYRAZ ÖZTÜRK", class:"2/F"}, {name:"UMUT ÇİNİ", class:"2/F"}, {name:"YUSUF CEYLAN", class:"2/F"}, {name:"YUSUF ÖLMEZ", class:"2/F"}, {name:"NEGAM AHMET", class:"2/F"}, {name:"MUSTAFA ATA ARSLAN", class:"2/F"}, {name:"ALİ İKRAM AYDIN", class:"2/F"}, {name:"AHMED EL AHMED", class:"2/F"}, {name:"AZRA MENEKŞE", class:"2/F"}, {name:"IRMAK EROĞLU", class:"2/F"},
+{name:"NİSANUR ÜNAL", class:"2/G"}, {name:"MEVSİM ŞENGÜN", class:"2/G"}, {name:"ALPER ÇAKAR", class:"2/G"}, {name:"CİHAN BUĞRA SÖNMEZ", class:"2/G"}, {name:"KENAN BERK İNCİ", class:"2/G"}, {name:"YAĞIZ DUMAN", class:"2/G"}, {name:"NİSANUR BAYTEKİN", class:"2/G"}, {name:"HAMZA MUSUL", class:"2/G"}, {name:"BÜŞRA AĞYÜREK", class:"2/G"}, {name:"MEHMET CAN ORHAN", class:"2/G"}, {name:"MUHAMMET BİLAL ARSLAN", class:"2/G"}, {name:"NEHİR EROĞLU", class:"2/G"}, {name:"ZÜMRA DUMAN", class:"2/G"}, {name:"YAĞIZ KARAGÜNEY", class:"2/G"}, {name:"POYRAZ LAÇİNKAYA", class:"2/G"}, {name:"ERTUĞRUL GÜNEŞ", class:"2/G"}, {name:"VEFA ZENO MAHMALAT", class:"2/G"}, {name:"BAHADDİN ALLEVİ", class:"2/G"}, {name:"BURAK YAŞAR", class:"2/G"}, {name:"DEMİR KURT", class:"2/G"}, {name:"ESMANUR GÖZE", class:"2/G"}, {name:"AMİNE BAHADIR", class:"2/G"}, {name:"SEMİH SIRAÇ KANSU", class:"2/G"}, {name:"İLKİM AÇELYA GÜLMEZ", class:"2/G"}, {name:"BERFİN ARTUĞ", class:"2/G"}, {name:"ECRİN NİSA YİGEN", class:"2/G"}, {name:"ÖYKÜ ATA", class:"2/G"}, {name:"YAĞMUR KIZIL", class:"2/G"}, {name:"İLKE MAVİBAŞ", class:"2/G"}, {name:"MİRA AKBULUT", class:"2/G"}, {name:"GÜLŞAH ESMA SEVİM", class:"2/G"}, {name:"KEREM EGE TURGAY", class:"2/G"}
     ];
 
-    // --- MEVCUT OYUNCULAR ---
+    // --- MEVCUT OYUNCULAR (Değişiklik yok, aynı kalacak) ---
     const BASE_PLAYERS = [
         { name: "SALİH ERDEM YAZAR", class: "2/E", gameId: 2 },
         { name: "YİĞİT HAMZA CENGİZ", class: "2/E", gameId: 2 },
@@ -210,6 +211,7 @@
         { name: "HAYRUNNİSA ÇEÇEN", class: "2/E", gameId: 2 },
         { name: "ÜMRA SUNA KALELİ", class: "4/A", gameId: 2 },
         { name: "DEFNE SULUOĞLU", class: "4/A", gameId: 2 },
+
         { name: "ECRİN ÇAKIR", class: "4/E", gameId: 4 },
         { name: "YAĞMUR KIZIL", class: "4/F", gameId: 4 },
         { name: "MUHAMMED EMİR KOÇAK", class: "2/E", gameId: 4 },
@@ -234,7 +236,7 @@
     let systemData = { status: "registration", players: [...BASE_PLAYERS], brackets: {} };
     let isAdmin = false;
     let activeTabGameId = 2;
-    let selectedStudent = null; // Seçilen öğrenci
+    let selectedStudent = null; 
 
     window.onload = async () => { await loadData(); setInterval(loadData, 5000); };
 
@@ -251,7 +253,7 @@
         
         if(matches.length > 0) {
             resultsBox.style.display = 'block';
-            matches.slice(0, 10).forEach(s => { // Maks 10 sonuç göster
+            matches.slice(0, 8).forEach(s => { 
                 const div = document.createElement('div');
                 div.className = 'search-item';
                 div.innerHTML = `<strong>${s.name}</strong><span>${s.class}</span>`;
@@ -280,7 +282,7 @@
         searchInput.focus();
     }
 
-    // --- DİĞER FONKSİYONLAR (AYNI) ---
+    // --- DİĞER FONKSİYONLAR ---
     async function loadData() {
         try {
             if(BIN_ID.length < 5) {
